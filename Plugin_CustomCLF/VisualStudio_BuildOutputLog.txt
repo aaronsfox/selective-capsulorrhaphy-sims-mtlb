@@ -1,0 +1,12 @@
+1>------ Build started: Project: ZERO_CHECK, Configuration: Release x64 ------
+1>Checking Build System
+2>------ Build started: Project: Libraries - osimCustomCoordinateLimitForcePlugin, Configuration: Release x64 ------
+2>Building Custom Rule X:/ShoulderInstability/CapsulorrhaphySimulation/selective-capsulorrhaphy-sims/Plugin_CustomCLF/CMakeLists.txt
+2>CustomCoordinateLimitForce.cpp
+2>RegisterTypes_osimPlugin.cpp
+2>Generating Code...
+2>   Creating library X:/ShoulderInstability/CapsulorrhaphySimulation/selective-capsulorrhaphy-sims/Plugin_CustomCLF/build/Release/osimCustomCoordinateLimitForcePlugin.lib and object X:/ShoulderInstability/CapsulorrhaphySimulation/selective-capsulorrhaphy-sims/Plugin_CustomCLF/build/Release/osimCustomCoordinateLimitForcePlugin.exp
+2>osimCustomCoordinateLimitForcePlugin.vcxproj -> X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims\Plugin_CustomCLF\build\Release\osimCustomCoordinateLimitForcePlugin.dll
+3>------ Build started: Project: ALL_BUILD, Configuration: Release x64 ------
+3>Building Custom Rule X:/ShoulderInstability/CapsulorrhaphySimulation/selective-capsulorrhaphy-sims/Plugin_CustomCLF/CMakeLists.txt
+========== Build: 3 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========

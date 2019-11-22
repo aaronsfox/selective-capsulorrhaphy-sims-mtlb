@@ -1,0 +1,6 @@
+﻿  Building Custom Rule X:/ShoulderInstability/CapsulorrhaphySimulation/selective-capsulorrhaphy-sims/Plugin_CustomCLF/CMakeLists.txt
+  CustomCoordinateLimitForce.cpp
+  RegisterTypes_osimPlugin.cpp
+  Generating Code...
+     Creating library X:/ShoulderInstability/CapsulorrhaphySimulation/selective-capsulorrhaphy-sims/Plugin_CustomCLF/build/Release/osimCustomCoordinateLimitForcePlugin.lib and object X:/ShoulderInstability/CapsulorrhaphySimulation/selective-capsulorrhaphy-sims/Plugin_CustomCLF/build/Release/osimCustomCoordinateLimitForcePlugin.exp
+  osimCustomCoordinateLimitForcePlugin.vcxproj -> X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims\Plugin_CustomCLF\build\Release\osimCustomCoordinateLimitForcePlugin.dll
