@@ -1,0 +1,20 @@
+	<CustomCoordinateLimitForce name="shoulder_rot_by_shoulder_elv_damping">
+		<!--Flag indicating whether the force is applied or not. If true the forceis applied to the MultibodySystem otherwise the force is not applied.NOTE: Prior to OpenSim 4.0, this behavior was controlled by the 'isDisabled' property, where 'true' meant that force was not being applied. Thus, if 'isDisabled' is true, then 'appliesForce` is false.-->
+		<appliesForce>true</appliesForce>
+		<!--Coordinate (name) to be limited.-->
+		<coordinateForceApplied>shoulder_rot</coordinateForceApplied>
+		<!--Coordinate (name) that limits the joint.-->
+		<coordinateLimiter>shoulder_elv</coordinateLimiter>
+		<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
+		<upper_stiffness>1e-08</upper_stiffness>
+		<!--The upper limit of the coordinate range of motion (rotations in degrees).-->
+		<upper_limit>190</upper_limit>
+		<!--Stiffness of the passive limit force when coordinate exceeds lower limit. Note, rotational stiffness expected in N*m/degree.-->
+		<lower_stiffness>1e-08</lower_stiffness>
+		<!--The lower limit of the coordinate range of motion (rotations in degrees).-->
+		<lower_limit>190</lower_limit>
+		<!--Damping factor on the coordinate's speed applied only when limit is exceeded. For translational has units N/(m/s) and rotational has Nm/(degree/s)-->
+		<damping>0.001745</damping>
+		<!--Transition region width in the units of the coordinate (rotations in degrees). Dictates the transition from zero to constant stiffness as coordinate exceeds its limit.-->
+		<transition>1</transition>
+	</CustomCoordinateLimitForce>
