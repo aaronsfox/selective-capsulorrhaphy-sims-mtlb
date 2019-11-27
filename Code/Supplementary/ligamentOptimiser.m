@@ -26,6 +26,7 @@ modelDir = Input.modelDir;
 
 %Set the ligament parameters
 switch motion
+    
     case 'Elevation'
         %CLF forces
         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_elv_ligaments')).set_upper_limit(x(1));
@@ -35,7 +36,7 @@ switch motion
         %Requires the current osimModel to be printed and imported as XML
         %to access the custom class properties
         osimModel.print('tempModel.osim');
-        [osimXML, RootName, DOMnode] = xml_readOSIM('tempModel.osim');
+        [osimXML, RootName, ~] = xml_readOSIM('tempModel.osim');
         %Find relevant elevation by elevation plane ligament
         for c = 1:length(osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce)
             if strcmp(osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce(c).ATTRIBUTE.name,'shoulder_elv_by_elv_angle_ligaments')
@@ -55,7 +56,10 @@ switch motion
         osimModel = Model('updatedModel.osim');
         %Cleanup added files and variables
         delete tempModel.osim updatedModel.osim
-        clear osimXML RootName DOMnode        
+        clear osimXML RootName DOMnode
+    
+    case 'Rotation'
+        %add rotation parameters
 end
 
 %Set the desired joint angles based on movement and plication types
@@ -67,12 +71,19 @@ switch motion
             case 'None'
                 desiredAbdAng = 91.5;
                 desiredFlexAng = 85.6;
-            %%%%% TO DO: add other angles
+            %%%%% TO DO: add other plications
         end
         
     case 'Rotation'
         switch plication
-            %%%%% TO DO: add rotation
+            case 'None'
+                desiredExtRotAng0 = 53.4;
+                desiredIntRotAng0 = 44.6;
+                desiredExtRotAng45 = 104.4;
+                desiredIntRotAng45 = 39.0;
+                desiredExtRotAng90 = 133.0;
+                desiredIntRotAng90 = 30.8;
+            %%%%% TO DO: add other plications
         end
         
 end
@@ -106,6 +117,12 @@ if strcmp(motion,'Elevation')
 
     %Set controls for simulation
     FwdTool.setControlsFileName([modelDir,'\shoulder_elv_controls.xml']);
+    
+    %Need to add controller set for the controls to be active in the model
+    %First, clear any existing controller set from past simulations
+    osimModel.getControllerSet().clearAndDestroy();
+    %Add the current controller set to the model
+    FwdTool.addControllerSetToModel();
 
     %Run forward tool
     FwdTool.run();
@@ -160,6 +177,12 @@ if strcmp(motion,'Elevation')
 
     %Set controls for simulation
     FwdTool.setControlsFileName([modelDir,'\shoulder_elv_controls.xml']);
+    
+    %Need to add controller set for the controls to be active in the model
+    %First, clear any existing controller set from past simulations
+    osimModel.getControllerSet().clearAndDestroy();
+    %Add the current controller set to the model
+    FwdTool.addControllerSetToModel();
 
     %Run forward tool
     FwdTool.run();
@@ -182,6 +205,366 @@ if strcmp(motion,'Elevation')
     
     %Cleanup
     clear D elvAng angInd peakElv isoErr
+    
+    %Clear forward simulation files
+    delete _controls.sto _states.sto _states_degrees.mot
+    
+end
+
+%% Run the external rotation at 0 degrees abduction forward simulation if appropriate
+
+if strcmp(motion,'Rotation')
+
+    %Set the shoulder coordinate values
+    osimModel.getCoordinateSet().get('elv_angle').setDefaultValue(deg2rad(30));
+    osimModel.getCoordinateSet().get('shoulder_elv').setDefaultValue(deg2rad(0));
+    osimModel.getCoordinateSet().get('shoulder_rot').setDefaultValue(deg2rad(0));
+
+    %Set locking on shoulder coordinates
+    osimModel.getCoordinateSet().get('elv_angle').set_locked(true);
+    osimModel.getCoordinateSet().get('shoulder_elv').set_locked(true);
+    osimModel.getCoordinateSet().get('shoulder_rot').set_locked(false);
+    
+    %Finalise model connections
+    osimModel.finalizeConnections();
+
+    %Initialise the forward tool
+    FwdTool = ForwardTool();
+
+    %Settings for forward tool
+    FwdTool.setModel(osimModel);
+    FwdTool.setInitialTime(0); FwdTool.setFinalTime(5);
+
+    %Set controls for simulation
+    FwdTool.setControlsFileName([modelDir,'\shoulder_extrot_controls.xml']);
+    
+    %Need to add controller set for the controls to be active in the model
+    %First, clear any existing controller set from past simulations
+    osimModel.getControllerSet().clearAndDestroy();
+    %Add the current controller set to the model
+    FwdTool.addControllerSetToModel();
+
+    %Run forward tool
+    FwdTool.run();
+    
+    %Calculate errors
+    
+    %Load in states data
+    D = importdata('_states_degrees.mot');
+    
+    %Grab out the shoulder rotation angle
+    angInd = contains(D.colheaders,'shoulder_rot') & contains(D.colheaders,'value');
+    rotAng = D.data(:,angInd);
+    
+    %Calculate the peak external rotation angle
+    peakRot = abs(min(rotAng));
+    
+    %Identify absolute error between peak and desired angle and add to total error
+    isoErr = abs(desiredExtRotAng0 - peakRot);
+    totalErr = totalErr + isoErr;
+    
+    %Cleanup
+    clear D rotAng angInd peakRot isoErr
+    
+    %Clear forward simulation files
+    delete _controls.sto _states.sto _states_degrees.mot
+    
+end
+
+%% Run the internal rotation at 0 degrees abduction forward simulation if appropriate
+
+if strcmp(motion,'Rotation')
+
+    %Set the shoulder coordinate values
+    osimModel.getCoordinateSet().get('elv_angle').setDefaultValue(deg2rad(30));
+    osimModel.getCoordinateSet().get('shoulder_elv').setDefaultValue(deg2rad(0));
+    osimModel.getCoordinateSet().get('shoulder_rot').setDefaultValue(deg2rad(0));
+
+    %Set locking on shoulder coordinates
+    osimModel.getCoordinateSet().get('elv_angle').set_locked(true);
+    osimModel.getCoordinateSet().get('shoulder_elv').set_locked(true);
+    osimModel.getCoordinateSet().get('shoulder_rot').set_locked(false);
+    
+    %Finalise model connections
+    osimModel.finalizeConnections();
+
+    %Initialise the forward tool
+    FwdTool = ForwardTool();
+
+    %Settings for forward tool
+    FwdTool.setModel(osimModel);
+    FwdTool.setInitialTime(0); FwdTool.setFinalTime(5);
+
+    %Set controls for simulation
+    FwdTool.setControlsFileName([modelDir,'\shoulder_introt_controls.xml']);
+    
+    %Need to add controller set for the controls to be active in the model
+    %First, clear any existing controller set from past simulations
+    osimModel.getControllerSet().clearAndDestroy();
+    %Add the current controller set to the model
+    FwdTool.addControllerSetToModel();
+
+    %Run forward tool
+    FwdTool.run();
+    
+    %Calculate errors
+    
+    %Load in states data
+    D = importdata('_states_degrees.mot');
+    
+    %Grab out the shoulder rotation angle
+    angInd = contains(D.colheaders,'shoulder_rot') & contains(D.colheaders,'value');
+    rotAng = D.data(:,angInd);
+    
+    %Calculate the peak external rotation angle
+    peakRot = max(rotAng);
+    
+    %Identify absolute error between peak and desired angle and add to total error
+    isoErr = abs(desiredIntRotAng0 - peakRot);
+    totalErr = totalErr + isoErr;
+    
+    %Cleanup
+    clear D rotAng angInd peakRot isoErr
+    
+    %Clear forward simulation files
+    delete _controls.sto _states.sto _states_degrees.mot
+    
+end
+
+%% Run the external rotation at 45 degrees abduction forward simulation if appropriate
+
+if strcmp(motion,'Rotation')
+
+    %Set the shoulder coordinate values
+    osimModel.getCoordinateSet().get('elv_angle').setDefaultValue(deg2rad(30));
+    osimModel.getCoordinateSet().get('shoulder_elv').setDefaultValue(deg2rad(45));
+    osimModel.getCoordinateSet().get('shoulder_rot').setDefaultValue(deg2rad(0));
+
+    %Set locking on shoulder coordinates
+    osimModel.getCoordinateSet().get('elv_angle').set_locked(true);
+    osimModel.getCoordinateSet().get('shoulder_elv').set_locked(true);
+    osimModel.getCoordinateSet().get('shoulder_rot').set_locked(false);
+    
+    %Finalise model connections
+    osimModel.finalizeConnections();
+
+    %Initialise the forward tool
+    FwdTool = ForwardTool();
+
+    %Settings for forward tool
+    FwdTool.setModel(osimModel);
+    FwdTool.setInitialTime(0); FwdTool.setFinalTime(5);
+
+    %Set controls for simulation
+    FwdTool.setControlsFileName([modelDir,'\shoulder_extrot_controls.xml']);
+    
+    %Need to add controller set for the controls to be active in the model
+    %First, clear any existing controller set from past simulations
+    osimModel.getControllerSet().clearAndDestroy();
+    %Add the current controller set to the model
+    FwdTool.addControllerSetToModel();
+
+    %Run forward tool
+    FwdTool.run();
+    
+    %Calculate errors
+    
+    %Load in states data
+    D = importdata('_states_degrees.mot');
+    
+    %Grab out the shoulder rotation angle
+    angInd = contains(D.colheaders,'shoulder_rot') & contains(D.colheaders,'value');
+    rotAng = D.data(:,angInd);
+    
+    %Calculate the peak external rotation angle
+    peakRot = abs(min(rotAng));
+    
+    %Identify absolute error between peak and desired angle and add to total error
+    isoErr = abs(desiredExtRotAng45 - peakRot);
+    totalErr = totalErr + isoErr;
+    
+    %Cleanup
+    clear D rotAng angInd peakRot isoErr
+    
+    %Clear forward simulation files
+    delete _controls.sto _states.sto _states_degrees.mot
+    
+end
+
+%% Run the internal rotation at 45 degrees abduction forward simulation if appropriate
+
+if strcmp(motion,'Rotation')
+
+    %Set the shoulder coordinate values
+    osimModel.getCoordinateSet().get('elv_angle').setDefaultValue(deg2rad(30));
+    osimModel.getCoordinateSet().get('shoulder_elv').setDefaultValue(deg2rad(45));
+    osimModel.getCoordinateSet().get('shoulder_rot').setDefaultValue(deg2rad(0));
+
+    %Set locking on shoulder coordinates
+    osimModel.getCoordinateSet().get('elv_angle').set_locked(true);
+    osimModel.getCoordinateSet().get('shoulder_elv').set_locked(true);
+    osimModel.getCoordinateSet().get('shoulder_rot').set_locked(false);
+    
+    %Finalise model connections
+    osimModel.finalizeConnections();
+
+    %Initialise the forward tool
+    FwdTool = ForwardTool();
+
+    %Settings for forward tool
+    FwdTool.setModel(osimModel);
+    FwdTool.setInitialTime(0); FwdTool.setFinalTime(5);
+
+    %Set controls for simulation
+    FwdTool.setControlsFileName([modelDir,'\shoulder_introt_controls.xml']);
+    
+    %Need to add controller set for the controls to be active in the model
+    %First, clear any existing controller set from past simulations
+    osimModel.getControllerSet().clearAndDestroy();
+    %Add the current controller set to the model
+    FwdTool.addControllerSetToModel();
+
+    %Run forward tool
+    FwdTool.run();
+    
+    %Calculate errors
+    
+    %Load in states data
+    D = importdata('_states_degrees.mot');
+    
+    %Grab out the shoulder rotation angle
+    angInd = contains(D.colheaders,'shoulder_rot') & contains(D.colheaders,'value');
+    rotAng = D.data(:,angInd);
+    
+    %Calculate the peak external rotation angle
+    peakRot = max(rotAng);
+    
+    %Identify absolute error between peak and desired angle and add to total error
+    isoErr = abs(desiredIntRotAng45 - peakRot);
+    totalErr = totalErr + isoErr;
+    
+    %Cleanup
+    clear D rotAng angInd peakRot isoErr
+    
+    %Clear forward simulation files
+    delete _controls.sto _states.sto _states_degrees.mot
+    
+end
+
+%% Run the external rotation at 90 degrees abduction forward simulation if appropriate
+
+if strcmp(motion,'Rotation')
+
+    %Set the shoulder coordinate values
+    osimModel.getCoordinateSet().get('elv_angle').setDefaultValue(deg2rad(30));
+    osimModel.getCoordinateSet().get('shoulder_elv').setDefaultValue(deg2rad(90));
+    osimModel.getCoordinateSet().get('shoulder_rot').setDefaultValue(deg2rad(0));
+
+    %Set locking on shoulder coordinates
+    osimModel.getCoordinateSet().get('elv_angle').set_locked(true);
+    osimModel.getCoordinateSet().get('shoulder_elv').set_locked(true);
+    osimModel.getCoordinateSet().get('shoulder_rot').set_locked(false);
+    
+    %Finalise model connections
+    osimModel.finalizeConnections();
+
+    %Initialise the forward tool
+    FwdTool = ForwardTool();
+
+    %Settings for forward tool
+    FwdTool.setModel(osimModel);
+    FwdTool.setInitialTime(0); FwdTool.setFinalTime(5);
+
+    %Set controls for simulation
+    FwdTool.setControlsFileName([modelDir,'\shoulder_extrot_controls.xml']);
+    
+    %Need to add controller set for the controls to be active in the model
+    %First, clear any existing controller set from past simulations
+    osimModel.getControllerSet().clearAndDestroy();
+    %Add the current controller set to the model
+    FwdTool.addControllerSetToModel();
+
+    %Run forward tool
+    FwdTool.run();
+    
+    %Calculate errors
+    
+    %Load in states data
+    D = importdata('_states_degrees.mot');
+    
+    %Grab out the shoulder rotation angle
+    angInd = contains(D.colheaders,'shoulder_rot') & contains(D.colheaders,'value');
+    rotAng = D.data(:,angInd);
+    
+    %Calculate the peak external rotation angle
+    peakRot = abs(min(rotAng));
+    
+    %Identify absolute error between peak and desired angle and add to total error
+    isoErr = abs(desiredExtRotAng90 - peakRot);
+    totalErr = totalErr + isoErr;
+    
+    %Cleanup
+    clear D rotAng angInd peakRot isoErr
+    
+    %Clear forward simulation files
+    delete _controls.sto _states.sto _states_degrees.mot
+    
+end
+
+%% Run the internal rotation at 90 degrees abduction forward simulation if appropriate
+
+if strcmp(motion,'Rotation')
+
+    %Set the shoulder coordinate values
+    osimModel.getCoordinateSet().get('elv_angle').setDefaultValue(deg2rad(30));
+    osimModel.getCoordinateSet().get('shoulder_elv').setDefaultValue(deg2rad(90));
+    osimModel.getCoordinateSet().get('shoulder_rot').setDefaultValue(deg2rad(0));
+
+    %Set locking on shoulder coordinates
+    osimModel.getCoordinateSet().get('elv_angle').set_locked(true);
+    osimModel.getCoordinateSet().get('shoulder_elv').set_locked(true);
+    osimModel.getCoordinateSet().get('shoulder_rot').set_locked(false);
+    
+    %Finalise model connections
+    osimModel.finalizeConnections();
+
+    %Initialise the forward tool
+    FwdTool = ForwardTool();
+
+    %Settings for forward tool
+    FwdTool.setModel(osimModel);
+    FwdTool.setInitialTime(0); FwdTool.setFinalTime(5);
+
+    %Set controls for simulation
+    FwdTool.setControlsFileName([modelDir,'\shoulder_introt_controls.xml']);
+    
+    %Need to add controller set for the controls to be active in the model
+    %First, clear any existing controller set from past simulations
+    osimModel.getControllerSet().clearAndDestroy();
+    %Add the current controller set to the model
+    FwdTool.addControllerSetToModel();
+
+    %Run forward tool
+    FwdTool.run();
+    
+    %Calculate errors
+    
+    %Load in states data
+    D = importdata('_states_degrees.mot');
+    
+    %Grab out the shoulder rotation angle
+    angInd = contains(D.colheaders,'shoulder_rot') & contains(D.colheaders,'value');
+    rotAng = D.data(:,angInd);
+    
+    %Calculate the peak external rotation angle
+    peakRot = max(rotAng);
+    
+    %Identify absolute error between peak and desired angle and add to total error
+    isoErr = abs(desiredIntRotAng90 - peakRot);
+    totalErr = totalErr + isoErr;
+    
+    %Cleanup
+    clear D rotAng angInd peakRot isoErr
     
     %Clear forward simulation files
     delete _controls.sto _states.sto _states_degrees.mot

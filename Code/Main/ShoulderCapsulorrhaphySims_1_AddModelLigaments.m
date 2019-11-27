@@ -8,6 +8,8 @@ function ShoulderCapsulorrhaphySims_1_AddModelLigaments
 % complex model for further processing.
 % 
 % TO DO: add further detailed notes...ligament properties based on MoBL model data...
+%           Note that we left the adduction/hyperextension components are
+%           left out as we don't have information on them
 % 
 % The findings of Gerber et al. highlighted the neccesity to provide restrictions
 % to shoulder rotation based on the magnitude of shoulder elevation, and the 
@@ -77,8 +79,8 @@ elvLig.setName('shoulder_elv_ligaments');    %set name
 elvLig.set_coordinate('shoulder_elv');       %set coordinate
 elvLig.set_upper_stiffness(100);             %set upper stiffness value
 elvLig.set_upper_limit(90);                  %set upper limit threshold
-elvLig.set_lower_stiffness(100);             %set lower stiffness value
-elvLig.set_lower_limit(30);                  %set lower limit threshold
+elvLig.set_lower_stiffness(1e20);            %set lower stiffness value
+elvLig.set_lower_limit(0);                   %set lower limit threshold
 elvLig.set_damping(0);                       %set damping value
 elvLig.set_transition(542.84230000000002);   %set transition value
 

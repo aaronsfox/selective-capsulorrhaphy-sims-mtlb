@@ -65,11 +65,11 @@ if nargin < 2
         case 6
             plication = 'Posteroinferior';
         case 7
-            plication = 'Total Posterior';
+            plication = 'TotalPosterior';
         case 8
-            plication = 'Total Superior';
+            plication = 'TotalSuperior';
         case 9
-            plication = 'Total Inferior';
+            plication = 'TotalInferior';
     end
     %Check if appropriate number was input
     if isempty(plication)
@@ -80,10 +80,10 @@ if nargin < 2
 else
     %Check whether appropriate value is input
     if strcmpi(plication,'None') || strcmp(plication,'Anterosuperior') || ...
-            strcmp(plication,'Anteroinferior') || strcmp(plication,'Total Anterior') || ...
+            strcmp(plication,'Anteroinferior') || strcmp(plication,'TotalAnterior') || ...
             strcmp(plication,'Posterosuperior') || strcmp(plication,'Posteroinferior') || ...
-            strcmp(plication,'Total Posterior') || strcmp(plication,'Total Superior') || ...
-            strcmp(plication,'Total Inferior')
+            strcmp(plication,'TotalPosterior') || strcmp(plication,'TotalSuperior') || ...
+            strcmp(plication,'TotalInferior')
         %everything's fine
     else
         %throw error
@@ -183,14 +183,61 @@ options = optimset('fminsearch');
 options.PlotFcns = @optimplotfval;
 
 
-%%% cleanup outputs
+%% Run elevation related parameter optimisation
 
-[xOpt,fval,exitflag,output] = fminsearchbnd('ligamentOptimiser',x0,xLB,xUB,options,Input)
+%Navigate to optimisation results directory
+cd('OptimisationResults');
 
+%%%%% TO DO: cleanup outputs
 
-%%%% Save figure too...
+[ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt,...
+    ligamentParameterOptimisation.(char(plication)).(char(motion)).fval,...
+    ligamentParameterOptimisation.(char(plication)).(char(motion)).exitflag,...
+    ligamentParameterOptimisation.(char(plication)).(char(motion)).output] = ...
+    fminsearchbnd('ligamentOptimiser',x0,xLB,xUB,options,Input);
 
+% % % xOpt =
+% % % 
+% % %  53.5888
+% % %    91.0349
+% % %   541.5717
+% % %    43.4252
+% % %   -41.0418
+% % %     2.3356
+% % %   573.8713
 
+%Save fminsearch figure
+h = gcf;
+title({['Elevation optimisation for "',plication,'" model.'],...
+    ['End function value: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).fval)]});
+set(h,'PaperPositionMode','auto')
+saveas(h,['ElevationOptimisation_',plication,'Model.fig']);
+saveas(h,['ElevationOptimisation_',plication,'Model.png']);
+close all
+
+%Export optimisation results as text file
+fid = fopen(['ElevationOptimisation_',plication,'Model_Results.txt'],'wt');
+fprintf(fid,['Elevation ligament upper limit: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(1)),'\n']);
+fprintf(fid,['Elevation ligament upper stiffness: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(2)),'\n']);
+fprintf(fid,['Elevation ligament transition: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(3)),'\n']);
+fprintf(fid,['Elevation by elevation plane ligament upper limit: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(4)),'\n']);
+fprintf(fid,['Elevation by elevation plane ligament lower limit: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(5)),'\n']);
+fprintf(fid,['Elevation by elevation plane ligament upper and lower stiffness: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(6)),'\n']);
+fprintf(fid,['Elevation by elevation plane ligament transition: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(7)),'\n']);
+fclose(fid);
+
+%Cleanup
+clear h ax fid
+
+%%  Run rotation related parameter optimisation
+
+%%%%% Likely need positive and negative stiffness searching for the upper
+%%%%% and lower limits for the shoulder rotation limit by elevation angle
+%%%%% custom CLF - might need to base this off some exploration of how
+%%%%% elevation angle impacts rotation capacity in both directions (i.e. as
+%%%%% elevation increases - what sort of limiting force is applied?)
+
+totalErr = ligamentOptimiser(x0,Input)
 
 %%
 end
