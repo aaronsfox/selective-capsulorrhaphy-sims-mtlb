@@ -1,0 +1,7 @@
+Elevation ligament upper limit: 53.5888
+Elevation ligament upper stiffness: 91.0349
+Elevation ligament transition: 541.5717
+Elevation by elevation plane ligament upper limit: 43.4252
+Elevation by elevation plane ligament lower limit: -41.0418
+Elevation by elevation plane ligament upper and lower stiffness: 2.3356
+Elevation by elevation plane ligament transition: 573.8713

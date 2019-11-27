@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<OpenSimDocument Version="30000">
+	<ForceSet name="ShoulderActuators">
+		<objects>
+			<CoordinateActuator name="shoulder_elv_actuator">
+				<!--Name of the generalized coordinate to which the actuator applies.-->
+				<coordinate>shoulder_elv</coordinate>
+				<!--The maximum generalized force produced by this actuator.-->
+				<optimal_force>1</optimal_force>
+			</CoordinateActuator>
+			<CoordinateActuator name="shoulder_rot_actuator">
+				<!--Name of the generalized coordinate to which the actuator applies.-->
+				<coordinate>shoulder_rot</coordinate>
+				<!--The maximum generalized force produced by this actuator.-->
+				<optimal_force>0.5</optimal_force>
+			</CoordinateActuator>
+		</objects>
+	</ForceSet>
+</OpenSimDocument>
