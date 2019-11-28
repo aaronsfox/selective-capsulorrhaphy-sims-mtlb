@@ -25,10 +25,12 @@ function value = GlenohumeralStability_CustomGoal
     % representing the glenoid, and calculates it's relative distance from the
     % centre point of the ellipse. A value of zero represents the JRF vector
     % intersecting the ellipse at the exact centre, while the value approaches
-    % 1 as the vector reaches the edge of the ellipse. Litearture based values
+    % 1 as the vector reaches the edge of the ellipse. Literature based values
     % of humeral head (Knowles et al. 2016, J Shoulder Elbow Surg, 25:
     % 502-509) and glenoid (von Schroeder et al. 2001, Clin Orthop Relat Res,
-    % 383: 131-139) anatomy are used in the calculations.
+    % 383: 131-139) anatomy are used in the calculations. It would probably
+    % be useful to have these as a default, but also give the option to
+    % prescribe whatever size 2D ellipse (in mm) the user wants?
     %
     % The goal of this function is to minimise the glenohumeral stability value
     % at each step of the simulation. Currently the value is calculated
@@ -61,6 +63,15 @@ function value = GlenohumeralStability_CustomGoal
 % % %     coordSet.get('elbow_flexion').set_locked(true);
 % % %     coordSet.get('pro_sup').set_locked(true);
 
+% % %     %Issue with states coming up as NaN's when coordinates are
+% % %     %locked. The locked coordinates don't seem to take on board the state
+% % %     %values they are prescribed (i.e. they become NaN's) and this then
+% % %     %impacts the calculation of joint reaction forces later in the pipeline
+% % %     %(i.e. the output is NaN's). Have left out the locking of coordinates
+% % %     %in this example for now - but it would be handy to be able to lock
+% % %     %specific coordinates and then still have their states be acknolwedged
+% % %     %in joint reaction force calculations.
+
     %Finalise model connections
     osimModel.finalizeConnections();
 
@@ -75,6 +86,8 @@ function value = GlenohumeralStability_CustomGoal
     problem.setTimeBounds(0,2);
 
     %Set the state info for the shoulder coordinates
+    %Only shoulder states prescribed here due to usually locking other
+    %coordinates for such a problem.
     problem.setStateInfo(['/jointset/',char(coordSet.get('shoulder_elv').getJoint().getName()),'/',char(coordSet.get('shoulder_elv').getName()),'/value'],...
         MocoBounds(deg2rad(0),deg2rad(90)),MocoInitialBounds(deg2rad(0)),MocoFinalBounds(deg2rad(90)));
     problem.setStateInfo(['/jointset/',char(coordSet.get('shoulder_elv').getJoint().getName()),'/',char(coordSet.get('shoulder_elv').getName()),'/speed'],...
@@ -120,6 +133,9 @@ function value = GlenohumeralStability_CustomGoal
 % % %     study.print('testAbductionProblem.omoco');
     
 % % %     %Run solution to get some results for evaluating cost function
+% % %     %Originally ran this through the solver for a little while (not to
+% % %     %completion) to potentially get an appropriate guess that could be used
+% % %     %in application of the goal function.
 % % %     solution = study.solve();
 % % %     
 % % %     %Set guess from previously "solved" solution
@@ -134,13 +150,13 @@ function value = GlenohumeralStability_CustomGoal
 
     %Evaluate function value
     value = evaluateCustomGoal(problem, trajectory, ...
-            @calcMyCustomEffortGoalIntegrand, @calcMyCustomEffortGoalValue);
+            @calcMyCustomGoalIntegrand, @calcMyCustomGoalValue);
 
 end
 
 %%
 
-function integrand = calcMyCustomEffortGoalIntegrand(model, state)
+function integrand = calcMyCustomGoalIntegrand(model, state)
     %Compute the integrand for the integral portion of the cost goal.
 
     %Realise to acceleration stage
@@ -156,8 +172,7 @@ function integrand = calcMyCustomEffortGoalIntegrand(model, state)
     jrf = unrothum.calcReactionOnParentExpressedInGround(state);
 
     %Separate the force and moment components of JRFs
-    %Assuming moment is first Vec3 and forces are second????
-    moment = jrf.get(0); force = jrf.get(1);
+    force = jrf.get(1);
 
     %Transform from ground to rotated scapula frame
     ground = model.getGround();
@@ -189,25 +204,6 @@ function integrand = calcMyCustomEffortGoalIntegrand(model, state)
     %Calculate distances along the anterior/posterior and vertical axes
     horzPos = tand(spherPhi) * dY;
     vertPos = tand(90-spherTheta) * dY;
-    
-% % %     %We can now attempt to plot a trace of these results on an ellipse that
-% % %     %uses the dimensions of generic scapula anatomy. von Schroeder et al.
-% % %     %(2001) reported an AP diameter of 28.6, 25.8 and 30.9 in combined, females
-% % %     %and males, respectively; and a SI length of 36.5, 33.6 and 38.0 for
-% % %     %combined, females and males, respectively. We'll go with the combined data
-% % %     %for now...
-% % %     drawEllipse(0,0,28.6/2,36.5/2);
-% % %     %Edit the properties of the line object
-% % %     h = findobj(gca,'Type','line');
-% % %     h.Color = 'k'; h.LineWidth = 2;
-% % %     axis equal
-% % %     hold on
-% % % 
-% % %     %Draw the pattern of the original and altered models point of application
-% % %     scatter(horzPos,vertPos,'r','filled');
-% % % 
-% % %     %Close plot
-% % %     close all; clear h
 
     %Calculate GH stability value
     %Find point on the glenoid rim that the vector would intersect in the 2D
@@ -221,8 +217,8 @@ function integrand = calcMyCustomEffortGoalIntegrand(model, state)
     %Need to determine which intersection point is required for the
     %calculations, this can be determined by checking the distance between the
     %points and taking whichever is closer.
-    C1_dist = dist_markers2D([horzPos,vertPos],C1);
-    C2_dist = dist_markers2D([horzPos,vertPos],C2);
+    C1_dist = distance2D([horzPos,vertPos],C1);
+    C2_dist = distance2D([horzPos,vertPos],C2);
     if C2_dist <= C1_dist
         %Use C2 point
         ellipseEdge_horz = C2(1); ellipseEdge_vert = C2(2);
@@ -233,7 +229,7 @@ function integrand = calcMyCustomEffortGoalIntegrand(model, state)
     clear C1 C2 C1_dist C2_dist
     %Calculate relative distance of projected point from glenoid centre to
     %ellipse edge point and use this as GH stability value
-    GHstab = dist_markers2D([horzPos,vertPos],[0,0]) / dist_markers2D([ellipseEdge_horz,ellipseEdge_vert],[0,0]);
+    GHstab = distance2D([horzPos,vertPos],[0,0]) / distance2D([ellipseEdge_horz,ellipseEdge_vert],[0,0]);
     
     %Allocate to integrand function output
     integrand = 0;
@@ -241,7 +237,7 @@ function integrand = calcMyCustomEffortGoalIntegrand(model, state)
     
 end
 
-function value = calcMyCustomEffortGoalValue(...
+function value = calcMyCustomGoalValue(...
                         model, initial_state, final_state, integral)
     % Compute the goal value from the phase's initial and final states, and from
     % the integral of the integrand function over the phase. The integration is
@@ -256,19 +252,6 @@ function goalValue = evaluateCustomGoal(...
 
     %Get the model
     model = problem.getPhase(0).getModelProcessor().process();
-    
-% % %     %Coordinate set seems to need to be unlocked to prescribe the values
-% % %     %not exactly matching zero for locked coordinates
-% % %     coordSet = model.updCoordinateSet();
-% % %     coordSet.get('thorax_tilt').set_locked(false);
-% % %     coordSet.get('thorax_list').set_locked(false);
-% % %     coordSet.get('thorax_rotation').set_locked(false);
-% % %     coordSet.get('thorax_tx').set_locked(false);
-% % %     coordSet.get('thorax_ty').set_locked(false);
-% % %     coordSet.get('thorax_tz').set_locked(false);
-% % %     coordSet.get('elbow_flexion').set_locked(false);
-% % %     coordSet.get('pro_sup').set_locked(false);
-% % %     model.finalizeConnections();
 
     %Prescribe controls to model
     org.opensim.modeling.opensimMoco.prescribeControlsToModel(mocoTraj, model);
@@ -277,7 +260,7 @@ function goalValue = evaluateCustomGoal(...
     statesTraj = mocoTraj.exportToStatesTrajectory(problem);
 
     %Initialise model
-    modelState = model.initSystem();
+    model.initSystem();
 
     %Get size of states
     N = statesTraj.getSize();
@@ -288,12 +271,53 @@ function goalValue = evaluateCustomGoal(...
         integrand(i + 1) = integrandFunc(model, statesTraj.get(i));
     end
 
-    %%%%%%
-
-    %%%% from example function
-
+    %Perform final calculations to extract goal function value
     integral = trapz(integrand);
     goalValue = goalFunc(model, statesTraj.front(), statesTraj.back(), integral);
 
 end
 
+%% Supplementary functions
+
+function [C1,C2] = lineEllipse(a,b,O,A,B)
+    % Get points of intersection of line and Ellipse
+    % INPUT : a - major axis of Ellipse
+    %         b - minor axis of Ellipse
+    %         O - center of ellipse i,e (h,k)
+    %         A, P  - points of striaght line (x1,y1) and (x2,y2)
+    % OUTPUT : C - Point of intersection of line and ellipse
+    % Reference : http://www.ambrsoft.com/TrigoCalc/Circles2/Ellipse/EllipseLine.htm
+    % 
+    % Coded by :    Siva Srinivas Kolukula, PhD      
+    %               Tsunami and Storm surge Early WArning Group (TWS)
+    %               Indian National Centre for Ocean Information Services (INCOIS)
+    %               Hyderabad, INDIA
+    % E-mail   :    allwayzitzme@gmail.com                                        
+    % web-link :    https://sites.google.com/site/kolukulasivasrinivas/   
+    % Ellipse center
+    h = O(1) ; k = O(2) ;
+    % Line, Get slope and y-intercept of the line
+    AB = [A; B];
+    line = polyfit(AB(:,1),AB(:,2),1) ;
+    m = line(1) ;       % Slope of the line 
+    c = line(2) ;       % y-intercept of the line
+    % Formula
+    eps = c-k ;delta = c+m*h ;
+    D = sqrt(a^2*m^2+b^2-delta^2-k^2+2*delta*k) ;
+    E = a^2*m^2+b^2 ;
+    x1 = (h*b^2-m*a^2*eps+a*b*D)/E ;x2 = (h*b^2-m*a^2*eps-a*b*D)/E ;
+    y1 = (b^2*delta+k*a^2*m^2+a*b*m*D)/E ;y2 = (b^2*delta+k*a^2*m^2-a*b*m*D)/E ;
+    C1 = [x1 y1] ; C2 = [x2 y2] ;
+    % Check if intersection points exists
+    if ~isreal(C1)
+        C1 = [NaN NaN] ;
+        C2 = C1 ;
+    end
+end
+
+function dist = distance2D(M1,M2)
+
+    % This function calculates the distance between two 2D points
+    dist = sqrt((M1(:,1)-M2(:,1)).^2+(M1(:,2)-M2(:,2)).^2);
+    
+end
