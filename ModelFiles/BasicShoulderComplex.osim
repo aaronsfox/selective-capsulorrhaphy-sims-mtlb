@@ -1655,11 +1655,11 @@
 					<!--Coordinate (name) that limits the joint.-->
 					<coordinateLimiter>shoulder_elv</coordinateLimiter>
 					<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
-					<upper_stiffness>1</upper_stiffness>
+					<upper_stiffness>100</upper_stiffness>
 					<!--The upper limit of the coordinate range of motion (rotations in degrees).-->
 					<upper_limit>30</upper_limit>
 					<!--Stiffness of the passive limit force when coordinate exceeds lower limit. Note, rotational stiffness expected in N*m/degree.-->
-					<lower_stiffness>1</lower_stiffness>
+					<lower_stiffness>1e-20</lower_stiffness>
 					<!--The lower limit of the coordinate range of motion (rotations in degrees).-->
 					<lower_limit>0</lower_limit>
 					<!--Damping factor on the coordinate's speed applied only when limit is exceeded. For translational has units N/(m/s) and rotational has Nm/(degree/s)-->
