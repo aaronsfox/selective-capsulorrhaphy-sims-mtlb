@@ -156,7 +156,20 @@ end
 
 %%
 
-function integrand = calcMyCustomGoalIntegrand(model, state)
+function integrand = calcMyCustomGoalIntegrand(model, state, ...
+    humeralHeadSize, AnteriorPosteriorGlenoidDiameter, SuperiorInferiorGlenoidDiameter)
+
+    %Check for size inputs, if not use defaults
+    if nargin < 3
+        humeralHeadSize = 49;
+    end
+    if nargin < 4
+        AnteriorPosteriorGlenoidDiameter = 28.6;
+    end
+    if nargin < 5
+        SuperiorInferiorGlenoidDiameter = 36.5;
+    end
+
     %Compute the integrand for the integral portion of the cost goal.
 
     %Realise to acceleration stage
@@ -199,7 +212,10 @@ function integrand = calcMyCustomGoalIntegrand(model, state)
 
     %Set the distance along the Y-axis to the glenoid fossa based on the data of
     %Knowles et al. (2016) - note it is a radius rather than diameter
-    dY = 49/2;
+	%Currently this is defaulting to he literature-bsaed value, but it may be
+	%useful to be able to set this within the goal function (i.e. set the humeral
+	%head size variable)
+    dY = humeralHeadSize/2;
     
     %Calculate distances along the anterior/posterior and vertical axes
     horzPos = tand(spherPhi) * dY;
@@ -213,7 +229,10 @@ function integrand = calcMyCustomGoalIntegrand(model, state)
     %diameter/2), centre coordinates of ellipse, starting point of line (i.e.
     %centre of ellipse in this case), and end point of line (projected point on
     %glenoid).
-    [C1,C2] = lineEllipse(28.6/2,36.5/2,[0,0],[0,0],[horzPos,vertPos]);
+	%Like abov with the humeral head size, the glenoid size is coming from
+	%literature based values at a default - but may be useful to set these as
+	%variables within the goal function
+    [C1,C2] = lineEllipse(AnteriorPosteriorGlenoidDiameter/2,SuperiorInferiorGlenoidDiameter/2,[0,0],[0,0],[horzPos,vertPos]);
     %Need to determine which intersection point is required for the
     %calculations, this can be determined by checking the distance between the
     %points and taking whichever is closer.
