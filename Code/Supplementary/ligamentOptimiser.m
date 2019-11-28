@@ -58,8 +58,38 @@ switch motion
         delete tempModel.osim updatedModel.osim
         clear osimXML RootName DOMnode
     
-    case 'Rotation'
-        %add rotation parameters
+    case 'Rotation'        
+        %CLF forces
+        CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_upper_limit(x(1));
+        CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_upper_stiffness(x(2));
+        CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_lower_limit(x(3));
+        CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_lower_stiffness(x(4));
+        CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_transition(x(5));
+        %Custom CLF's
+        %Requires the current osimModel to be printed and imported as XML
+        %to access the custom class properties
+        osimModel.print('tempModel.osim');
+        [osimXML, RootName, ~] = xml_readOSIM('tempModel.osim');
+        %Find relevant elevation by elevation plane ligament
+        for c = 1:length(osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce)
+            if strcmp(osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce(c).ATTRIBUTE.name,'shoulder_rot_by_shoulder_elv_ligaments')
+                clfInd = c;
+            else
+            end
+        end
+        clear c
+        %Set the properties
+        osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce(clfInd).upper_limit = x(6);
+        osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce(clfInd).upper_stiffness = x(7);
+        osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce(clfInd).transition = x(8);
+        %Reprint updated model
+        DOMnode = xml_writeOSIM('updatedModel.osim',osimXML,RootName);
+        %Reload in updated model to global variable
+        osimModel = Model('updatedModel.osim');
+        %Cleanup added files and variables
+        delete tempModel.osim updatedModel.osim
+        clear osimXML RootName DOMnode
+        
 end
 
 %Set the desired joint angles based on movement and plication types
