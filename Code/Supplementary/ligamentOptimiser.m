@@ -65,6 +65,32 @@ switch motion
         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_lower_limit(x(3));
         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_lower_stiffness(x(4));
         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_transition(x(5));
+% % %         %Custom CLF's
+% % %         %Requires the current osimModel to be printed and imported as XML
+% % %         %to access the custom class properties
+% % %         osimModel.print('tempModel.osim');
+% % %         [osimXML, RootName, ~] = xml_readOSIM('tempModel.osim');
+% % %         %Find relevant elevation by elevation plane ligament
+% % %         for c = 1:length(osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce)
+% % %             if strcmp(osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce(c).ATTRIBUTE.name,'shoulder_rot_by_shoulder_elv_ligaments')
+% % %                 clfInd = c;
+% % %             else
+% % %             end
+% % %         end
+% % %         clear c
+% % %         %Set the properties
+% % %         osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce(clfInd).upper_limit = x(6);
+% % %         osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce(clfInd).upper_stiffness = x(7);
+% % %         osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce(clfInd).transition = x(8);
+% % %         %Reprint updated model
+% % %         DOMnode = xml_writeOSIM('updatedModel.osim',osimXML,RootName);
+% % %         %Reload in updated model to global variable
+% % %         osimModel = Model('updatedModel.osim');
+% % %         %Cleanup added files and variables
+% % %         delete tempModel.osim updatedModel.osim
+% % %         clear osimXML RootName DOMnode
+
+    case 'RotationElevation'
         %Custom CLF's
         %Requires the current osimModel to be printed and imported as XML
         %to access the custom class properties
@@ -79,9 +105,9 @@ switch motion
         end
         clear c
         %Set the properties
-        osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce(clfInd).upper_limit = x(6);
-        osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce(clfInd).upper_stiffness = x(7);
-        osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce(clfInd).transition = x(8);
+        osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce(clfInd).upper_limit = x(1);
+        osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce(clfInd).upper_stiffness = x(2);
+        osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce(clfInd).transition = x(3);
         %Reprint updated model
         DOMnode = xml_writeOSIM('updatedModel.osim',osimXML,RootName);
         %Reload in updated model to global variable
@@ -105,17 +131,29 @@ switch motion
         end
         
     case 'Rotation'
+        
         switch plication
             case 'None'
                 desiredExtRotAng0 = 53.4;
                 desiredIntRotAng0 = 44.6;
+% % %                 desiredExtRotAng45 = 104.4;
+% % %                 desiredIntRotAng45 = 39.0;
+% % %                 desiredExtRotAng90 = 133.0;
+% % %                 desiredIntRotAng90 = 30.8;
+            %%%%% TO DO: add other plications
+        end
+        
+    case 'RotationElevation'
+        
+        switch plication
+            case 'None'
                 desiredExtRotAng45 = 104.4;
                 desiredIntRotAng45 = 39.0;
                 desiredExtRotAng90 = 133.0;
                 desiredIntRotAng90 = 30.8;
             %%%%% TO DO: add other plications
+            
         end
-        
 end
 
 %Set starting total error
@@ -263,7 +301,7 @@ if strcmp(motion,'Rotation')
 
     %Settings for forward tool
     FwdTool.setModel(osimModel);
-    FwdTool.setInitialTime(0); FwdTool.setFinalTime(5);
+    FwdTool.setInitialTime(0); FwdTool.setFinalTime(3);
 
     %Set controls for simulation
     FwdTool.setControlsFileName([modelDir,'\shoulder_extrot_controls.xml']);
@@ -323,7 +361,7 @@ if strcmp(motion,'Rotation')
 
     %Settings for forward tool
     FwdTool.setModel(osimModel);
-    FwdTool.setInitialTime(0); FwdTool.setFinalTime(5);
+    FwdTool.setInitialTime(0); FwdTool.setFinalTime(3);
 
     %Set controls for simulation
     FwdTool.setControlsFileName([modelDir,'\shoulder_introt_controls.xml']);
@@ -363,7 +401,7 @@ end
 
 %% Run the external rotation at 45 degrees abduction forward simulation if appropriate
 
-if strcmp(motion,'Rotation')
+if strcmp(motion,'RotationElevation_ER')
 
     %Set the shoulder coordinate values
     osimModel.getCoordinateSet().get('elv_angle').setDefaultValue(deg2rad(30));
@@ -383,7 +421,7 @@ if strcmp(motion,'Rotation')
 
     %Settings for forward tool
     FwdTool.setModel(osimModel);
-    FwdTool.setInitialTime(0); FwdTool.setFinalTime(5);
+    FwdTool.setInitialTime(0); FwdTool.setFinalTime(3);
 
     %Set controls for simulation
     FwdTool.setControlsFileName([modelDir,'\shoulder_extrot_controls.xml']);
@@ -406,8 +444,19 @@ if strcmp(motion,'Rotation')
     angInd = contains(D.colheaders,'shoulder_rot') & contains(D.colheaders,'value');
     rotAng = D.data(:,angInd);
     
-    %Calculate the peak external rotation angle
-    peakRot = abs(min(rotAng));
+    %Want to penalise the model if the rotation is occurring in the wrong
+    %direction, so can first check if it is going in the appropriate
+    %direction for the relevant rotation. Can check this by calculating the
+    %mean of data and testing whether positive or negative.
+    meanRot = mean(rotAng);
+    
+    if meanRot < 1
+        %Calculate the peak external rotation angle
+        peakRot = abs(min(rotAng));
+    else
+        %Calculate the peak internal rotation angle as negative
+        peakRot = max(rotAng)*-1;
+    end
     
     %Identify absolute error between peak and desired angle and add to total error
     isoErr = abs(desiredExtRotAng45 - peakRot);
@@ -423,7 +472,7 @@ end
 
 %% Run the internal rotation at 45 degrees abduction forward simulation if appropriate
 
-if strcmp(motion,'Rotation')
+if strcmp(motion,'RotationElevation')
 
     %Set the shoulder coordinate values
     osimModel.getCoordinateSet().get('elv_angle').setDefaultValue(deg2rad(30));
@@ -443,7 +492,7 @@ if strcmp(motion,'Rotation')
 
     %Settings for forward tool
     FwdTool.setModel(osimModel);
-    FwdTool.setInitialTime(0); FwdTool.setFinalTime(5);
+    FwdTool.setInitialTime(0); FwdTool.setFinalTime(3);
 
     %Set controls for simulation
     FwdTool.setControlsFileName([modelDir,'\shoulder_introt_controls.xml']);
@@ -466,8 +515,19 @@ if strcmp(motion,'Rotation')
     angInd = contains(D.colheaders,'shoulder_rot') & contains(D.colheaders,'value');
     rotAng = D.data(:,angInd);
     
-    %Calculate the peak external rotation angle
-    peakRot = max(rotAng);
+    %Want to penalise the model if the rotation is occurring in the wrong
+    %direction, so can first check if it is going in the appropriate
+    %direction for the relevant rotation. Can check this by calculating the
+    %mean of data and testing whether positive or negative.
+    meanRot = mean(rotAng);
+    
+    if meanRot > 1
+        %Calculate the peak internal rotation angle
+        peakRot = max(rotAng);
+    else
+        %Calculate the peak external rotation angle as negative
+        peakRot = min(rotAng);
+    end
     
     %Identify absolute error between peak and desired angle and add to total error
     isoErr = abs(desiredIntRotAng45 - peakRot);
@@ -483,7 +543,7 @@ end
 
 %% Run the external rotation at 90 degrees abduction forward simulation if appropriate
 
-if strcmp(motion,'Rotation')
+if strcmp(motion,'RotationElevation_ER')
 
     %Set the shoulder coordinate values
     osimModel.getCoordinateSet().get('elv_angle').setDefaultValue(deg2rad(30));
@@ -503,7 +563,7 @@ if strcmp(motion,'Rotation')
 
     %Settings for forward tool
     FwdTool.setModel(osimModel);
-    FwdTool.setInitialTime(0); FwdTool.setFinalTime(5);
+    FwdTool.setInitialTime(0); FwdTool.setFinalTime(3);
 
     %Set controls for simulation
     FwdTool.setControlsFileName([modelDir,'\shoulder_extrot_controls.xml']);
@@ -526,8 +586,19 @@ if strcmp(motion,'Rotation')
     angInd = contains(D.colheaders,'shoulder_rot') & contains(D.colheaders,'value');
     rotAng = D.data(:,angInd);
     
-    %Calculate the peak external rotation angle
-    peakRot = abs(min(rotAng));
+    %Want to penalise the model if the rotation is occurring in the wrong
+    %direction, so can first check if it is going in the appropriate
+    %direction for the relevant rotation. Can check this by calculating the
+    %mean of data and testing whether positive or negative.
+    meanRot = mean(rotAng);
+    
+    if meanRot < 1
+        %Calculate the peak external rotation angle
+        peakRot = abs(min(rotAng));
+    else
+        %Calculate the peak internal rotation angle as negative
+        peakRot = max(rotAng)*-1;
+    end
     
     %Identify absolute error between peak and desired angle and add to total error
     isoErr = abs(desiredExtRotAng90 - peakRot);
@@ -543,7 +614,7 @@ end
 
 %% Run the internal rotation at 90 degrees abduction forward simulation if appropriate
 
-if strcmp(motion,'Rotation')
+if strcmp(motion,'RotationElevation')
 
     %Set the shoulder coordinate values
     osimModel.getCoordinateSet().get('elv_angle').setDefaultValue(deg2rad(30));
@@ -563,7 +634,7 @@ if strcmp(motion,'Rotation')
 
     %Settings for forward tool
     FwdTool.setModel(osimModel);
-    FwdTool.setInitialTime(0); FwdTool.setFinalTime(5);
+    FwdTool.setInitialTime(0); FwdTool.setFinalTime(3);
 
     %Set controls for simulation
     FwdTool.setControlsFileName([modelDir,'\shoulder_introt_controls.xml']);
@@ -586,8 +657,19 @@ if strcmp(motion,'Rotation')
     angInd = contains(D.colheaders,'shoulder_rot') & contains(D.colheaders,'value');
     rotAng = D.data(:,angInd);
     
-    %Calculate the peak external rotation angle
-    peakRot = max(rotAng);
+    %Want to penalise the model if the rotation is occurring in the wrong
+    %direction, so can first check if it is going in the appropriate
+    %direction for the relevant rotation. Can check this by calculating the
+    %mean of data and testing whether positive or negative.
+    meanRot = mean(rotAng);
+    
+    if meanRot > 1
+        %Calculate the peak internal rotation angle
+        peakRot = max(rotAng);
+    else
+        %Calculate the peak external rotation angle as negative
+        peakRot = min(rotAng);
+    end
     
     %Identify absolute error between peak and desired angle and add to total error
     isoErr = abs(desiredIntRotAng90 - peakRot);
@@ -600,8 +682,6 @@ if strcmp(motion,'Rotation')
     delete _controls.sto _states.sto _states_degrees.mot
     
 end
-
-%% TO DO: add rotation sims...
 
 %%
 end
