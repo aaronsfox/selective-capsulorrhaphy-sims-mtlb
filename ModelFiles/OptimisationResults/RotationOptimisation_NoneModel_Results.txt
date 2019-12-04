@@ -1,0 +1,5 @@
+Rotation ligament upper limit: 27.8197
+Rotation ligament upper stiffness: 141.8462
+Rotation ligament lower limit: -36.5184
+Rotation ligament lower stiffness: 139.2741
+Rotation ligament transition: 452.5421

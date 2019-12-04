@@ -1655,9 +1655,9 @@
 					<!--Coordinate (name) that sets the limiting parameters.-->
 					<coordinateLimiter>shoulder_elv</coordinateLimiter>
 					<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
-					<upper_stiffness>100</upper_stiffness>
+					<upper_stiffness>0.1</upper_stiffness>
 					<!--The upper limit of the coordinate range of motion (rotations in degrees).-->
-					<upper_limit>30</upper_limit>
+					<upper_limit>1.0</upper_limit>
 					<!--Stiffness of the passive limit force when coordinate exceeds lower limit. Note, rotational stiffness expected in N*m/degree.-->
 					<lower_stiffness>1e-20</lower_stiffness>
 					<!--The lower limit of the coordinate range of motion (rotations in degrees).-->
