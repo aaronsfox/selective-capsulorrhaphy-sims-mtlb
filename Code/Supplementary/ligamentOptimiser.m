@@ -58,13 +58,77 @@ switch motion
         delete tempModel.osim updatedModel.osim
         clear osimXML RootName DOMnode
     
-    case 'Rotation'        
+    case 'IntRot0'        
         %CLF forces
         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_upper_limit(x(1));
         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_upper_stiffness(x(2));
-        CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_lower_limit(x(3));
-        CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_lower_stiffness(x(4));
-        CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_transition(x(5));
+        CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_transition(x(3));
+% % %         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_lower_stiffness(x(4));
+% % %         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_transition(x(5));
+% % %         %Custom CLF's
+% % %         %Requires the current osimModel to be printed and imported as XML
+% % %         %to access the custom class properties
+% % %         osimModel.print('tempModel.osim');
+% % %         [osimXML, RootName, ~] = xml_readOSIM('tempModel.osim');
+% % %         %Find relevant elevation by elevation plane ligament
+% % %         for c = 1:length(osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce)
+% % %             if strcmp(osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce(c).ATTRIBUTE.name,'shoulder_rot_by_shoulder_elv_ligaments')
+% % %                 clfInd = c;
+% % %             else
+% % %             end
+% % %         end
+% % %         clear c
+% % %         %Set the properties
+% % %         osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce(clfInd).upper_limit = x(6);
+% % %         osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce(clfInd).upper_stiffness = x(7);
+% % %         osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce(clfInd).transition = x(8);
+% % %         %Reprint updated model
+% % %         DOMnode = xml_writeOSIM('updatedModel.osim',osimXML,RootName);
+% % %         %Reload in updated model to global variable
+% % %         osimModel = Model('updatedModel.osim');
+% % %         %Cleanup added files and variables
+% % %         delete tempModel.osim updatedModel.osim
+% % %         clear osimXML RootName DOMnode
+
+    case 'IntRot45'     %%%%% TO DO: this really wouldn't need to be done for each different IR version     
+        %CLF forces
+        CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_upper_limit(x(1));
+        CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_upper_stiffness(x(2));
+        CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_transition(x(3));
+% % %         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_lower_stiffness(x(4));
+% % %         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_transition(x(5));
+% % %         %Custom CLF's
+% % %         %Requires the current osimModel to be printed and imported as XML
+% % %         %to access the custom class properties
+% % %         osimModel.print('tempModel.osim');
+% % %         [osimXML, RootName, ~] = xml_readOSIM('tempModel.osim');
+% % %         %Find relevant elevation by elevation plane ligament
+% % %         for c = 1:length(osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce)
+% % %             if strcmp(osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce(c).ATTRIBUTE.name,'shoulder_rot_by_shoulder_elv_ligaments')
+% % %                 clfInd = c;
+% % %             else
+% % %             end
+% % %         end
+% % %         clear c
+% % %         %Set the properties
+% % %         osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce(clfInd).upper_limit = x(6);
+% % %         osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce(clfInd).upper_stiffness = x(7);
+% % %         osimXML.Model.ForceSet.objects.CustomCoordinateLimitForce(clfInd).transition = x(8);
+% % %         %Reprint updated model
+% % %         DOMnode = xml_writeOSIM('updatedModel.osim',osimXML,RootName);
+% % %         %Reload in updated model to global variable
+% % %         osimModel = Model('updatedModel.osim');
+% % %         %Cleanup added files and variables
+% % %         delete tempModel.osim updatedModel.osim
+% % %         clear osimXML RootName DOMnode
+
+    case 'IntRot90'     %%%%% TO DO: this really wouldn't need to be done for each different IR version     
+        %CLF forces
+        CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_upper_limit(x(1));
+        CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_upper_stiffness(x(2));
+        CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_transition(x(3));
+% % %         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_lower_stiffness(x(4));
+% % %         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_transition(x(5));
 % % %         %Custom CLF's
 % % %         %Requires the current osimModel to be printed and imported as XML
 % % %         %to access the custom class properties
@@ -119,6 +183,10 @@ switch motion
 end
 
 %Set the desired joint angles based on movement and plication types
+
+%%%%% TO DO: incorporate Gerber et al. database file into this process as
+%%%%% an input matrix with the function
+
 switch motion
     
     case 'Elevation'
@@ -130,16 +198,42 @@ switch motion
             %%%%% TO DO: add other plications
         end
         
-    case 'Rotation'
+    case 'IntRot0'  %%%%% TO DO: as above, probably doesn't need an iteration
         
         switch plication
             case 'None'
-                desiredExtRotAng0 = 53.4;
+% % %                 desiredExtRotAng0 = 53.4;
                 desiredIntRotAng0 = 44.6;
 % % %                 desiredExtRotAng45 = 104.4;
 % % %                 desiredIntRotAng45 = 39.0;
 % % %                 desiredExtRotAng90 = 133.0;
 % % %                 desiredIntRotAng90 = 30.8;
+            %%%%% TO DO: add other plications
+        end
+        
+    case 'IntRot45'
+        
+        switch plication
+            case 'None'
+% % %                 desiredExtRotAng0 = 53.4;
+% % %                 desiredIntRotAng0 = 44.6;
+% % %                 desiredExtRotAng45 = 104.4;
+                desiredIntRotAng45 = 39.0;
+% % %                 desiredExtRotAng90 = 133.0;
+% % %                 desiredIntRotAng90 = 30.8;
+            %%%%% TO DO: add other plications
+        end
+        
+    case 'IntRot90'
+        
+        switch plication
+            case 'None'
+% % %                 desiredExtRotAng0 = 53.4;
+% % %                 desiredIntRotAng0 = 44.6;
+% % %                 desiredExtRotAng45 = 104.4;
+% % %                 desiredIntRotAng45 = 39.0;
+% % %                 desiredExtRotAng90 = 133.0;
+                desiredIntRotAng90 = 30.8;
             %%%%% TO DO: add other plications
         end
         
@@ -324,8 +418,19 @@ if strcmp(motion,'Rotation')
     angInd = contains(D.colheaders,'shoulder_rot') & contains(D.colheaders,'value');
     rotAng = D.data(:,angInd);
     
-    %Calculate the peak external rotation angle
-    peakRot = abs(min(rotAng));
+    %Want to penalise the model if the rotation is occurring in the wrong
+    %direction, so can first check if it is going in the appropriate
+    %direction for the relevant rotation. Can check this by calculating the
+    %mean of data and testing whether positive or negative.
+    meanRot = mean(rotAng);
+    
+    if meanRot < 1
+        %Calculate the peak external rotation angle
+        peakRot = abs(min(rotAng));
+    else
+        %Calculate the peak internal rotation angle as negative
+        peakRot = max(rotAng)*-1;
+    end
     
     %Identify absolute error between peak and desired angle and add to total error
     isoErr = abs(desiredExtRotAng0 - peakRot);
@@ -341,7 +446,7 @@ end
 
 %% Run the internal rotation at 0 degrees abduction forward simulation if appropriate
 
-if strcmp(motion,'Rotation')
+if strcmp(motion,'IntRot0')
 
     %Set the shoulder coordinate values
     osimModel.getCoordinateSet().get('elv_angle').setDefaultValue(deg2rad(30));
@@ -384,8 +489,19 @@ if strcmp(motion,'Rotation')
     angInd = contains(D.colheaders,'shoulder_rot') & contains(D.colheaders,'value');
     rotAng = D.data(:,angInd);
     
-    %Calculate the peak external rotation angle
-    peakRot = max(rotAng);
+    %Want to penalise the model if the rotation is occurring in the wrong
+    %direction, so can first check if it is going in the appropriate
+    %direction for the relevant rotation. Can check this by calculating the
+    %mean of data and testing whether positive or negative.
+    meanRot = mean(rotAng);
+    
+    if meanRot > 1
+        %Calculate the peak internal rotation angle
+        peakRot = max(rotAng);
+    else
+        %Calculate the peak external rotation angle as negative
+        peakRot = min(rotAng);
+    end
     
     %Identify absolute error between peak and desired angle and add to total error
     isoErr = abs(desiredIntRotAng0 - peakRot);
@@ -472,11 +588,16 @@ end
 
 %% Run the internal rotation at 45 degrees abduction forward simulation if appropriate
 
-if strcmp(motion,'RotationElevation')
+if strcmp(motion,'IntRot45')
 
     %Set the shoulder coordinate values
     osimModel.getCoordinateSet().get('elv_angle').setDefaultValue(deg2rad(30));
-    osimModel.getCoordinateSet().get('shoulder_elv').setDefaultValue(deg2rad(45));
+% % %     osimModel.getCoordinateSet().get('shoulder_elv').setDefaultValue(deg2rad(45));
+
+%%%% could still set to 45 degrees but it shoudln't matter - right now this
+%%%% would be affected by the custom CLF still in the model
+
+    osimModel.getCoordinateSet().get('shoulder_elv').setDefaultValue(deg2rad(0));
     osimModel.getCoordinateSet().get('shoulder_rot').setDefaultValue(deg2rad(0));
 
     %Set locking on shoulder coordinates
@@ -614,11 +735,16 @@ end
 
 %% Run the internal rotation at 90 degrees abduction forward simulation if appropriate
 
-if strcmp(motion,'RotationElevation')
+if strcmp(motion,'IntRot90')
 
     %Set the shoulder coordinate values
     osimModel.getCoordinateSet().get('elv_angle').setDefaultValue(deg2rad(30));
-    osimModel.getCoordinateSet().get('shoulder_elv').setDefaultValue(deg2rad(90));
+% % %     osimModel.getCoordinateSet().get('shoulder_elv').setDefaultValue(deg2rad(90));
+
+%%%% could still set to 90 degrees but it shoudln't matter - right now this
+%%%% would be affected by the custom CLF still in the model
+
+    osimModel.getCoordinateSet().get('shoulder_elv').setDefaultValue(deg2rad(0));
     osimModel.getCoordinateSet().get('shoulder_rot').setDefaultValue(deg2rad(0));
 
     %Set locking on shoulder coordinates
