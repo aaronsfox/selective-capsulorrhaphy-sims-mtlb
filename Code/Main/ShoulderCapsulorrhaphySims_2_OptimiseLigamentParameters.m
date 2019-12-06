@@ -53,6 +53,9 @@ osimModel = Model(ModelFile);
 %  as the baseline parameters for subsequent optimisations
 plication = 'None';
 
+%Navigate to optimisation results directory
+cd('OptimisationResults');
+
 %% Loop through each of the angles/motions to optimise the CLF parameters
 for mm = 1:length(angles)
     
@@ -145,13 +148,11 @@ for mm = 1:length(angles)
     options = optimset('fminsearch');
     options.PlotFcns = @optimplotfval;
     
-    %Navigate to optimisation results directory
-    cd('OptimisationResults');
-    
     %Create folder for current motion optimisation
     mkdir(motion); cd(motion);
     
-    %%%%%% TO DO: add timer to calculate optimisation time (goes pretty quickly)
+    %Start a timer for optimisation
+    tStart = tic;
     
     %Run the optimisation
     [ligParamOpt.(char(plication)).(char(motion)).xOpt,...
@@ -160,6 +161,43 @@ for mm = 1:length(angles)
         ligParamOpt.(char(plication)).(char(motion)).output] = ...
         fminsearchbnd('ligamentOptimiser',x0,xLB,xUB,options,Input);
     
+    tEnd = toc(tStart);
+
+    %Save fminsearch figure
+    h = gcf;
+    title({[motion,' optimisation for "',plication,'" model.'],...
+        ['End function value: ',num2str(ligParamOpt.(char(plication)).(char(motion)).fval)]});
+    set(h,'PaperPositionMode','auto')
+    saveas(h,[motion,'_Optimisation_',plication,'Model.fig']);
+    saveas(h,[motion,'_Optimisation_',plication,'Model.png']);
+    close all
+
+    %Export optimisation results as text file
+    fid = fopen([motion,'_Optimisation_',plication,'Model_Results.txt'],'wt');
+    fprintf(fid,['%d minutes and %f seconds on computer: ',getenv('COMPUTERNAME'),'\n'], floor(tEnd/60), rem(tEnd,60));
+    if contains(motion,'IntRot')
+        fprintf(fid,['Shoulder rotation ligament upper limit: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(1)),'\n']);
+        fprintf(fid,['Shoulder rotation upper stiffness: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(2)),'\n']);
+        fprintf(fid,['Shoulder rotation transition: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(3))]);
+    elseif contains(motion,'ExtRot')
+        fprintf(fid,['Shoulder rotation ligament lower limit: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(1)),'\n']);
+        fprintf(fid,['Shoulder rotation lower stiffness: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(2)),'\n']);
+        fprintf(fid,['Shoulder rotation transition: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(3))]);
+    else
+        fprintf(fid,['Shoulder elevation ligament upper limit: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(1)),'\n']);
+        fprintf(fid,['Shoulder elevation upper stiffness: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(2)),'\n']);
+        fprintf(fid,['Shoulder elevation transition: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(3))]);
+    end
+    fclose(fid);
+
+    %Cleanup
+    clear h ax fid tStart tEnd
+
+    %Exit out of directory
+    cd('..');
+    
+    %Cleanup
+    clear ans motion x0 xUB xLB
     
     %%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%
@@ -171,425 +209,8 @@ for mm = 1:length(angles)
     %%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%
     
-    
-    
-
-    %Set parameters and run optimisation based on motion
-    %%%%% TO DO: clean this up as it doesn't need to be split. Both motions
-    %%%%% need to be run...
-    switch motion
-
-        case 'Elevation'
-
-            
-
-            %% Run optimisation
-
-
-
-            %Supress outputs?
-
-
-
-
-            %% Run elevation related parameter optimisation
-
-            %Navigate to optimisation results directory
-            cd('OptimisationResults');
-
-            %%%%% TO DO: cleanup outputs
-
-            [ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt,...
-                ligamentParameterOptimisation.(char(plication)).(char(motion)).fval,...
-                ligamentParameterOptimisation.(char(plication)).(char(motion)).exitflag,...
-                ligamentParameterOptimisation.(char(plication)).(char(motion)).output] = ...
-                fminsearchbnd('ligamentOptimiser',x0,xLB,xUB,options,Input);
-
-            % % % xOpt =
-            % % % 
-            % % %  53.5888
-            % % %    91.0349
-            % % %   541.5717
-            % % %    43.4252
-            % % %   -41.0418
-            % % %     2.3356
-            % % %   573.8713
-
-            %Save fminsearch figure
-            h = gcf;
-            title({['Elevation optimisation for "',plication,'" model.'],...
-                ['End function value: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).fval)]});
-            set(h,'PaperPositionMode','auto')
-            saveas(h,['ElevationOptimisation_',plication,'Model.fig']);
-            saveas(h,['ElevationOptimisation_',plication,'Model.png']);
-            close all
-
-            %Export optimisation results as text file
-            fid = fopen(['ElevationOptimisation_',plication,'Model_Results.txt'],'wt');
-            fprintf(fid,['Elevation ligament upper limit: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(1)),'\n']);
-            fprintf(fid,['Elevation ligament upper stiffness: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(2)),'\n']);
-            fprintf(fid,['Elevation ligament transition: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(3)),'\n']);
-            fprintf(fid,['Elevation by elevation plane ligament upper limit: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(4)),'\n']);
-            fprintf(fid,['Elevation by elevation plane ligament lower limit: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(5)),'\n']);
-            fprintf(fid,['Elevation by elevation plane ligament upper and lower stiffness: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(6)),'\n']);
-            fprintf(fid,['Elevation by elevation plane ligament transition: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(7)),'\n']);
-            fclose(fid);
-
-            %Cleanup
-            clear h ax fid
-
-            %Exit out of directory
-            cd('..');
-
-        case 'IntRot0'
-
-           
-            %% Run optimisation
-
-
-
-            %Supress outputs? Write optimisation results to text in optimiser script?
-
-
-            %Set options
-            options = optimset('fminsearch');
-            % % % options.MaxFunEvals = 5;
-            options.PlotFcns = @optimplotfval;
-
-            %% Run rotation related parameter optimisation
-
-            %Navigate to optimisation results directory
-            cd('OptimisationResults');
-
-            %%%%% TO DO: cleanup outputs
-
-            %%%% Stuck with original for all rotation
-
-            %%%%% Altered this and optimiser code to run neutral elevation
-            %%%%% rotation parameters first, then will do elevation with
-            %%%%% ligament with these initial parameters optimised.
-                    %%%%% Could also just run internal and external rotation
-                    %%%%% movements at neutral elevation separately -- although
-                    %%%%% the transition parameter is consistent across both...
-
-            %%%%% It will be interesting to see the robustness of the
-            %%%%% optimisation parameters for rotation. Manupulating the
-            %%%%% parameters in the current fashion has the desired effect
-            %%%%% directional effect with changes to ER and IR with elevation,
-            %%%%% but whether or not just manipulating these parameters can
-            %%%%% achieve the angles closely or whether the allowed bounds are
-            %%%%% enough to do this will be the interesting aspect...
-
-            %%%%% Could probe around in GUI to determine what good values might
-            %%%%% be to get an idea of how it might work...
-
-            %%%%% To speed up could drastically shorten the simulaion time, the
-            %%%%% peak rotation is reached considerably earlier than 5 seconds
-            %%%%% (easily within 3...) -- fixed to 3 seconds
-
-            tStart = tic;
-
-            [ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt,...
-                ligamentParameterOptimisation.(char(plication)).(char(motion)).fval,...
-                ligamentParameterOptimisation.(char(plication)).(char(motion)).exitflag,...
-                ligamentParameterOptimisation.(char(plication)).(char(motion)).output] = ...
-                fminsearchbnd('ligamentOptimiser',x0,xLB,xUB,options,Input);
-
-            tEnd = toc(tStart);
-            clc; fprintf('%d minutes and %f seconds\n', floor(tEnd/60), rem(tEnd,60));
-
-            %%% For all rotation:
-    % % %    xOpt =
-    % % % 
-        % % %    27.8203
-        % % %   148.6179
-        % % %   -53.8131
-        % % %   124.9685
-        % % %   459.7338
-        % % %    28.8658
-        % % %    86.3126
-        % % %   546.3928
-
-    % % %   fVal =
-    % % % 
-    % % %       78.1250
-
-            %%% For just neutral rotation:
-    % % %    xOpt =
-    % % % 
-    % % % 27.8197
-    % % % 141.8462
-    % % % -36.5184
-    % % % 139.2741
-    % % % 452.5421
-
-    % % %   fVal =
-    % % % 
-    % % %       5.6500e-05
-
-            %Save fminsearch figure
-            h = gcf;
-            title({['Int. Rot. (0 degrees abd.) optimisation for "',plication,'" model.'],...
-                ['End function value: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).fval)]});
-            set(h,'PaperPositionMode','auto')
-            saveas(h,['IntRot0_Optimisation_',plication,'Model.fig']);
-            saveas(h,['IntRot0_Optimisation_',plication,'Model.png']);
-            close all
-
-            %Export optimisation results as text file
-            fid = fopen(['IntRot0_Optimisation_',plication,'Model_Results.txt'],'wt');
-            fprintf(fid,['Rotation ligament upper limit: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(1)),'\n']);
-            fprintf(fid,['Rotation ligament upper stiffness: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(2)),'\n']);
-    % % %         fprintf(fid,['Rotation ligament lower limit: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(3)),'\n']);
-    % % %         fprintf(fid,['Rotation ligament lower stiffness: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(4)),'\n']);
-            fprintf(fid,['Rotation ligament transition: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(3)),'\n']);
-    % % %         fprintf(fid,['Rotation by shoulder elevation ligament upper limit: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(6)),'\n']);
-    % % %         fprintf(fid,['Rotation by shoulder elevation ligament upper stiffness: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(7)),'\n']);
-    % % %         fprintf(fid,['Rotation by shoulder elevation ligament transition: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(8)),'\n']);
-            fclose(fid);
-
-            %Cleanup
-            clear h ax fid tStart tEnd
-
-            %Exit out of directory
-            cd('..');
-
-    % % %         %Set the parameters of the opensim model to the optimised rotation
-    % % %         %values so that they are appropriate for the rotation elevation
-    % % %         %optimisation routine
-    % % %         xOpt = ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt;
-    % % %         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_upper_limit(xOpt(1));
-    % % %         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_upper_stiffness(xOpt(2));
-    % % %         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_lower_limit(xOpt(3));
-    % % %         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_lower_stiffness(xOpt(4));
-    % % %         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_transition(xOpt(5));
-    % % %         osimModel.finalizeConnections(); clear xOpt
-
-            %%%%% TO DO: need to consider editing of updating parameters after
-            %%%%% adjusting the looping/case-approach of this function
-
-        case 'IntRot45'
-
-            
-
-            %% Run optimisation
-
-
-
-            %Supress outputs? Write optimisation results to text in optimiser script?
-
-
-            %Set options
-            options = optimset('fminsearch');
-            % % % options.MaxFunEvals = 5;
-            options.PlotFcns = @optimplotfval;
-
-            %% Run rotation related parameter optimisation
-
-            %Navigate to optimisation results directory
-            cd('OptimisationResults');
-
-            %%%%% TO DO: cleanup outputs
-
-            tStart = tic;
-
-            [ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt,...
-                ligamentParameterOptimisation.(char(plication)).(char(motion)).fval,...
-                ligamentParameterOptimisation.(char(plication)).(char(motion)).exitflag,...
-                ligamentParameterOptimisation.(char(plication)).(char(motion)).output] = ...
-                fminsearchbnd('ligamentOptimiser',x0,xLB,xUB,options,Input);
-
-            tEnd = toc(tStart);
-            clc; fprintf('%d minutes and %f seconds\n', floor(tEnd/60), rem(tEnd,60));
-
-            %Save fminsearch figure
-            h = gcf;
-            title({['Int. Rot. (45 degrees abd.) optimisation for "',plication,'" model.'],...
-                ['End function value: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).fval)]});
-            set(h,'PaperPositionMode','auto')
-            saveas(h,['IntRot45_Optimisation_',plication,'Model.fig']);
-            saveas(h,['IntRot45_Optimisation_',plication,'Model.png']);
-            close all
-
-            %Export optimisation results as text file
-            fid = fopen(['IntRot45_Optimisation_',plication,'Model_Results.txt'],'wt');
-            fprintf(fid,['Rotation ligament upper limit: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(1)),'\n']);
-            fprintf(fid,['Rotation ligament upper stiffness: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(2)),'\n']);
-    % % %         fprintf(fid,['Rotation ligament lower limit: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(3)),'\n']);
-    % % %         fprintf(fid,['Rotation ligament lower stiffness: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(4)),'\n']);
-            fprintf(fid,['Rotation ligament transition: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(3)),'\n']);
-    % % %         fprintf(fid,['Rotation by shoulder elevation ligament upper limit: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(6)),'\n']);
-    % % %         fprintf(fid,['Rotation by shoulder elevation ligament upper stiffness: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(7)),'\n']);
-    % % %         fprintf(fid,['Rotation by shoulder elevation ligament transition: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(8)),'\n']);
-            fclose(fid);
-
-            %Cleanup
-            clear h ax fid tStart tEnd
-
-            %Exit out of directory
-            cd('..');
-
-    % % %         %Set the parameters of the opensim model to the optimised rotation
-    % % %         %values so that they are appropriate for the rotation elevation
-    % % %         %optimisation routine
-    % % %         xOpt = ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt;
-    % % %         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_upper_limit(xOpt(1));
-    % % %         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_upper_stiffness(xOpt(2));
-    % % %         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_lower_limit(xOpt(3));
-    % % %         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_lower_stiffness(xOpt(4));
-    % % %         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_transition(xOpt(5));
-    % % %         osimModel.finalizeConnections(); clear xOpt
-
-            %%%%% TO DO: need to consider editing of updating parameters after
-            %%%%% adjusting the looping/case-approach of this function
-
-        case 'IntRot90'
-
-            
-
-            %% Run optimisation
-
-
-
-            %Supress outputs? Write optimisation results to text in optimiser script?
-
-
-            %Set options
-            options = optimset('fminsearch');
-            % % % options.MaxFunEvals = 5;
-            options.PlotFcns = @optimplotfval;
-
-            %% Run rotation related parameter optimisation
-
-            %Navigate to optimisation results directory
-            cd('OptimisationResults');
-
-            %%%%% TO DO: cleanup outputs
-
-            tStart = tic;
-
-            [ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt,...
-                ligamentParameterOptimisation.(char(plication)).(char(motion)).fval,...
-                ligamentParameterOptimisation.(char(plication)).(char(motion)).exitflag,...
-                ligamentParameterOptimisation.(char(plication)).(char(motion)).output] = ...
-                fminsearchbnd('ligamentOptimiser',x0,xLB,xUB,options,Input);
-
-            tEnd = toc(tStart);
-            clc; fprintf('%d minutes and %f seconds\n', floor(tEnd/60), rem(tEnd,60));
-
-            %Save fminsearch figure
-            h = gcf;
-            title({['Int. Rot. (90 degrees abd.) optimisation for "',plication,'" model.'],...
-                ['End function value: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).fval)]});
-            set(h,'PaperPositionMode','auto')
-            saveas(h,['IntRot90_Optimisation_',plication,'Model.fig']);
-            saveas(h,['IntRot90_Optimisation_',plication,'Model.png']);
-            close all
-
-            %Export optimisation results as text file
-            fid = fopen(['IntRot90_Optimisation_',plication,'Model_Results.txt'],'wt');
-            fprintf(fid,['Rotation ligament upper limit: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(1)),'\n']);
-            fprintf(fid,['Rotation ligament upper stiffness: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(2)),'\n']);
-    % % %         fprintf(fid,['Rotation ligament lower limit: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(3)),'\n']);
-    % % %         fprintf(fid,['Rotation ligament lower stiffness: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(4)),'\n']);
-            fprintf(fid,['Rotation ligament transition: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(3)),'\n']);
-    % % %         fprintf(fid,['Rotation by shoulder elevation ligament upper limit: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(6)),'\n']);
-    % % %         fprintf(fid,['Rotation by shoulder elevation ligament upper stiffness: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(7)),'\n']);
-    % % %         fprintf(fid,['Rotation by shoulder elevation ligament transition: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(8)),'\n']);
-            fclose(fid);
-
-            %Cleanup
-            clear h ax fid tStart tEnd
-
-            %Exit out of directory
-            cd('..');
-
-    % % %         %Set the parameters of the opensim model to the optimised rotation
-    % % %         %values so that they are appropriate for the rotation elevation
-    % % %         %optimisation routine
-    % % %         xOpt = ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt;
-    % % %         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_upper_limit(xOpt(1));
-    % % %         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_upper_stiffness(xOpt(2));
-    % % %         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_lower_limit(xOpt(3));
-    % % %         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_lower_stiffness(xOpt(4));
-    % % %         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_transition(xOpt(5));
-    % % %         osimModel.finalizeConnections(); clear xOpt
-
-            %%%%% TO DO: need to consider editing of updating parameters after
-            %%%%% adjusting the looping/case-approach of this function
-
-        case 'RotationElevation'
-
-            
-            %% Run optimisation
-
-
-
-            %Supress outputs? Write optimisation results to text in optimiser script?
-
-
-            %Set options
-            options = optimset('fminsearch');
-            % % % options.MaxFunEvals = 5;
-            options.PlotFcns = @optimplotfval;
-
-            %% Run rotation related parameter optimisation
-
-            %Navigate to optimisation results directory
-            cd('OptimisationResults');
-
-            %%% Undertook a 'piggy back' from original optimisation that didn't
-            %%% work that well to see if greater improvements can be made -----
-            %%% doesn't get much better
-
-            %%% Just try the internal rotation values
-
-    % % %         xOpt =
-    % % % 
-    % % %     3.3284
-    % % %     0.1313
-    % % %   487.2695
-
-    % % % fVal =
-    % % % 
-    % % %   130.7880
-
-            [ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt,...
-                ligamentParameterOptimisation.(char(plication)).(char(motion)).fval,...
-                ligamentParameterOptimisation.(char(plication)).(char(motion)).exitflag,...
-                ligamentParameterOptimisation.(char(plication)).(char(motion)).output] = ...
-                fminsearchbnd('ligamentOptimiser',x0,xLB,xUB,options,Input);
-
-            %Save fminsearch figure
-            h = gcf;
-            title({['Rotation-Elevation optimisation for "',plication,'" model.'],...
-                ['End function value: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).fval)]});
-            set(h,'PaperPositionMode','auto')
-            saveas(h,['RotationElevationOptimisation_',plication,'Model.fig']);
-            saveas(h,['RotationElevationOptimisation_',plication,'Model.png']);
-            close all
-
-    % % %         %Export optimisation results as text file
-    % % %         fid = fopen(['RotationOptimisation_',plication,'Model_Results.txt'],'wt');
-    % % %         fprintf(fid,['Rotation ligament upper limit: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(1)),'\n']);
-    % % %         fprintf(fid,['Rotation ligament upper stiffness: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(2)),'\n']);
-    % % %         fprintf(fid,['Rotation ligament lower limit: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(3)),'\n']);
-    % % %         fprintf(fid,['Rotation ligament lower stiffness: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(4)),'\n']);
-    % % %         fprintf(fid,['Rotation ligament transition: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(5)),'\n']);
-    % % %         fprintf(fid,['Rotation by shoulder elevation ligament upper limit: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(6)),'\n']);
-    % % %         fprintf(fid,['Rotation by shoulder elevation ligament upper stiffness: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(7)),'\n']);
-    % % %         fprintf(fid,['Rotation by shoulder elevation ligament transition: ',num2str(ligamentParameterOptimisation.(char(plication)).(char(motion)).xOpt(8)),'\n']);
-            fclose(fid);
-
-            %Cleanup
-            clear h ax fid
-
-            %Exit out of directory
-            cd('..');
-
-    end
-
 end
+clear mm
 
 %% Test out process of using the three internal rotation results to model
 %  the exponential curves at different elevation positions to establish a
