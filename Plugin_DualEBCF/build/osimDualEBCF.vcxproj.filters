@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Plugin_DualEBCF\DualExpressionBasedCoordinateForce.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Plugin_DualEBCF\RegisterTypes_osimPlugin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Plugin_DualEBCF\DualExpressionBasedCoordinateForce.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Plugin_DualEBCF\RegisterTypes_osimPlugin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Plugin_DualEBCF\osimPluginDLL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Plugin_DualEBCF\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{6CE287F9-7DAB-333D-BD88-A8CE9404EB82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{39390B71-C42B-3EE5-AB22-E9844A41B931}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

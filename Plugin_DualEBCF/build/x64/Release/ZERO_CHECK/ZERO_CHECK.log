@@ -1,0 +1,8 @@
+﻿  '\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Plugin_DualEBCF\build'
+  CMD.EXE was started with the above path as the current directory.
+  UNC paths are not supported.  Defaulting to Windows directory.
+  Checking Build System
+  CMake is re-running because generate.stamp.list is missing.
+  -- Configuring done
+  -- Generating done
+  -- Build files have been written to: //rds.shares.deakin.edu.au/rds/RDS29531-OrthopaedicsResearch/ShoulderInstability/CapsulorrhaphySimulation/selective-capsulorrhaphy-sims-mtlb/Plugin_DualEBCF/build

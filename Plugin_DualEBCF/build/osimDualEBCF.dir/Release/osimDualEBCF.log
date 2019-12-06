@@ -1,0 +1,9 @@
+﻿  '\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Plugin_DualEBCF\build'
+  CMD.EXE was started with the above path as the current directory.
+  UNC paths are not supported.  Defaulting to Windows directory.
+  Building Custom Rule //rds.shares.deakin.edu.au/rds/RDS29531-OrthopaedicsResearch/ShoulderInstability/CapsulorrhaphySimulation/selective-capsulorrhaphy-sims-mtlb/Plugin_DualEBCF/CMakeLists.txt
+  DualExpressionBasedCoordinateForce.cpp
+  RegisterTypes_osimPlugin.cpp
+  Generating Code...
+     Creating library //rds.shares.deakin.edu.au/rds/RDS29531-OrthopaedicsResearch/ShoulderInstability/CapsulorrhaphySimulation/selective-capsulorrhaphy-sims-mtlb/Plugin_DualEBCF/build/Release/osimDualEBCF.lib and object //rds.shares.deakin.edu.au/rds/RDS29531-OrthopaedicsResearch/ShoulderInstability/CapsulorrhaphySimulation/selective-capsulorrhaphy-sims-mtlb/Plugin_DualEBCF/build/Release/osimDualEBCF.exp
+  osimDualEBCF.vcxproj -> \\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Plugin_DualEBCF\build\Release\osimDualEBCF.dll
