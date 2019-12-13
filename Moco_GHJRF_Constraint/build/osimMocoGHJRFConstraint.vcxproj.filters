@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\MocoGHJRFConstraint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\RegisterTypes_osimMocoGHJRFConstraint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\MocoGHJRFConstraint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\osimMocoGHJRFConstraintDLL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\RegisterTypes_osimMocoGHJRFConstraint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{901C31D4-8237-3C65-927F-E6E1A0129815}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{A424D9BA-1918-3827-9BD7-884E1C1A01D4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

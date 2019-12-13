@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\BTKBasicFilters.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\BTKCommon.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\BTKIO.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\SimTKcommon.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\SimTKmath.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\SimTKsimbody.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\adolc.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi_conic_nlpsol.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi_conic_qrqp.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi_importer_shell.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi_integrator_collocation.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi_integrator_cvodes.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi_integrator_idas.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi_integrator_rk.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi_interpolant_bspline.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi_interpolant_linear.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi_linsol_csparse.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi_linsol_csparsecholesky.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi_linsol_ldl.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi_linsol_lsqr.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi_linsol_qr.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi_linsol_symbolicqr.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi_nlpsol_ipopt.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi_nlpsol_qrsqp.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi_nlpsol_scpgen.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi_nlpsol_sqpmethod.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi_rootfinder_fast_newton.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi_rootfinder_kinsol.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi_rootfinder_newton.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi_rootfinder_nlpsol.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi_sundials_common.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\casadi_xmlfile_tinyxml.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\concrt140.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\flang.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\flangrti.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\glut32.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\libblas.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\libgcc_s_sjlj-1.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\libgfortran-3.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\liblapack.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\libomp.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\libquadmath-0.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\msvcp140.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\openblas.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\osimActuators.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\osimAnalyses.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\osimCommon.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\osimExampleComponents.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\osimJavaJNI.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\osimLepton.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\osimMoco.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\osimMocoJavaJNI.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\osimSimulation.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\osimTools.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\tropter.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\vcruntime140.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\67aeb4e36b30346e552b4ee2818e35b1\vcruntime140_1.dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\8af6b0429a25be6aa030279309ca87e5\Copy_OpenSimMoco_DLLs.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\Copy_OpenSimMoco_DLLs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{59D72231-582E-3438-A8B2-FA135D5F0591}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

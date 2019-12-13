@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\build\CMakeFiles\8af6b0429a25be6aa030279309ca87e5\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{59D72231-582E-3438-A8B2-FA135D5F0591}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
