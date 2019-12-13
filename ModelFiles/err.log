@@ -1,8 +1,1 @@
-Object::newInstanceOfType(): object type 'CustomCoordinateLimitForce' is not a registered Object!
-Object type CustomCoordinateLimitForce not recognized
-Object::newInstanceOfType(): object type 'CustomCoordinateLimitForce' is not a registered Object!
-Object type CustomCoordinateLimitForce not recognized
-Object::newInstanceOfType(): object type 'CustomCoordinateLimitForce' is not a registered Object!
-Object type CustomCoordinateLimitForce not recognized
-Object::newInstanceOfType(): object type 'CustomCoordinateLimitForce' is not a registered Object!
-Object type CustomCoordinateLimitForce not recognized
+Warning: intermediate_callback is disfunctional in your installation. You will only be able to use stats(). See https://github.com/casadi/casadi/wiki/enableIpoptCallback to enable it.
