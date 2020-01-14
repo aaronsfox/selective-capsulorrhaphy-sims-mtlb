@@ -36,6 +36,15 @@ function err = ligamentOptimiser(x,Input)
         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_upper_limit(x(1));
         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_upper_stiffness(x(2));
         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_transition(x(3));
+        
+        %There is the potential that the upper limit for internal shoulder
+        %rotation may be *lower* than the lower limit, so this needs to be
+        %checked for to ensure no bugs come up
+        if x(1) <= CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).get_lower_limit()
+            %Reset the lower limit to be just below the current upper limit
+            CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_lower_limit(x(1)-0.01);
+        else
+        end
 
     %Check if its an external rotation motion
     elseif contains(motion,'ExtRot')
@@ -47,6 +56,15 @@ function err = ligamentOptimiser(x,Input)
         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_lower_limit(x(1));
         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_lower_stiffness(x(2));
         CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_transition(x(3));
+        
+        %There is the potential that the lower limit for external shoulder
+        %rotation may be *higher* than the upper limit, so this needs to be
+        %checked for to ensure no bugs come up
+        if x(1) >= CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).get_upper_limit()
+            %Reset the lower limit to be just below the current upper limit
+            CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_upper_limit(x(1)+0.01);
+        else
+        end
 
     %Its an elevation motion
     else

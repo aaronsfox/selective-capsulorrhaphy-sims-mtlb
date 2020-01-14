@@ -308,7 +308,7 @@ function ShoulderCapsulorrhaphySims_2_OptimiseLigamentParameters
         %Cleanup files from simulationds
         delete _controls.sto _ForceReporter_forces.sto _states.sto _states_degrees.mot
 
-        %Fita one term Gaussian model to the angle-force data
+        %Fit a one term Gaussian model to the angle-force data
         %Found this model to perform best in matching the data points from the
         %forward simulations. Exponential curves didn't quite fit the curviness
         %as well as the Gaussian option
@@ -932,7 +932,7 @@ function ShoulderCapsulorrhaphySims_2_OptimiseLigamentParameters
                     %Set the bounds
                     xUB = zeros(3,1); xLB = zeros(3,1);
                     %Upper bounds
-                    xUB(1) = -0.1; xUB(2) = 500; xUB(3) = x0(3)+1e-08;
+                    xUB(1) = 44.9; xUB(2) = 500; xUB(3) = x0(3)+1e-08;
                     %Lower bounds
                     xLB(1) = x0(1); xLB(2) = x0(2); xLB(3) = x0(3)-1e-08;                
                 elseif contains(motion,'IntRot')
@@ -941,14 +941,14 @@ function ShoulderCapsulorrhaphySims_2_OptimiseLigamentParameters
                     %Upper bounds
                     xUB(1) = x0(1); xUB(2) = 500; xUB(3) = x0(3)+1e-08;
                     %Lower bounds
-                    xLB(1) = 0.1; xLB(2) = x0(1); xLB(3) = x0(3)-1e-08;
+                    xLB(1) = -44.9; xLB(2) = x0(2); xLB(3) = x0(3)-1e-08;
                 else %elevation motions
                     %Set the bounds
                     xUB = zeros(3,1); xLB = zeros(3,1);
                     %Upper bounds
                     xUB(1) = x0(1); xUB(2) = 500; xUB(3) = x0(3)+1e-08;
                     %Lower bounds
-                    xLB(1) = 0.1; xLB(2) = x0(1); xLB(3) = x0(3)-1e-08;                
+                    xLB(1) = 0.1; xLB(2) = x0(2); xLB(3) = x0(3)-1e-08;                
                 end
             end
 
@@ -1017,150 +1017,150 @@ function ShoulderCapsulorrhaphySims_2_OptimiseLigamentParameters
     end
     clear pp
     
-    %Put a check in place that re-runs the optimisation with options that
-    %allow the transition parameter to be modified to try and improve the
-    %results if the end error is greater than 1 degree
-    for pp = 2:length(plications)
-        
-        %Set the curren plication
-        plication = plications{pp};
-        
-        %Loop through each of the angles/motions to optimise the CLF parameters
-        for mm = 1:length(angles)
-
-            %Only re-run optimisation if the original error was > 1
-            if ligParamOpt.(plications{pp}).(angles{mm}).fval > 1
-
-                %Set the motion variable for optimisations
-                motion = angles{mm};
-
-                %Setup inputs for optimisation function
-                Input.plicationType = plication;
-                Input.motionType = motion;
-                Input.modelDir = modelDir;
-
-                %Set the starting parameters for the bounds on optimisations.
-                %Note that we'll use the results from the 'failed'
-                %optimisation here
-                x0 = ligParamOpt.(char(plication)).(char(motion)).xOpt;
-
-                %Set the bounds. Only check here is whether to use the upper or
-                %lower bounds for the limit variable. Upper bounds will be used
-                %for internal rotation and elevation motions, while lower
-                %bounds for external rotation motions. added some extra scope
-                %for stiffness bounds to increase to potentially accomodate
-                %some of the reduced joint range of motion.
-
-                %First run the check for is it is the external rotation at 45
-                %degrees of abduction under the total posterior condition. If
-                %this is the case then we need to use the original bounds for
-                %this motion as the range of motion does go slightly up.
-                if strcmp(plication,'TotalPosterior') && strcmp(motion,'ExtRot45')
-                    %Use original bounds
-                    xUB = zeros(3,1); xLB = zeros(3,1);
-                    %Upper bounds
-                    xUB(1) = -1; xUB(2) = 250; xUB(3) = 700;
-                    %Lower bounds
-                    xLB(1) = -140; xLB(2) = 5; xLB(3) = 350;
-                else
-                    %Apply appropriate bounds from original optimisation  
-                    if contains(motion,'ExtRot')
-                        %Set the bounds
-                        xUB = zeros(3,1); xLB = zeros(3,1);
-                        %Upper bounds
-                        xUB(1) = -0.1; xUB(2) = 500; xUB(3) = 700;
-                        %Lower bounds
-                        xLB(1) = x0(1); xLB(2) = x0(2); xLB(3) = 350;                
-                    elseif contains(motion,'IntRot')
-                        %Set the bounds
-                        xUB = zeros(3,1); xLB = zeros(3,1);
-                        %Upper bounds
-                        xUB(1) = x0(1); xUB(2) = 500; xUB(3) = 700;
-                        %Lower bounds
-                        xLB(1) = 0.1; xLB(2) = x0(1); xLB(3) = 350;
-                    else %elevation motions
-                        %Set the bounds
-                        xUB = zeros(3,1); xLB = zeros(3,1);
-                        %Upper bounds
-                        xUB(1) = x0(1); xUB(2) = 500; xUB(3) = 700;
-                        %Lower bounds
-                        xLB(1) = 0.1; xLB(2) = x0(1); xLB(3) = 350;                
-                    end
-                end
-
-                %% Run the optimisation
-
-                %%%% TO DO: figure out how to supress constant outputs from opensim tools
-                %%%% TO DO: potentially write optimisation steps to file
-
-                %Set optimisation options
-                options = optimset('fminsearch');
-                options.PlotFcns = @optimplotfval;
-
-                %Create folder for current motion optimisation
-                cd(motion);
-
-                %Start a timer for optimisation
-                tStart = tic;
-
-                %Run the optimisation
-                [ligParamOpt.(char(plication)).(char(motion)).xOpt,...
-                    ligParamOpt.(char(plication)).(char(motion)).fval,...
-                    ligParamOpt.(char(plication)).(char(motion)).exitflag,...
-                    ligParamOpt.(char(plication)).(char(motion)).output] = ...
-                    fminsearchbnd('ligamentOptimiser',x0,xLB,xUB,options,Input);
-
-                tEnd = toc(tStart);
-
-                %Save fminsearch figure
-                h = gcf;
-                title({[motion,' optimisation for "',plication,'" model.'],...
-                    ['End function value: ',num2str(ligParamOpt.(char(plication)).(char(motion)).fval)]});
-                set(h,'PaperPositionMode','auto')
-                saveas(h,[motion,'_Optimisation_',plication,'Model.fig']);
-                saveas(h,[motion,'_Optimisation_',plication,'Model.png']);
-                close all
-
-                %Export optimisation results as text file
-                fid = fopen([motion,'_Optimisation_',plication,'Model_Results.txt'],'wt');
-                fprintf(fid,'\nSecondary optimisation after first failed attempt:\n\n');
-                fprintf(fid,['%d minutes and %f seconds on computer: ',getenv('COMPUTERNAME'),'\n'], floor(tEnd/60), rem(tEnd,60));
-                if contains(motion,'IntRot')
-                    fprintf(fid,['Shoulder rotation ligament upper limit: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(1)),'\n']);
-                    fprintf(fid,['Shoulder rotation upper stiffness: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(2)),'\n']);
-                    fprintf(fid,['Shoulder rotation transition: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(3))]);
-                elseif contains(motion,'ExtRot')
-                    fprintf(fid,['Shoulder rotation ligament lower limit: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(1)),'\n']);
-                    fprintf(fid,['Shoulder rotation lower stiffness: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(2)),'\n']);
-                    fprintf(fid,['Shoulder rotation transition: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(3))]);
-                else
-                    fprintf(fid,['Shoulder elevation ligament upper limit: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(1)),'\n']);
-                    fprintf(fid,['Shoulder elevation upper stiffness: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(2)),'\n']);
-                    fprintf(fid,['Shoulder elevation transition: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(3))]);
-                end
-                fclose(fid);
-
-                %Cleanup
-                clear h ax fid tStart tEnd
-
-                %Exit out of directory
-                cd('..');
-
-                %Cleanup
-                clear ans motion x0 xUB xLB
-                
-            else
-                %don't re-run optimisation
-            end
-            
-        end
-        clear mm
-        
-        %Cleanup
-        clear plication
-        
-    end
-    clear pp
+% % %     %Put a check in place that re-runs the optimisation with options that
+% % %     %allow the transition parameter to be modified to try and improve the
+% % %     %results if the end error is greater than 1 degree
+% % %     for pp = 2:length(plications)
+% % %         
+% % %         %Set the curren plication
+% % %         plication = plications{pp};
+% % %         
+% % %         %Loop through each of the angles/motions to optimise the CLF parameters
+% % %         for mm = 1:length(angles)
+% % % 
+% % %             %Only re-run optimisation if the original error was > 1
+% % %             if ligParamOpt.(plications{pp}).(angles{mm}).fval > 1
+% % % 
+% % %                 %Set the motion variable for optimisations
+% % %                 motion = angles{mm};
+% % % 
+% % %                 %Setup inputs for optimisation function
+% % %                 Input.plicationType = plication;
+% % %                 Input.motionType = motion;
+% % %                 Input.modelDir = modelDir;
+% % % 
+% % %                 %Set the starting parameters for the bounds on optimisations.
+% % %                 %Note that we'll use the results from the 'failed'
+% % %                 %optimisation here
+% % %                 x0 = ligParamOpt.(char(plication)).(char(motion)).xOpt;
+% % % 
+% % %                 %Set the bounds. Only check here is whether to use the upper or
+% % %                 %lower bounds for the limit variable. Upper bounds will be used
+% % %                 %for internal rotation and elevation motions, while lower
+% % %                 %bounds for external rotation motions. added some extra scope
+% % %                 %for stiffness bounds to increase to potentially accomodate
+% % %                 %some of the reduced joint range of motion.
+% % % 
+% % %                 %First run the check for is it is the external rotation at 45
+% % %                 %degrees of abduction under the total posterior condition. If
+% % %                 %this is the case then we need to use the original bounds for
+% % %                 %this motion as the range of motion does go slightly up.
+% % %                 if strcmp(plication,'TotalPosterior') && strcmp(motion,'ExtRot45')
+% % %                     %Use original bounds
+% % %                     xUB = zeros(3,1); xLB = zeros(3,1);
+% % %                     %Upper bounds
+% % %                     xUB(1) = -1; xUB(2) = 250; xUB(3) = 700;
+% % %                     %Lower bounds
+% % %                     xLB(1) = -140; xLB(2) = 5; xLB(3) = 350;
+% % %                 else
+% % %                     %Apply appropriate bounds from original optimisation  
+% % %                     if contains(motion,'ExtRot')
+% % %                         %Set the bounds
+% % %                         xUB = zeros(3,1); xLB = zeros(3,1);
+% % %                         %Upper bounds
+% % %                         xUB(1) = -0.1; xUB(2) = 500; xUB(3) = 700;
+% % %                         %Lower bounds
+% % %                         xLB(1) = x0(1); xLB(2) = x0(2); xLB(3) = 350;                
+% % %                     elseif contains(motion,'IntRot')
+% % %                         %Set the bounds
+% % %                         xUB = zeros(3,1); xLB = zeros(3,1);
+% % %                         %Upper bounds
+% % %                         xUB(1) = x0(1); xUB(2) = 500; xUB(3) = 700;
+% % %                         %Lower bounds
+% % %                         xLB(1) = 0.1; xLB(2) = x0(1); xLB(3) = 350;
+% % %                     else %elevation motions
+% % %                         %Set the bounds
+% % %                         xUB = zeros(3,1); xLB = zeros(3,1);
+% % %                         %Upper bounds
+% % %                         xUB(1) = x0(1); xUB(2) = 500; xUB(3) = 700;
+% % %                         %Lower bounds
+% % %                         xLB(1) = 0.1; xLB(2) = x0(1); xLB(3) = 350;                
+% % %                     end
+% % %                 end
+% % % 
+% % %                 %% Run the optimisation
+% % % 
+% % %                 %%%% TO DO: figure out how to supress constant outputs from opensim tools
+% % %                 %%%% TO DO: potentially write optimisation steps to file
+% % % 
+% % %                 %Set optimisation options
+% % %                 options = optimset('fminsearch');
+% % %                 options.PlotFcns = @optimplotfval;
+% % % 
+% % %                 %Create folder for current motion optimisation
+% % %                 cd(motion);
+% % % 
+% % %                 %Start a timer for optimisation
+% % %                 tStart = tic;
+% % % 
+% % %                 %Run the optimisation
+% % %                 [ligParamOpt.(char(plication)).(char(motion)).xOpt,...
+% % %                     ligParamOpt.(char(plication)).(char(motion)).fval,...
+% % %                     ligParamOpt.(char(plication)).(char(motion)).exitflag,...
+% % %                     ligParamOpt.(char(plication)).(char(motion)).output] = ...
+% % %                     fminsearchbnd('ligamentOptimiser',x0,xLB,xUB,options,Input);
+% % % 
+% % %                 tEnd = toc(tStart);
+% % % 
+% % %                 %Save fminsearch figure
+% % %                 h = gcf;
+% % %                 title({[motion,' optimisation for "',plication,'" model.'],...
+% % %                     ['End function value: ',num2str(ligParamOpt.(char(plication)).(char(motion)).fval)]});
+% % %                 set(h,'PaperPositionMode','auto')
+% % %                 saveas(h,[motion,'_Optimisation_',plication,'Model.fig']);
+% % %                 saveas(h,[motion,'_Optimisation_',plication,'Model.png']);
+% % %                 close all
+% % % 
+% % %                 %Export optimisation results as text file
+% % %                 fid = fopen([motion,'_Optimisation_',plication,'Model_Results.txt'],'wt');
+% % %                 fprintf(fid,'\nSecondary optimisation after first failed attempt:\n\n');
+% % %                 fprintf(fid,['%d minutes and %f seconds on computer: ',getenv('COMPUTERNAME'),'\n'], floor(tEnd/60), rem(tEnd,60));
+% % %                 if contains(motion,'IntRot')
+% % %                     fprintf(fid,['Shoulder rotation ligament upper limit: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(1)),'\n']);
+% % %                     fprintf(fid,['Shoulder rotation upper stiffness: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(2)),'\n']);
+% % %                     fprintf(fid,['Shoulder rotation transition: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(3))]);
+% % %                 elseif contains(motion,'ExtRot')
+% % %                     fprintf(fid,['Shoulder rotation ligament lower limit: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(1)),'\n']);
+% % %                     fprintf(fid,['Shoulder rotation lower stiffness: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(2)),'\n']);
+% % %                     fprintf(fid,['Shoulder rotation transition: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(3))]);
+% % %                 else
+% % %                     fprintf(fid,['Shoulder elevation ligament upper limit: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(1)),'\n']);
+% % %                     fprintf(fid,['Shoulder elevation upper stiffness: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(2)),'\n']);
+% % %                     fprintf(fid,['Shoulder elevation transition: ',num2str(ligParamOpt.(char(plication)).(char(motion)).xOpt(3))]);
+% % %                 end
+% % %                 fclose(fid);
+% % % 
+% % %                 %Cleanup
+% % %                 clear h ax fid tStart tEnd
+% % % 
+% % %                 %Exit out of directory
+% % %                 cd('..');
+% % % 
+% % %                 %Cleanup
+% % %                 clear ans motion x0 xUB xLB
+% % %                 
+% % %             else
+% % %                 %don't re-run optimisation
+% % %             end
+% % %             
+% % %         end
+% % %         clear mm
+% % %         
+% % %         %Cleanup
+% % %         clear plication
+% % %         
+% % %     end
+% % %     clear pp
     
     %% Use the optimisation parameters from corresponding motions to establish
     %  combined expressions that use the two coordinates relating to the
@@ -1169,7 +1169,7 @@ function ShoulderCapsulorrhaphySims_2_OptimiseLigamentParameters
     %  expression based coordinate force.
     
     %Loop through for the edited plications
-    for pp = 3:length(plications)
+    for pp = 2:length(plications)
         
         %Set the curren plication
         plication = plications{pp};
@@ -1195,6 +1195,15 @@ function ShoulderCapsulorrhaphySims_2_OptimiseLigamentParameters
             CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_upper_limit(x(1));
             CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_upper_stiffness(x(2));
             CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_transition(x(3));
+            
+            %There is the potential that the upper limit for internal shoulder
+            %rotation may be *lower* than the lower limit, so this needs to be
+            %checked for to ensure no bugs come up
+            if x(1) <= CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).get_lower_limit()
+                %Reset the lower limit to be just below the current upper limit
+                CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_lower_limit(x(1)-0.01);
+            else
+            end
 
             %Run the forward simulation
             %Set the shoulder coordinate values
@@ -1419,6 +1428,15 @@ function ShoulderCapsulorrhaphySims_2_OptimiseLigamentParameters
             CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_lower_limit(x(1));
             CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_lower_stiffness(x(2));
             CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_transition(x(3));
+            
+            %There is the potential that the lower limit for external shoulder
+            %rotation may be *higher* than the upper limit, so this needs to be
+            %checked for to ensure no bugs come up
+            if x(1) >= CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).get_upper_limit()
+                %Reset the lower limit to be just below the current upper limit
+                CoordinateLimitForce.safeDownCast(osimModel.getForceSet.get('shoulder_rot_ligaments')).set_upper_limit(x(1)+0.01);
+            else
+            end
 
             %Run the forward simulation
             %Set the shoulder coordinate values
