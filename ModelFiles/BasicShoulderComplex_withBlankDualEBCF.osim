@@ -1647,6 +1647,18 @@
 		<!--Forces in the model (includes Actuators).-->
 		<ForceSet name="forceset">
 			<objects>
+				<CoordinateActuator name="shoulder_elv_actuator">
+					<!--Name of the generalized coordinate to which the actuator applies.-->
+					<coordinate>shoulder_elv</coordinate>
+					<!--The maximum generalized force produced by this actuator.-->
+					<optimal_force>1</optimal_force>
+				</CoordinateActuator>
+				<CoordinateActuator name="shoulder_rot_actuator">
+					<!--Name of the generalized coordinate to which the actuator applies.-->
+					<coordinate>shoulder_rot</coordinate>
+					<!--The maximum generalized force produced by this actuator.-->
+					<optimal_force>0.5</optimal_force>
+				</CoordinateActuator>
 				<DualExpressionBasedCoordinateForce>
 					<!--Flag indicating whether the force is applied or not. If true the forceis applied to the MultibodySystem otherwise the force is not applied.NOTE: Prior to OpenSim 4.0, this behavior was controlled by the 'isDisabled' property, where 'true' meant that force was not being applied. Thus, if 'isDisabled' is true, then 'appliesForce` is false.-->
 					<appliesForce>true</appliesForce>
@@ -1657,7 +1669,19 @@
 					<!--Expression of the force magnitude as a function of the coordinate values (q1 and q2) and their time derivatives (qdot1 and qdot2) when q1 is positive or zero. Note, expression cannot have any whitespaceseparating characters-->
 					<expressionPos>0.0</expressionPos>
 					<!--Expression of the force magnitude as a function of the coordinate values (q1 and q2) and their time derivatives (qdot1 and qdot2) when q1 is negative or zero. Note, expression cannot have any whitespaceseparating characters-->
+					<expressionNeg>0.0</expressionNeg>
+				</DualExpressionBasedCoordinateForce>
+				<DualExpressionBasedCoordinateForce>
+					<!--Flag indicating whether the force is applied or not. If true the forceis applied to the MultibodySystem otherwise the force is not applied.NOTE: Prior to OpenSim 4.0, this behavior was controlled by the 'isDisabled' property, where 'true' meant that force was not being applied. Thus, if 'isDisabled' is true, then 'appliesForce` is false.-->
+					<appliesForce>true</appliesForce>
+					<!--Coordinate (name) to apply force to (i.e. q1).-->
+					<coordinate>UNASSIGNED</coordinate>
+					<!--Dual coordinate to use in force expression (i.e. q2).-->
+					<coordinateDual>UNASSIGNED</coordinateDual>
+					<!--Expression of the force magnitude as a function of the coordinate values (q1 and q2) and their time derivatives (qdot1 and qdot2) when q1 is positive or zero. Note, expression cannot have any whitespaceseparating characters-->
 					<expressionPos>0.0</expressionPos>
+					<!--Expression of the force magnitude as a function of the coordinate values (q1 and q2) and their time derivatives (qdot1 and qdot2) when q1 is negative or zero. Note, expression cannot have any whitespaceseparating characters-->
+					<expressionNeg>0.0</expressionNeg>
 				</DualExpressionBasedCoordinateForce>
 			</objects>
 			<groups />

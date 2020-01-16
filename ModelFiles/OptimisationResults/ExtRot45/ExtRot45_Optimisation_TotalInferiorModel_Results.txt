@@ -1,0 +1,4 @@
+5 minutes and 4.105689 seconds on computer: DEAKINUNI-THINK
+Shoulder rotation ligament lower limit: -55.4961
+Shoulder rotation lower stiffness: 131.4232
+Shoulder rotation transition: 537.8775

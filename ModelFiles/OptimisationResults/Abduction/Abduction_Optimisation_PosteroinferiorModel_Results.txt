@@ -1,0 +1,4 @@
+3 minutes and 49.761006 seconds on computer: DEAKINUNI-THINK
+Shoulder elevation ligament upper limit: 46.1713
+Shoulder elevation upper stiffness: 144.58
+Shoulder elevation transition: 550.5271

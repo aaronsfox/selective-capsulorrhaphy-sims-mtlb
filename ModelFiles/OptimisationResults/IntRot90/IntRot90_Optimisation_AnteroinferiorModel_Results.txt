@@ -1,0 +1,4 @@
+4 minutes and 32.052063 seconds on computer: DEAKINUNI-THINK
+Shoulder rotation ligament upper limit: 5.1237
+Shoulder rotation upper stiffness: 190.6836
+Shoulder rotation transition: 572.7477
