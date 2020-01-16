@@ -180,7 +180,7 @@ CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 CMAKE_VERBOSE_MAKEFILE:BOOL=OFF
 
 //The directory containing a CMake configuration file for OpenSimMoco.
-OpenSimMoco_DIR:PATH=C:/opensim-moco-0.1.0/cmake
+OpenSimMoco_DIR:PATH=C:/opensim-moco-0.2.0/cmake
 
 //Value Computed by CMake
 OpenSimMoco_MocoGHJRFConstraint_BINARY_DIR:STATIC=X:/ShoulderInstability/CapsulorrhaphySimulation/selective-capsulorrhaphy-sims-mtlb/Moco_GHJRF_Constraint/build
@@ -189,10 +189,10 @@ OpenSimMoco_MocoGHJRFConstraint_BINARY_DIR:STATIC=X:/ShoulderInstability/Capsulo
 OpenSimMoco_MocoGHJRFConstraint_SOURCE_DIR:STATIC=X:/ShoulderInstability/CapsulorrhaphySimulation/selective-capsulorrhaphy-sims-mtlb/Moco_GHJRF_Constraint
 
 //The directory containing a CMake configuration file for OpenSim.
-OpenSim_DIR:PATH=C:/opensim-moco-0.1.0/cmake
+OpenSim_DIR:PATH=C:/opensim-moco-0.2.0/cmake
 
 //The directory containing a CMake configuration file for Simbody.
-Simbody_DIR:PATH=C:/opensim-moco-0.1.0/sdk/Simbody/cmake
+Simbody_DIR:PATH=C:/opensim-moco-0.2.0/sdk/Simbody/cmake
 
 //Dependencies for the target
 osimMocoGHJRFConstraint_LIB_DEPENDS:STATIC=general;osimMoco;

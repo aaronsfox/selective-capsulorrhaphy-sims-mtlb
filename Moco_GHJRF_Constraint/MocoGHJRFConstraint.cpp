@@ -23,6 +23,12 @@
 
 using namespace OpenSim;
 
+//=============================================================================
+//  MocoGHJRFConstraint
+//=============================================================================
+
+// TO DO: for later, option to set a & b values in equation as properties
+
 //MocoGHJRFConstraint::MocoGHJRFConstraint() {
 //    constructProperties();
 //}
@@ -82,7 +88,7 @@ void MocoGHJRFConstraint::calcPathConstraintErrorsImpl(
     force = ground.expressVectorInAnotherFrame(
             state, reactionInGround[1], *m_frame);
 			
-	// Calculate the path constraint errorusing the equation from Kian et al. (2019)
+	// Calculate the path constraint error using the equation from Kian et al. (2019)
 	// This simply calculates the error where the combined shear and anterior 
 	// components exceed the compressive component.
 	// Note that the denominator (a & b) components from the equation are set manually
@@ -90,7 +96,7 @@ void MocoGHJRFConstraint::calcPathConstraintErrorsImpl(
 	// The upper bound is set as the compressive force component
 	// The lower bound is set at zero
     int iconstr = 0;
-	errors[iconstr++] = (((force.get(3)*force.get(3))/(0.61*0.61)) + ((force.get(1)*force.get(1))/(0.34*0.34))) - (force.get(1)*force.get(1));
-	errors[iconstr++] = (((force.get(3)*force.get(3))/(0.61*0.61)) + ((force.get(1)*force.get(1))/(0.34*0.34))) - 0;
+	errors[iconstr++] = (((force.get(2)*force.get(2))/(0.61*0.61)) + ((force.get(0)*force.get(0))/(0.34*0.34))) - (force.get(1)*force.get(1));
+	errors[iconstr++] = (((force.get(2)*force.get(2))/(0.61*0.61)) + ((force.get(0)*force.get(0))/(0.34*0.34))) - 0;
 	
 }
