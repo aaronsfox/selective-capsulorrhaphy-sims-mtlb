@@ -24,7 +24,7 @@ function ShoulderCapsulorrhaphySims_3_CreateModels
     mainDir = pwd;
 
     %Add supplementary code folder to path
-    addpath('..\Supplementary');
+    addpath(genpath('..\Supplementary'));
 	
 	%Load in the Gerber et al. database for joint angles, and angles and
     %plication labels
@@ -168,80 +168,83 @@ function ShoulderCapsulorrhaphySims_3_CreateModels
     for pp = 1:length(plications)
         for aa = 1:length(angles)
             
-            %Load in the current model
-            osimModel = Model(['BasicCapsModel_',plications{pp},'.osim']);
+            %%%%% NOTE: below bits commented out to avoid running forward
+            %%%%% analyses every time this code is tested
+            
+% % %             %Load in the current model
+% % %             osimModel = Model(['BasicCapsModel_',plications{pp},'.osim']);
             
             %Set the motion being examined
             motion = angles{aa};
-            
-            %Set the default coordinate values for the starting positions
-            %based on the motion being tested
-            osimModel.getCoordinateSet().get('shoulder_elv').setDefaultValue(deg2rad(startingAngles(aa,1)));
-            osimModel.getCoordinateSet().get('elv_angle').setDefaultValue(deg2rad(startingAngles(aa,2)));
-            osimModel.getCoordinateSet().get('shoulder_rot').setDefaultValue(deg2rad(startingAngles(aa,3)));
-            
-            %Lock the relevant coordintes based on the motion being tested
-            osimModel.getCoordinateSet().get('shoulder_elv').set_locked(coordLock(aa,1));
-            osimModel.getCoordinateSet().get('elv_angle').set_locked(coordLock(aa,2));
-            osimModel.getCoordinateSet().get('shoulder_rot').set_locked(coordLock(aa,3));
-            
-            %Add a force reporter analysis to the model for the forward sim
-            FrAnalysis = ForceReporter();
-            if contains(motion,'Rot')
-                FrAnalysis.setStartTime(0); FrAnalysis.setEndTime(3);
-            else
-                FrAnalysis.setStartTime(0); FrAnalysis.setEndTime(5);
-            end
-            osimModel.getAnalysisSet().cloneAndAppend(FrAnalysis);
-            
-            %Finalise model connections
-            osimModel.finalizeConnections();
-            
-            %Initialise the forward tool
-            FwdTool = ForwardTool();
-
-            %Settings for forward tool
-            FwdTool.setModel(osimModel);
-
-            %Set times based on motion. Rotations = 3 seconds; Elevations = 5 seconds
-            if contains(motion,'Rot')
-                FwdTool.setInitialTime(0); FwdTool.setFinalTime(3);
-            else
-                FwdTool.setInitialTime(0); FwdTool.setFinalTime(5);
-            end
-            
-            %Set controls for simulation, depending on whether it is an elevation or
-            %internal/external rotation motion
-            if contains(motion,'IntRot')
-                FwdTool.setControlsFileName([modelDir,'\shoulder_introt_controls.xml']);
-            elseif contains(motion,'ExtRot')
-                FwdTool.setControlsFileName([modelDir,'\shoulder_extrot_controls.xml']);
-            else
-                FwdTool.setControlsFileName([modelDir,'\shoulder_elv_controls.xml']);
-            end
-            
-            %Need to add controller set for the controls to be active in the model
-            %First, clear any existing controller set from past simulations
-            osimModel.getControllerSet().clearAndDestroy();
-            %Add the current controller set to the model
-            FwdTool.addControllerSetToModel();
-            
-            %Rename the forward tool based on parameters
-            FwdTool.setName(motion);
+% % %             
+% % %             %Set the default coordinate values for the starting positions
+% % %             %based on the motion being tested
+% % %             osimModel.getCoordinateSet().get('shoulder_elv').setDefaultValue(deg2rad(startingAngles(aa,1)));
+% % %             osimModel.getCoordinateSet().get('elv_angle').setDefaultValue(deg2rad(startingAngles(aa,2)));
+% % %             osimModel.getCoordinateSet().get('shoulder_rot').setDefaultValue(deg2rad(startingAngles(aa,3)));
+% % %             
+% % %             %Lock the relevant coordintes based on the motion being tested
+% % %             osimModel.getCoordinateSet().get('shoulder_elv').set_locked(coordLock(aa,1));
+% % %             osimModel.getCoordinateSet().get('elv_angle').set_locked(coordLock(aa,2));
+% % %             osimModel.getCoordinateSet().get('shoulder_rot').set_locked(coordLock(aa,3));
+% % %             
+% % %             %Add a force reporter analysis to the model for the forward sim
+% % %             FrAnalysis = ForceReporter();
+% % %             if contains(motion,'Rot')
+% % %                 FrAnalysis.setStartTime(0); FrAnalysis.setEndTime(3);
+% % %             else
+% % %                 FrAnalysis.setStartTime(0); FrAnalysis.setEndTime(5);
+% % %             end
+% % %             osimModel.getAnalysisSet().cloneAndAppend(FrAnalysis);
+% % %             
+% % %             %Finalise model connections
+% % %             osimModel.finalizeConnections();
+% % %             
+% % %             %Initialise the forward tool
+% % %             FwdTool = ForwardTool();
+% % % 
+% % %             %Settings for forward tool
+% % %             FwdTool.setModel(osimModel);
+% % % 
+% % %             %Set times based on motion. Rotations = 3 seconds; Elevations = 5 seconds
+% % %             if contains(motion,'Rot')
+% % %                 FwdTool.setInitialTime(0); FwdTool.setFinalTime(3);
+% % %             else
+% % %                 FwdTool.setInitialTime(0); FwdTool.setFinalTime(5);
+% % %             end
+% % %             
+% % %             %Set controls for simulation, depending on whether it is an elevation or
+% % %             %internal/external rotation motion
+% % %             if contains(motion,'IntRot')
+% % %                 FwdTool.setControlsFileName([modelDir,'\shoulder_introt_controls.xml']);
+% % %             elseif contains(motion,'ExtRot')
+% % %                 FwdTool.setControlsFileName([modelDir,'\shoulder_extrot_controls.xml']);
+% % %             else
+% % %                 FwdTool.setControlsFileName([modelDir,'\shoulder_elv_controls.xml']);
+% % %             end
+% % %             
+% % %             %Need to add controller set for the controls to be active in the model
+% % %             %First, clear any existing controller set from past simulations
+% % %             osimModel.getControllerSet().clearAndDestroy();
+% % %             %Add the current controller set to the model
+% % %             FwdTool.addControllerSetToModel();
+% % %             
+% % %             %Rename the forward tool based on parameters
+% % %             FwdTool.setName(motion);
             
             %Navigate to results folder
             cd('OptimisedResults');
-            
-            %If on first run through for model, create directory for its results
-            if aa == 1
-                mkdir(plications{pp})
-            end
+% % %             
+% % %             %If on first run through for model, create directory for its results
+% % %             if aa == 1
+% % %                 mkdir(plications{pp})
+% % %             end
             
             %Navigate to plication directory
             cd(plications{pp});
-
-            %Run forward tool
-            FwdTool.run();
+% % % 
+% % %             %Run forward tool
+% % %             FwdTool.run();
 
             %Load in states and force data
             statesD = importdata([motion,'_states_degrees.mot']);
@@ -284,6 +287,17 @@ function ShoulderCapsulorrhaphySims_3_CreateModels
     errAngles = expAngles - meanAngles;
     pErrAngles = errAngles ./ meanAngles * 100;
     
+    %Convert error data to table format and write to text file
+    cd('OptimisedResults');
+    %Convert to table
+    errAnglesT = array2table(errAngles,'VariableNames',angles,'RowNames',plications);
+    pErrAnglesT = array2table(pErrAngles,'VariableNames',angles,'RowNames',plications);
+    %Write to file (tab  delimited)
+    writetable(errAnglesT,'AbsoluteErrorsFinalAngles.txt','Delimiter','\t','WriteRowNames',true);
+    writetable(pErrAnglesT,'PercentageErrorsFinalAngles.txt','Delimiter','\t','WriteRowNames',true);
+    
+    cd('..');
+    
     %% Create plots of 'ligament' forces vs. shoulder angles
     
     %These plots will be visualised across a relevant spectrum of joint
@@ -301,57 +315,372 @@ function ShoulderCapsulorrhaphySims_3_CreateModels
     end
     clear pp
     
+    %Set colour scheme variables for the nine conditions
+    lineColour = [{'#a6cee3'};
+        {'#1f78b4'};
+        {'#b2df8a'};
+        {'#33a02c'};
+        {'#fb9a99'};
+        {'#e31a1c'};
+        {'#fdbf6f'};
+        {'#ff7f00'};
+        {'#cab2d6'}];
     
+    %Create new text cases for figure legends
+    plicationsLegend = [{'None'};
+        {'Anterosuperior'};
+        {'Anteroinferior'};
+        {'Total Anterior'};
+        {'Posterosuperior'};
+        {'Posteroinferior'};
+        {'Total Posterior'};
+        {'Total Superior'};
+        {'Total Inferior'}];
     
-    %Abduction (i.e. elevation at 30 degrees elevation plane angle)
+    %Set q2 positions for each figure
+    q2Val = [30,90,0,0,45,45,90,90];
+    
+    %Create and navigate to figure directory
+    mkdir('OptimisedFigures'); cd('OptimisedFigures');
+    
+    %%%%% Create a subplot for the elevation figures %%%%%
     
     %Initialise figure
-    figure
-    hold on
+    figure; hold on
+    
+    %Get current figure position and double length for the subplot
+    f = gcf; figPos = f.Position;
+    f.Position = [figPos(1) figPos(2)-figPos(4) figPos(3) figPos(4)*2];
+    clear f figPos
+    
+    %Loop through angles
+    for aa = [1,2]  %elevation motions
+
+        %Initialise subplot 
+        subplot(2,1,aa);
+        hold on
+        
+        %Loop through plications
+        for pp = 1:length(plications)
+
+            %Create variables for q1 and q2 inputs of function
+            %Take the maximum angle that is achieved for current motion
+            q1 = deg2rad(linspace(0,expAngles(pp,aa),100));
+            q2 = deg2rad(ones(1,100)*q2Val(aa));
+
+            %Evaluate function at each step
+            f = coordForceFunc.(plications{pp}).f_Elv;            
+            y = zeros(length(q1),1);
+            for tt = 1:length(q1)
+                y(tt) = feval(f,q1(tt),q2(tt));
+            end
+
+            %Plot force against shoulder angle 
+            %Invert as forces for elevation produce negative values
+            plot(rad2deg(q1),y*-1,'Color',lineColour{pp,1},'LineWidth',1.5);
+
+            %Cleanup
+            clear y q1 q2 f 
+
+        end
+        clear pp
+
+        %Set x-axis limits to peak angle reached
+        set(gca,'xlim',([0,max(expAngles(:,aa))]));
+
+        %Set axes labels
+        xlabel(['Elevation Angle (',char(176),')'],...
+            'FontWeight','bold','FontName','Helvetica',...
+            'FontSize',12);
+        ylabel('Force (N)',...
+            'FontWeight','bold','FontName','Helvetica',...
+            'FontSize',12);
+
+        %Set formatting on axes numbers
+        set(gca,'FontSize',10,'FontWeight','bold','FontName','Helvetica');
+
+        %Set framing of figure
+        ax = gca; box on; ax.LineWidth = 1; clear ax
+        set(gca,'Layer','top');
+    
+    end
+    clear aa
+    
+    %Check which axes has the larger x-value and set both to this
+    subplot(2,1,1); ax = gca; xMax1 = ax.XLim(2); clear ax
+    subplot(2,1,2); ax = gca; xMax2 = ax.XLim(2); clear ax
+    %Fix appropriate axes
+    if xMax1 < xMax2
+        subplot(2,1,1); ax = gca; ax.XLim(2) = xMax2; clear ax
+    elseif xMax2 < xMax1
+        subplot(2,1,2); ax = gca; ax.XLim(2) = xMax1; clear ax
+    end
+    %Cleanup
+    clear xMax1 xMax2
+    
+    %Set appropriate labels in top left corner of figure
+    %Top axis
+    subplot(2,1,1); ylim = get(gca,'ylim'); xlim = get(gca,'xlim');
+    text(xlim(1)+xlim(2)*0.025,ylim(2)-ylim(2)*0.075,'A',...
+        'FontSize',20,'FontWeight','bold','FontName','Helvetica');
+    subplot(2,1,2); ylim = get(gca,'ylim'); xlim = get(gca,'xlim');
+    text(xlim(1)+xlim(2)*0.025,ylim(2)-ylim(2)*0.075,'B',...
+        'FontSize',20,'FontWeight','bold','FontName','Helvetica');
+    
+    %Add legend using custom legendflex function
+    ax = subplot(2,1,2);
+    legendflex(ax, plicationsLegend, 'anchor', {'s','n'}, 'buffer', [0 -70], 'nrow', 3);
+    clear ax
+    
+    %Cleanup subplot positioning
+    %Get positions of each axis
+    ha = get(gcf,'children');
+    h1pos = get(ha(2),'position');  %bottom axis
+    h2pos = get(ha(3),'position');  %top axis
+    %Tighten up bottom subplot to top one
+    set(ha(2),'position',[h1pos(1) h2pos(2)-h2pos(4)-0.075 h1pos(3) h1pos(4)]);
+        
+    %Save and print figure options
+    print('LigamentForces_Elevation_fig.eps','-depsc2');        %eps format
+    set(gcf, 'PaperPositionMode','auto')
+    saveas(gcf,'LigamentForces_Elevation_fig.png');             %low res png
+    saveas(gcf,'LigamentForces_Elevation_fig.fig');             %matlab figure
+    print(gcf,'LigamentForces_Elevation_fig','-dtiff','-r600'); %600 dpi tif
+    
+    %Cleanup and close
+    clear h1pos h2pos ha xlim ylim
+    close all
+    
+    %%%%% Create a subplot for the rotation figures %%%%%
+    
+    %Initialise figure
+    figure; hold on
+    
+    %Get current figure position and triple length and double width for the subplot
+    f = gcf; figPos = f.Position;
+    f.Position = [figPos(1)-figPos(3)*0.5 figPos(2)-figPos(4)*1.2 figPos(3)*2 figPos(4)*3];
+    clear f figPos
+    
+    %Loop through angles
+    for aa = 3:length(angles)  %elevation motions
+
+        %Initialise subplot 
+        subplot(3,2,aa-2);
+        hold on
+        
+        %Loop through plications
+        for pp = 1:length(plications)
+
+            %Create variables for q1 and q2 inputs of function
+            %Take the maximum angle that is achieved for current motion
+            q1 = deg2rad(linspace(0,expAngles(pp,aa),100));
+            q2 = deg2rad(ones(1,100)*q2Val(aa));
+
+            %Evaluate function at each step
+            %Set function based on motion being tested
+            if contains(angles{aa},'IntRot')
+                f = coordForceFunc.(plications{pp}).f_IntRot;
+            elseif contains(angles{aa},'ExtRot')
+                f = coordForceFunc.(plications{pp}).f_ExtRot;
+            end            
+            y = zeros(length(q1),1);
+            for tt = 1:length(q1)
+                y(tt) = feval(f,q1(tt),q2(tt));
+            end
+
+            %Plot force against shoulder angle 
+            %Invert as forces for internal rotation as the produce negative values.
+            %Also invert external rotation angles
+            %as they are negative.
+            if contains(angles{aa},'ExtRot')
+                plot(rad2deg(q1)*-1,y,'Color',lineColour{pp,1},'LineWidth',1.5);
+            else
+                plot(rad2deg(q1),y*-1,'Color',lineColour{pp,1},'LineWidth',1.5);
+            end
+
+            %Cleanup
+            clear y q1 q2 f 
+
+        end
+        clear pp
+
+        %Set x-axis limits to peak angle reached
+        %Put a check in place to invert external rotation angles
+        if contains(angles{aa},'ExtRot')
+            set(gca,'xlim',([0,max(expAngles(:,aa)*-1)]));
+        else
+            set(gca,'xlim',([0,max(expAngles(:,aa))]));
+        end
+
+        %Set axes labels
+        if contains(angles{aa},'IntRot')
+            xlabel(['Internal Rotation Angle (',char(176),')'],...
+                'FontWeight','bold','FontName','Helvetica',...
+                'FontSize',10);
+        elseif contains(angles{aa},'ExtRot')
+            xlabel(['External Rotation Angle (',char(176),')'],...
+                'FontWeight','bold','FontName','Helvetica',...
+                'FontSize',10);
+        end
+        ylabel('Force (N)',...
+            'FontWeight','bold','FontName','Helvetica',...
+            'FontSize',10);
+
+        %Set formatting on axes numbers
+        set(gca,'FontSize',9,'FontWeight','bold','FontName','Helvetica');
+
+        %Set framing of figure
+        ax = gca; box on; ax.LineWidth = 1; clear ax
+        set(gca,'Layer','top');
+    
+    end
+    clear aa
+    
+    %Check which axes has the largest x-value and set all to this
+    %External rotation
+    subplot(3,2,1); ax = gca; xMax1 = ax.XLim(2); clear ax
+    subplot(3,2,3); ax = gca; xMax2 = ax.XLim(2); clear ax
+    subplot(3,2,5); ax = gca; xMax3 = ax.XLim(2); clear ax
+    %Fix appropriate axes
+    if xMax1 > xMax2 && xMax1 > xMax3
+        subplot(3,2,3); ax = gca; ax.XLim(2) = xMax1; clear ax
+        subplot(3,2,5); ax = gca; ax.XLim(2) = xMax1; clear ax
+    elseif xMax2 > xMax1 && xMax2 > xMax3
+        subplot(3,2,1); ax = gca; ax.XLim(2) = xMax2; clear ax
+        subplot(3,2,5); ax = gca; ax.XLim(2) = xMax2; clear ax
+    elseif xMax3 > xMax1 && xMax3 > xMax2
+        subplot(3,2,1); ax = gca; ax.XLim(2) = xMax2; clear ax
+        subplot(3,2,3); ax = gca; ax.XLim(2) = xMax2; clear ax
+    end
+    %Cleanup
+    clear xMax1 xMax2 xMax3
+    %Internal rotation
+    subplot(3,2,2); ax = gca; xMax1 = ax.XLim(2); clear ax
+    subplot(3,2,4); ax = gca; xMax2 = ax.XLim(2); clear ax
+    subplot(3,2,6); ax = gca; xMax3 = ax.XLim(2); clear ax
+    %Fix appropriate axes
+    if xMax1 > xMax2 && xMax1 > xMax3
+        subplot(3,2,4); ax = gca; ax.XLim(2) = xMax1; clear ax
+        subplot(3,2,6); ax = gca; ax.XLim(2) = xMax1; clear ax
+    elseif xMax2 > xMax1 && xMax2 > xMax3
+        subplot(3,2,2); ax = gca; ax.XLim(2) = xMax2; clear ax
+        subplot(3,2,6); ax = gca; ax.XLim(2) = xMax2; clear ax
+    elseif xMax3 > xMax1 && xMax3 > xMax2
+        subplot(3,2,2); ax = gca; ax.XLim(2) = xMax2; clear ax
+        subplot(3,2,4); ax = gca; ax.XLim(2) = xMax2; clear ax
+    end
+    %Cleanup
+    clear xMax1 xMax2 xMax3
+    
+    %Set appropriate labels in top left corner of figure
+    %Top axis
+    subplot(3,2,1); ylim = get(gca,'ylim'); xlim = get(gca,'xlim');
+    text(xlim(1)+xlim(2)*0.025,ylim(2)-ylim(2)*0.075,'A',...
+        'FontSize',18,'FontWeight','bold','FontName','Helvetica');
+    subplot(3,2,3); ylim = get(gca,'ylim'); xlim = get(gca,'xlim');
+    text(xlim(1)+xlim(2)*0.025,ylim(2)-ylim(2)*0.075,'B',...
+        'FontSize',18,'FontWeight','bold','FontName','Helvetica');
+    subplot(3,2,5); ylim = get(gca,'ylim'); xlim = get(gca,'xlim');
+    text(xlim(1)+xlim(2)*0.025,ylim(2)-ylim(2)*0.075,'C',...
+        'FontSize',18,'FontWeight','bold','FontName','Helvetica');
+    subplot(3,2,2); ylim = get(gca,'ylim'); xlim = get(gca,'xlim');
+    text(xlim(1)+xlim(2)*0.025,ylim(2)-ylim(2)*0.075,'D',...
+        'FontSize',18,'FontWeight','bold','FontName','Helvetica');
+    subplot(3,2,4); ylim = get(gca,'ylim'); xlim = get(gca,'xlim');
+    text(xlim(1)+xlim(2)*0.025,ylim(2)-ylim(2)*0.075,'E',...
+        'FontSize',18,'FontWeight','bold','FontName','Helvetica');
+    subplot(3,2,6); ylim = get(gca,'ylim'); xlim = get(gca,'xlim');
+    text(xlim(1)+xlim(2)*0.025,ylim(2)-ylim(2)*0.075,'F',...
+        'FontSize',18,'FontWeight','bold','FontName','Helvetica');
+    
+    %Add legend using custom legendflex function
+    ax = subplot(3,2,6);
+    legendflex(ax, plicationsLegend, 'anchor', {'s','n'}, 'buffer', [-250 -50], 'nrow', 3);
+    clear ax
+    
+    %Cleanup subplot positioning
+    %Get positions of each axis
+    ha = get(gcf,'children');
+    h1pos = get(ha(2),'position');  %bottom right axis
+    h2pos = get(ha(3),'position');  %bottom left axis
+    h3pos = get(ha(4),'position');  %middle right axis
+    h4pos = get(ha(5),'position');  %middle left axis
+    h5pos = get(ha(6),'position');  %top right axis
+    h6pos = get(ha(7),'position');  %top left axis
+    %Tighten up bottom subplot to top one
+    set(ha(5),'position',[h4pos(1) h6pos(2)-h6pos(4)-0.06 h4pos(3) h4pos(4)]);
+    set(ha(4),'position',[h3pos(1) h5pos(2)-h5pos(4)-0.06 h3pos(3) h3pos(4)]);
+    %Reset middle axes positions
+    h3pos = get(ha(4),'position');  %middle right axis
+    h4pos = get(ha(5),'position');  %middle left axis
+    set(ha(2),'position',[h1pos(1) h3pos(2)-h3pos(4)-0.06 h1pos(3) h1pos(4)]);
+    set(ha(3),'position',[h2pos(1) h4pos(2)-h4pos(4)-0.06 h2pos(3) h2pos(4)]);
+        
+    %Save and print figure options
+    print('LigamentForces_Rotation_fig.eps','-depsc2');        %eps format
+    set(gcf, 'PaperPositionMode','auto')
+    saveas(gcf,'LigamentForces_Rotation_fig.png');             %low res png
+    saveas(gcf,'LigamentForces_Rotation_fig.fig');             %matlab figure
+    print(gcf,'LigamentForces_Rotation_fig','-dtiff','-r600'); %600 dpi tif
+    
+    %Cleanup and close
+    clear h1pos h2pos h3pos h4pos h5pos h6pos ha xlim ylim
+    close all
+    
+    %% Create full shoulder models with appropriate 'ligament' forces
+    
+    cd('..');
+    
+    %Loop through plications and copy relevant coordinate forces into a
+    %base model of the full shoulder. This is also a good opportunity to
+    %convert the model muscles to the DeGroote muscle format that is used
+    %within Moco
+    
+    %Load in base model
+    baseModel = Model('FullShoulderModel.osim');
+    
+    %Convert Millard muscles in model to DeGroote format
+    DeGrooteFregly2016Muscle.replaceMuscles(baseModel);
     
     %Loop through plications
     for pp = 1:length(plications)
         
-        %Create variables for q1 and q2 inputs of function
-        %Take the maximum angle that is achieved for abduction (aa=1)
-        %%%%% TO DO: fix this with an angles loop...
-        shoulderElv = deg2rad(linspace(0,expAngles(pp,1),100));
-        elvAngle = deg2rad(ones(1,100)*30);
+        %Set the model name
+        baseModel.setName(['FullShoulderModel_',plications{pp}]);
         
-        %Evaluate function at each step
-        y = zeros(length(shoulderElv),1);
-        for tt = 1:length(shoulderElv)
-            y(tt) = feval(coordForceFunc.(plications{pp}).f_Elv,shoulderElv(tt),elvAngle(tt));
+        %Load in the appropriate basic model with the coordinate forces
+        forceModel = Model(['BasicCapsModel_',plications{pp},'.osim']);
+        
+        %Get the appropriate coordinate forces from the basic shoulder
+        %model and append them to the current copy of the full shoulder
+        %model. This includes the dual expression based coordinate forces
+        %and the damping coordinate limit forces. If it is on more than the
+        %first iteration these forces first need to be deleted
+        if pp > 1
+            %First delete the original force entries added on earlier iterations
+            baseModel.getForceSet().remove(baseModel.getForceSet().get('shoulder_elv_DualEBCF'));
+            baseModel.getForceSet().remove(baseModel.getForceSet().get('shoulder_rot_DualEBCF'));
+            baseModel.getForceSet().remove(baseModel.getForceSet().get('shoulder_elv_damping'));
+            baseModel.getForceSet().remove(baseModel.getForceSet().get('shoulder_rot_damping'));
+            %Now add back in from force model
+            baseModel.getForceSet().cloneAndAppend(forceModel.getForceSet().get('shoulder_elv_DualEBCF'));
+            baseModel.getForceSet().cloneAndAppend(forceModel.getForceSet().get('shoulder_rot_DualEBCF'));
+            baseModel.getForceSet().cloneAndAppend(forceModel.getForceSet().get('shoulder_elv_damping'));
+            baseModel.getForceSet().cloneAndAppend(forceModel.getForceSet().get('shoulder_rot_damping'));
+        else
+            baseModel.getForceSet().cloneAndAppend(forceModel.getForceSet().get('shoulder_elv_DualEBCF'));
+            baseModel.getForceSet().cloneAndAppend(forceModel.getForceSet().get('shoulder_rot_DualEBCF'));
+            baseModel.getForceSet().cloneAndAppend(forceModel.getForceSet().get('shoulder_elv_damping'));
+            baseModel.getForceSet().cloneAndAppend(forceModel.getForceSet().get('shoulder_rot_damping'));
         end
         
-        %Plot force against shoulder angle 
-        %Invert as elevation force produces negative value
-        plot(rad2deg(shoulderElv),y*-1,'LineWidth',1.5);
+        %Finalise connections
+        baseModel.finalizeConnections();
         
-        %Cleanup
-        clear y shoulderElv elvAngle
+        %Save new model
+        baseModel.print(['FullShoulderModel_',plications{pp},'.osim']);
         
     end
     clear pp
     
-    %Set x-axis limits to peak angle reached
-    xlim([0,max(expAngles(:,1))]); %%%%%column 1 for first angle
-    
-    %Set legend   
-    legend(plications,'Location','NorthWest');
-    
-    
-    %%%% TO DO: fix colours...
-    
-    
-
-    
-	
-%% Goal of this function is to create the models with the optimised 
-%  parameters and visualise some curves that represent the ligament forces
-%
-%  Consider plotting the total ligament function force versus the relevant
-%  joint angle. Consider plotting joint angle on the x-axis and only
-%  plotting the function value to the joint angle that is achieved via the
-%  separate plications. Theoretically we should see shorter but steeper
-%  curves for plications...
+%----- End of ShoulderCapsulorrhaphySims_3_CreateModels.m -----%
