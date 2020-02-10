@@ -97,11 +97,13 @@ function ShoulderCapsulorrhaphySims_4_NodeSelection
             elseif strcmp(char(coordSet.get(c-1).getName()),'pro_sup')
                 %Add an idealised torque actuator.
                 addCoordinateActuator(osimModel,char(coordSet.get(c-1).getName()),100,[1,-1],'_torque');
-            elseif strcmp(char(coordSet.get(c-1).getName()),'elv_angle') || ...
-                    strcmp(char(coordSet.get(c-1).getName()),'shoulder_elv') || ...
+            elseif strcmp(char(coordSet.get(c-1).getName()),'elv_angle')
+                %Add a reserve torque actuator.
+                addCoordinateActuator(osimModel,char(coordSet.get(c-1).getName()),2,[inf,-inf],'_reserve');
+            elseif strcmp(char(coordSet.get(c-1).getName()),'shoulder_elv') || ...
                     strcmp(char(coordSet.get(c-1).getName()),'shoulder_rot')
                 %Add a reserve torque actuator.
-                addCoordinateActuator(osimModel,char(coordSet.get(c-1).getName()),1,[inf,-inf],'_reserve');
+                addCoordinateActuator(osimModel,char(coordSet.get(c-1).getName()),2,[1,-1],'_reserve');
             end
         end
         clear c
@@ -241,127 +243,140 @@ function ShoulderCapsulorrhaphySims_4_NodeSelection
     
     %% Extract and compare information from solutions for the current tasks
     
-    %Grab data from solutions
-    for mm = 1:length(meshIntervals)
+    %Navigate to results directory
+    cd('NodeSelection');
     
-        %Create a nodes label for the current iteration
-        nodesLabel = ['nodes_',num2str(meshIntervals(mm)*2+1)];
-        if mm ~= length(meshIntervals)
-            nodesLabelPlus = ['nodes_',num2str(meshIntervals(mm+1)*2+1)];
-        end
+    for tt = 1:length(simTasks)
+        
+        taskName = simTasks{tt};
 
-        %There doesn't appear to be a way to load the solution file in as a
-        %solution object, so the usual commands to get the objective value and
-        %solver duration don't appear valid. Instead, we can read in the file
-        %line by line and identify where these parameters are.
+        %Grab data from solutions
+        for mm = 1:length(meshIntervals)
 
-        %Read the current solution file line by line
-        fid = fopen([taskName,'_',num2str(meshIntervals(mm)*2+1),'nodes_solution.sto']);
-        tline = fgetl(fid); r = 1;
-        while ischar(tline)
-            C{r,1} = tline; r = r + 1;
-            tline = fgetl(fid);
-        end
-        fclose(fid); clear fid tline
-        %Identify where the objective and solver duration strings are
-        objInd = find(contains(C,'objective='));
-        durInd = find(contains(C,'solver_duration='));
-        %Extract the values from these strings by splitting at the equals sign
-        %and converting to double type
-        format long
-        objSplit = strsplit(C{objInd,1},'=');
-        objVal.(char(taskName))(mm,1) = str2double(objSplit(2));
-        durSplit = strsplit(C{durInd,1},'=');
-        solDur.(char(taskName))(mm,1) = str2double(durSplit(2));
-        %Cleanup
-        clear objInd durInd C
+            %Create a nodes label for the current iteration
+            nodesLabel = ['nodes_',num2str(meshIntervals(mm)*2+1)];
+            if mm ~= length(meshIntervals)
+                nodesLabelPlus = ['nodes_',num2str(meshIntervals(mm+1)*2+1)];
+            end
 
-        %Load the solution of interest and place data in a matlab friendly format
-        currSolution = MocoTrajectory([taskName,'_',num2str(meshIntervals(mm)*2+1),'nodes_solution.sto']);
+            %There doesn't appear to be a way to load the solution file in as a
+            %solution object, so the usual commands to get the objective value and
+            %solver duration don't appear valid. Instead, we can read in the file
+            %line by line and identify where these parameters are.
 
-        %Extract the column headers
-        %NOTE: these should be consistent across the different solutions but
-        %extract for each to be dafe
-        statesNames = currSolution.getStateNames();
-        for ii = 0:statesNames.size()-1
-            statesHeaders.(char(taskName)).(char(nodesLabel)){ii+1} = ...
-                char(statesNames.get(ii));
-        end
-        clear ii statesNames
-        controlNames = currSolution.getControlNames();
-        for ii = 0:controlNames.size()-1
-            controlHeaders.(char(taskName)).(char(nodesLabel)){ii+1} = ...
-                char(controlNames.get(ii));
-        end
-        clear ii controlNames
+            %Read the current solution file line by line
+            fid = fopen([taskName,'_',num2str(meshIntervals(mm)*2+1),'nodes_solution.sto']);
+            tline = fgetl(fid); r = 1;
+            while ischar(tline)
+                C{r,1} = tline; r = r + 1;
+                tline = fgetl(fid);
+            end
+            fclose(fid); clear fid tline
+            %Identify where the objective and solver duration strings are
+            objInd = find(contains(C,'objective='));
+            durInd = find(contains(C,'solver_duration='));
+            %Extract the values from these strings by splitting at the equals sign
+            %and converting to double type
+            format long
+            objSplit = strsplit(C{objInd,1},'=');
+            objVal.(char(taskName))(mm,1) = str2double(objSplit(2));
+            durSplit = strsplit(C{durInd,1},'=');
+            solDur.(char(taskName))(mm,1) = str2double(durSplit(2));
+            %Cleanup
+            clear objInd durInd C
 
-        %Extract the data for the current solution
-        %States data
-        for ii = 1:length(statesHeaders.(char(taskName)).(char(nodesLabel)))
-            statesData.(char(taskName)).(char(nodesLabel))(:,ii) = ...
-                currSolution.getStateMat(statesHeaders.(char(taskName)).(char(nodesLabel)){ii});
-        end
-        clear ii
-        %Controls data
-        for ii = 1:length(controlHeaders.(char(taskName)).(char(nodesLabel)))
-            controlData.(char(taskName)).(char(nodesLabel))(:,ii) = ...
-                currSolution.getControlMat(controlHeaders.(char(taskName)).(char(nodesLabel)){ii});
-        end
-        clear ii
-        %Time data
-        timeData.(char(taskName)).(char(nodesLabel))(:,1) = ...
-            currSolution.getTimeMat();
+            %Load the solution of interest and place data in a matlab friendly format
+            currSolution = MocoTrajectory([taskName,'_',num2str(meshIntervals(mm)*2+1),'nodes_solution.sto']);
 
-        %Compare the current solution with adjacent node solution. Only run
-        %this if not on the last mesh interval
-        if mm ~= length(meshIntervals)
-            %Create a variable name to store data under
-            varLabel = [nodesLabel,'_',nodesLabelPlus];
-            %Get adjacent trajectory
-            adjSolution = MocoTrajectory([taskName,'_',num2str(meshIntervals(mm+1)*2+1),'nodes_solution.sto']);
-            %Calculate RMS error for specific variable types
-            rmsError.(char(varLabel)).coordinates = ...
-                currSolution.compareContinuousVariablesRMSPattern(adjSolution,...
-                'states','/jointset/.*/value');
-            rmsError.(char(varLabel)).speeds = ...
-                currSolution.compareContinuousVariablesRMSPattern(adjSolution,...
-                'states','/jointset/.*/speed');
-            rmsError.(char(varLabel)).activations = ...
-                currSolution.compareContinuousVariablesRMSPattern(adjSolution,...
-                'states','/forceset/.*/activation');
-            %Calculate RMS error for specific state variables
+            %Extract the column headers
+            %NOTE: these should be consistent across the different solutions but
+            %extract for each to be dafe
+            statesNames = currSolution.getStateNames();
+            for ii = 0:statesNames.size()-1
+                statesHeaders.(char(taskName)).(char(nodesLabel)){ii+1} = ...
+                    char(statesNames.get(ii));
+            end
+            clear ii statesNames
+            controlNames = currSolution.getControlNames();
+            for ii = 0:controlNames.size()-1
+                controlHeaders.(char(taskName)).(char(nodesLabel)){ii+1} = ...
+                    char(controlNames.get(ii));
+            end
+            clear ii controlNames
+
+            %Extract the data for the current solution
+            %States data
             for ii = 1:length(statesHeaders.(char(taskName)).(char(nodesLabel)))
-                %Get current state
-                currState = statesHeaders.(char(taskName)).(char(nodesLabel)){ii};
-                %Create name to store data under
-                if contains(currState,'value')
-                    %Get the joint angle coordinate via string split
-                    sp = strsplit(currState,'/');
-                    variable = [sp{4},'_value'];
-                elseif contains(currState,'speed')
-                    %Get the joint angle coordinate via string split
-                    sp = strsplit(currState,'/');
-                    variable = [sp{4},'_speed'];
-                elseif contains(currState,'activation')
-                    %Get the joint angle coordinate via string split
-                    sp = strsplit(currState,'/');
-                    variable = [sp{3},'_activation'];
-                end
-                %Calculate and store rms error
-                rmsError.(char(varLabel)).(char(variable)) = ...
-                    currSolution.compareContinuousVariablesRMSPattern(adjSolution,...
-                    'states',currState);
-                %Cleanup
-                clear sp variable
+                statesData.(char(taskName)).(char(nodesLabel))(:,ii) = ...
+                    currSolution.getStateMat(statesHeaders.(char(taskName)).(char(nodesLabel)){ii});
             end
             clear ii
-            %Cleanup
-            clear varLabel adjSolution currSolution
-        end
+            %Controls data
+            for ii = 1:length(controlHeaders.(char(taskName)).(char(nodesLabel)))
+                controlData.(char(taskName)).(char(nodesLabel))(:,ii) = ...
+                    currSolution.getControlMat(controlHeaders.(char(taskName)).(char(nodesLabel)){ii});
+            end
+            clear ii
+            %Time data
+            timeData.(char(taskName)).(char(nodesLabel))(:,1) = ...
+                currSolution.getTimeMat();
 
-    end
-    clear mm
+            %Compare the current solution with adjacent node solution. Only run
+            %this if not on the last mesh interval
+            if mm ~= length(meshIntervals)
+                %Create a variable name to store data under
+                varLabel = [nodesLabel,'_',nodesLabelPlus];
+                %Get adjacent trajectory
+                adjSolution = MocoTrajectory([taskName,'_',num2str(meshIntervals(mm+1)*2+1),'nodes_solution.sto']);
+                %Calculate RMS error for specific variable types
+                rmsError.(char(taskName)).(char(varLabel)).coordinates = ...
+                    currSolution.compareContinuousVariablesRMSPattern(adjSolution,...
+                    'states','/jointset/.*/value');
+                rmsError.(char(taskName)).(char(varLabel)).speeds = ...
+                    currSolution.compareContinuousVariablesRMSPattern(adjSolution,...
+                    'states','/jointset/.*/speed');
+                rmsError.(char(taskName)).(char(varLabel)).activations = ...
+                    currSolution.compareContinuousVariablesRMSPattern(adjSolution,...
+                    'states','/forceset/.*/activation');
+                %Calculate RMS error for specific state variables
+                for ii = 1:length(statesHeaders.(char(taskName)).(char(nodesLabel)))
+                    %Get current state
+                    currState = statesHeaders.(char(taskName)).(char(nodesLabel)){ii};
+                    %Create name to store data under
+                    if contains(currState,'value')
+                        %Get the joint angle coordinate via string split
+                        sp = strsplit(currState,'/');
+                        variable = [sp{4},'_value'];
+                    elseif contains(currState,'speed')
+                        %Get the joint angle coordinate via string split
+                        sp = strsplit(currState,'/');
+                        variable = [sp{4},'_speed'];
+                    elseif contains(currState,'activation')
+                        %Get the joint angle coordinate via string split
+                        sp = strsplit(currState,'/');
+                        variable = [sp{3},'_activation'];
+                    end
+                    %Calculate and store rms error
+                    rmsError.(char(taskName)).(char(varLabel)).(char(variable)) = ...
+                        currSolution.compareContinuousVariablesRMSPattern(adjSolution,...
+                        'states',currState);
+                    %Cleanup
+                    clear sp variable
+                end
+                clear ii
+                %Cleanup
+                clear varLabel adjSolution currSolution
+            end
+
+        end
+        clear mm
+        
+        %cleanup
+        clear taskName
     
+    end
+    clear tt
+        
     %% Create plots to compare node density outputs
     
     %Create color labels for task
@@ -420,13 +435,59 @@ function ShoulderCapsulorrhaphySims_4_NodeSelection
     end
     clear mm
     %Add legend
-    legend(taskLeg,'Location','NorthEast'); legend boxoff
+    legend(taskLeg,'Location','SouthWest'); legend boxoff
     %Save figure
     print('ObjectiveValue_NodeSelection_fig.eps','-depsc2');        %eps format
     set(gcf, 'PaperPositionMode','auto')
     saveas(gcf,'ObjectiveValue_NodeSelection_fig.png');             %low res png
     saveas(gcf,'ObjectiveValue_NodeSelection_fig.fig');             %matlab figure
     print(gcf,'ObjectiveValue_NodeSelection_fig','-dtiff','-r600'); %600 dpi tif
+    %Cleanup and close
+    clear h ax ans
+    close all
+    
+    %%% Solver duration value %%%
+
+    figure; hold on
+    for tt = 1:length(simTasks)
+        %Plot solver duration against node density
+        %COnvert from seconds to hours
+        h = plot(solDur.(simTasks{tt})/60/60);
+        %Set plot parameters
+        h.Color = taskCols(tt,:); h.LineWidth = 2;
+        h.Marker = 'o'; h.MarkerSize = 8;
+        h.MarkerEdgeColor = taskCols(tt,:); h.MarkerFaceColor = taskCols(tt,:); 
+        %Cleanup
+        clear h
+    end
+    clear tt
+    %Set formatting on axes numbers
+    set(gca,'FontSize',10,'FontWeight','bold','FontName','Helvetica');
+    %Set axes labels
+    xlabel('Number of Nodes',...
+        'FontWeight','bold','FontName','Helvetica',...
+        'FontSize',12);
+    ylabel('Solver Duration (h)',...
+        'FontWeight','bold','FontName','Helvetica',...
+        'FontSize',12);
+    %Set framing of figure
+    ax = gca; box on; ax.LineWidth = 1;
+    set(gca,'Layer','top');
+    %Set axes limits and labels
+    ax.XLim = [0.8 5.2]; ax.YLim(1) = 0; ax.YLim(2) = ax.YLim(2)*1.1;
+    ax.XTick = 1:length(meshIntervals);
+    for mm = 1:length(meshIntervals)
+        ax.XTickLabel{mm} = num2str(meshIntervals(mm)*2+1);
+    end
+    clear mm
+    %Add legend
+    legend(taskLeg,'Location','SouthWest'); legend boxoff
+    %Save figure
+    print('SolverDuration_NodeSelection_fig.eps','-depsc2');        %eps format
+    set(gcf, 'PaperPositionMode','auto')
+    saveas(gcf,'SolverDuration_NodeSelection_fig.png');             %low res png
+    saveas(gcf,'SolverDuration_NodeSelection_fig.fig');             %matlab figure
+    print(gcf,'SolverDuration_NodeSelection_fig','-dtiff','-r600'); %600 dpi tif
     %Cleanup and close
     clear h ax ans
     close all
@@ -472,7 +533,7 @@ function ShoulderCapsulorrhaphySims_4_NodeSelection
     end
     clear mm
     %Add legend
-    legend(taskLeg,'Location','NorthEast'); legend boxoff
+    legend(taskLeg,'Location','SouthWest'); legend boxoff
     %Save figure
     print('PerformanceTime_NodeSelection_fig.eps','-depsc2');        %eps format
     set(gcf, 'PaperPositionMode','auto')
@@ -492,7 +553,7 @@ function ShoulderCapsulorrhaphySims_4_NodeSelection
             %Create label to grab data
             varLabel = ['nodes_',num2str(meshIntervals(mm)*2+1),'_','nodes_',num2str(meshIntervals(mm+1)*2+1)];
             %Grab value
-            rmsVal(mm,1) = rmsError.(char(varLabel)).coordinates;
+            rmsVal(mm,1) = rmsError.(simTasks{tt}).(char(varLabel)).coordinates;
             %Cleanup
             clear varLabel
         end
@@ -527,7 +588,7 @@ function ShoulderCapsulorrhaphySims_4_NodeSelection
     end
     clear mm
     %Add legend
-    legend(taskLeg,'Location','NorthEast'); legend boxoff
+    legend(taskLeg,'Location','SouthWest'); legend boxoff
     %Save figure
     print('RMSerror_coordinates_NodeSelection_fig.eps','-depsc2');        %eps format
     set(gcf, 'PaperPositionMode','auto')
@@ -547,7 +608,7 @@ function ShoulderCapsulorrhaphySims_4_NodeSelection
             %Create label to grab data
             varLabel = ['nodes_',num2str(meshIntervals(mm)*2+1),'_','nodes_',num2str(meshIntervals(mm+1)*2+1)];
             %Grab value
-            rmsVal(mm,1) = rmsError.(char(varLabel)).speeds;
+            rmsVal(mm,1) = rmsError.(simTasks{tt}).(char(varLabel)).speeds;
             %Cleanup
             clear varLabel
         end
@@ -582,7 +643,7 @@ function ShoulderCapsulorrhaphySims_4_NodeSelection
     end
     clear mm
     %Add legend
-    legend(taskLeg,'Location','NorthEast'); legend boxoff
+    legend(taskLeg,'Location','SouthWest'); legend boxoff
     %Save figure
     print('RMSerror_speeds_NodeSelection_fig.eps','-depsc2');        %eps format
     set(gcf, 'PaperPositionMode','auto')
@@ -602,7 +663,7 @@ function ShoulderCapsulorrhaphySims_4_NodeSelection
             %Create label to grab data
             varLabel = ['nodes_',num2str(meshIntervals(mm)*2+1),'_','nodes_',num2str(meshIntervals(mm+1)*2+1)];
             %Grab value
-            rmsVal(mm,1) = rmsError.(char(varLabel)).activations;
+            rmsVal(mm,1) = rmsError.(simTasks{tt}).(char(varLabel)).activations;
             %Cleanup
             clear varLabel
         end
@@ -637,7 +698,7 @@ function ShoulderCapsulorrhaphySims_4_NodeSelection
     end
     clear mm
     %Add legend
-    legend(taskLeg,'Location','NorthEast'); legend boxoff
+    legend(taskLeg,'Location','SouthWest'); legend boxoff
     %Save figure
     print('RMSerror_activations_NodeSelection_fig.eps','-depsc2');        %eps format
     set(gcf, 'PaperPositionMode','auto')

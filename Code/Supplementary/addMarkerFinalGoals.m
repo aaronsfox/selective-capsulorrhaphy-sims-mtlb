@@ -221,7 +221,7 @@ function addMarkerFinalGoals(taskName,mocoProblem,modelObject)
             endPointCost1.setReferenceLocation(hairReachPoint);
 
             %Add the end point cost along with an effort cost.
-            problem.addGoal(endPointCost1);
+            mocoProblem.addGoal(endPointCost1);
         
             
             
