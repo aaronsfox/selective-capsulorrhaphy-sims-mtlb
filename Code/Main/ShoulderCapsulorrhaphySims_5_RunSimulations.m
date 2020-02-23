@@ -17,6 +17,10 @@ function ShoulderCapsulorrhaphySims_5_RunSimulations(taskName,meshInterval)
 % simulations. Typically chosen from the outputs of the previous function
 % (i.e. 'ShoulderCapsulorrhaphySims_4_NodeSelection').
 
+
+    %%%%%%%%% ENSURE PARAMETERS IN THIS MATCH THE NODE SELECTION NOW THAT
+    %%%%%%%%% SOME THINGS HAVE CHANGED...
+
     %Run checks
     if nargin < 2
         %Check for mesh interval
@@ -62,8 +66,12 @@ function ShoulderCapsulorrhaphySims_5_RunSimulations(taskName,meshInterval)
     %Add geometry directory
     ModelVisualizer.addDirToGeometrySearchPaths([modelDir,'Geometry']);
     
+    %%%%%%% TO DO: the 'None' model needs to be run again to be consistent
+    %%%%%%% with the other tasks...
+    
     %Create list of models to test (full path) [doesn't include None model]
-    modelList = [{[modelDir,'FullShoulderModel_Anteroinferior.osim']};
+    modelList = [{[modelDir,'FullShoulderModel_None.osim']};
+        {[modelDir,'FullShoulderModel_Anteroinferior.osim']};
         {[modelDir,'FullShoulderModel_Anterosuperior.osim']};
         {[modelDir,'FullShoulderModel_Posteroinferior.osim']};
         {[modelDir,'FullShoulderModel_Posterosuperior.osim']};
@@ -72,7 +80,8 @@ function ShoulderCapsulorrhaphySims_5_RunSimulations(taskName,meshInterval)
         {[modelDir,'FullShoulderModel_TotalPosterior.osim']};
         {[modelDir,'FullShoulderModel_TotalSuperior.osim']}];
     
-    modelName = [{'Anteroinferior'};
+    modelName = [{'None'};
+        {'Anteroinferior'};
         {'Anterosuperior'};
         {'Posteroinferior'};
         {'Posterosuperior'};
@@ -92,12 +101,15 @@ function ShoulderCapsulorrhaphySims_5_RunSimulations(taskName,meshInterval)
     taskBounds = load('Vidt_MovementValues.mat');
     cd(taskDir);
     
-    %Rename the copied over file to include the model(i.e. 'None') in filename
-    movefile(guessFile,['None_',guessFile]);
+    %Rename the copied over file to a generic name
+    movefile(guessFile,'guessFile.sto');
     
     %% Run simulations
     
     %%%%% TO DO: package this up into a function???
+    
+    %%%%% TO DO: could include a minimise joint reaction force goal on the
+    %%%%% shear components to simulate appropriate muscle-joint function?
   
     %Loop through models
     for ii = 1:length(modelList)
@@ -174,6 +186,22 @@ function ShoulderCapsulorrhaphySims_5_RunSimulations(taskName,meshInterval)
         %Add a MocoFinalTimeGoal to the problem
         problem.addGoal(MocoFinalTimeGoal('time',1));
         
+        
+% % %         %%%% Test a joint reaction force minimisation goal on the problem
+% % %         jrfGoal = MocoJointReactionGoal('jrfGoal',1);
+% % %         jrfGoal.setJointPath('/jointset/unrothum');
+% % %         jrfGoal.setLoadsFrame('parent');
+% % %         jrfGoal.setExpressedInFramePath('/jointset/unrothum/rotated_scap_frame');
+% % %         reactionMeasure = StdVectorString();
+% % %         reactionMeasure.add('force-x'); reactionMeasure.add('force-z');
+% % %         jrfGoal.setReactionMeasures(reactionMeasure);
+% % %         problem.addGoal(jrfGoal);
+% % %         %%%% Test a joint reaction force minimisation goal on the problem
+        
+        %%%%%%%% seems to work, except for ceased unsolved iteration had a
+        %%%%%%%% spike at the end, but seemed like something that might be
+        %%%%%%%% fixed as it converged...
+        
         %Configure the solver.
         solver = study.initCasADiSolver();
         solver.set_num_mesh_intervals(meshInterval);
@@ -192,7 +220,7 @@ function ShoulderCapsulorrhaphySims_5_RunSimulations(taskName,meshInterval)
         %controls, multipliers) from the existing solution.
 
         %Grab the last solution
-        mocoTraj = MocoTrajectory([pwd,'\None_',guessFile]);
+        mocoTraj = MocoTrajectory([pwd,'\guessFile.sto']);
 
         %Create random guessusing the current solver
         randTraj = solver.createGuess();
@@ -232,7 +260,7 @@ function ShoulderCapsulorrhaphySims_5_RunSimulations(taskName,meshInterval)
     clear ii
 
     
-    
+    %%%% above loop has been run for first task...
 
 
 
