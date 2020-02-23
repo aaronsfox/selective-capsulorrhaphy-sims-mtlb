@@ -72,7 +72,13 @@ function addTaskBounds(taskName,taskBounds,mocoProblem,modelObject)
 
     %Forearm
     charValue = ['/jointset/',char(modelObject.getCoordinateSet().get('pro_sup').getJoint().getName()),'/',char(modelObject.getCoordinateSet().get('pro_sup').getName()),'/value'];
-    mn = modelObject.getCoordinateSet().get('pro_sup').getRangeMin();
+    if contains(taskName,'Reach')
+        %Limit forearm motion to mostly pronation
+        mn = deg2rad(-10);
+    else
+        %Leave as max attainable supination
+        mn = modelObject.getCoordinateSet().get('pro_sup').getRangeMin();
+    end
     mx = modelObject.getCoordinateSet().get('pro_sup').getRangeMax();
     mocoProblem.setStateInfo(charValue,[mn,mx],0,[])
 
@@ -81,7 +87,7 @@ function addTaskBounds(taskName,taskBounds,mocoProblem,modelObject)
     
     %Set muscle activation bounds and for activation to start at zero
     %(or as close to zero as it should)
-    mocoProblem.setStateInfoPattern('/forceset/.*/activation', [0,1],0,[]);
+    mocoProblem.setStateInfoPattern('/forceset/.*/activation', [0.01,1],0.01,[]);
     
    
     
