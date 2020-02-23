@@ -9,7 +9,84 @@
 				<ModelProcessor name="model">
 					<!--Base model to process.-->
 					<model>
-						<Model name="WUShoulderModel">
+						<Model name="FullShoulderModel_None">
+							<defaults>
+								<Thelen2003Muscle name="default">
+									<!--The set of points defining the path of the actuator.-->
+									<GeometryPath name="geometrypath">
+										<!--Default appearance attributes for this GeometryPath-->
+										<Appearance>
+											<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+											<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+										</Appearance>
+									</GeometryPath>
+									<!--Maximum isometric force that the fibers can generate-->
+									<max_isometric_force>546</max_isometric_force>
+									<!--Optimal length of the muscle fibers-->
+									<optimal_fiber_length>0.053499999999999999</optimal_fiber_length>
+									<!--Resting length of the tendon-->
+									<tendon_slack_length>0.078</tendon_slack_length>
+									<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+									<pennation_angle_at_optimal>0.13962634016</pennation_angle_at_optimal>
+									<!--Maximum contraction velocity of the fibers, in optimal fiberlengths/second-->
+									<max_contraction_velocity>10</max_contraction_velocity>
+									<!--Assumed activation level if none is assigned.-->
+									<default_activation>1</default_activation>
+								</Thelen2003Muscle>
+							</defaults>
+							<!--List of components that this component owns and serializes.-->
+							<components>
+								<CoordinateActuator name="elv_angle_reserve">
+									<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
+									<min_control>-Inf</min_control>
+									<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
+									<max_control>Inf</max_control>
+									<!--Name of the generalized coordinate to which the actuator applies.-->
+									<coordinate>elv_angle</coordinate>
+									<!--The maximum generalized force produced by this actuator.-->
+									<optimal_force>2</optimal_force>
+								</CoordinateActuator>
+								<CoordinateActuator name="shoulder_elv_reserve">
+									<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
+									<min_control>-1</min_control>
+									<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
+									<max_control>1</max_control>
+									<!--Name of the generalized coordinate to which the actuator applies.-->
+									<coordinate>shoulder_elv</coordinate>
+									<!--The maximum generalized force produced by this actuator.-->
+									<optimal_force>2</optimal_force>
+								</CoordinateActuator>
+								<CoordinateActuator name="shoulder_rot_reserve">
+									<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
+									<min_control>-1</min_control>
+									<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
+									<max_control>1</max_control>
+									<!--Name of the generalized coordinate to which the actuator applies.-->
+									<coordinate>shoulder_rot</coordinate>
+									<!--The maximum generalized force produced by this actuator.-->
+									<optimal_force>2</optimal_force>
+								</CoordinateActuator>
+								<CoordinateActuator name="elbow_flexion_torque">
+									<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
+									<min_control>-1</min_control>
+									<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
+									<max_control>1</max_control>
+									<!--Name of the generalized coordinate to which the actuator applies.-->
+									<coordinate>elbow_flexion</coordinate>
+									<!--The maximum generalized force produced by this actuator.-->
+									<optimal_force>300</optimal_force>
+								</CoordinateActuator>
+								<CoordinateActuator name="pro_sup_torque">
+									<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
+									<min_control>-1</min_control>
+									<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
+									<max_control>1</max_control>
+									<!--Name of the generalized coordinate to which the actuator applies.-->
+									<coordinate>pro_sup</coordinate>
+									<!--The maximum generalized force produced by this actuator.-->
+									<optimal_force>100</optimal_force>
+								</CoordinateActuator>
+							</components>
 							<!--The model's ground reference frame.-->
 							<Ground name="ground">
 								<!--The geometry used to display the axes of this Frame.-->
@@ -286,7 +363,6 @@
 													<dimensions>0.074999999999999997 0.11 0.065000000000000002</dimensions>
 												</WrapEllipsoid>
 											</objects>
-											<groups />
 										</WrapObjectSet>
 										<!--The mass of the body (kg)-->
 										<mass>20</mass>
@@ -462,7 +538,6 @@
 													<length>0.029999999999999999</length>
 												</WrapCylinder>
 											</objects>
-											<groups />
 										</WrapObjectSet>
 										<!--The mass of the body (kg)-->
 										<mass>0.5</mass>
@@ -1087,7 +1162,6 @@
 										<!--Set of wrap objects fixed to this body that GeometryPaths can wrap over.This property used to be a member of Body but was moved up with the introduction of Frames.-->
 										<WrapObjectSet name="wrapobjectset">
 											<objects />
-											<groups />
 										</WrapObjectSet>
 										<!--The mass of the body (kg)-->
 										<mass>0.60750000000000004</mass>
@@ -1125,7 +1199,6 @@
 										<!--Set of wrap objects fixed to this body that GeometryPaths can wrap over.This property used to be a member of Body but was moved up with the introduction of Frames.-->
 										<WrapObjectSet name="wrapobjectset">
 											<objects />
-											<groups />
 										</WrapObjectSet>
 										<!--The mass of the body (kg)-->
 										<mass>0.60750000000000004</mass>
@@ -2140,14 +2213,13 @@
 											<groups />
 										</WrapObjectSet>
 										<!--The mass of the body (kg)-->
-										<mass>0.45750000000000002</mass>
+										<mass>1.4575</mass>
 										<!--The location (Vec3) of the mass center in the body frame.-->
 										<mass_center>0 -0.068095000000000003 0</mass_center>
 										<!--The elements of the inertia tensor (Vec6) as [Ixx Iyy Izz Ixy Ixz Iyz] measured about the mass_center and not the body origin.-->
 										<inertia>0.000892 0.00054699999999999996 0.00134 0 0 0</inertia>
 									</Body>
 								</objects>
-								<groups />
 							</BodySet>
 							<!--List of joints that connect the bodies.-->
 							<JointSet name="jointset">
@@ -3616,7 +3688,6 @@
 										</frames>
 									</WeldJoint>
 								</objects>
-								<groups />
 							</JointSet>
 							<!--Controllers that provide the control inputs for Actuators.-->
 							<ControllerSet name="controllerset">
@@ -3819,186 +3890,6 @@
 							<!--Forces in the model (includes Actuators).-->
 							<ForceSet name="forceset">
 								<objects>
-									<CoordinateLimitForce name="shoulder_elv_ligaments">
-										<!--Flag indicating whether the force is applied or not. If true the forceis applied to the MultibodySystem otherwise the force is not applied.NOTE: Prior to OpenSim 4.0, this behavior was controlled by the 'isDisabled' property, where 'true' meant that force was not being applied. Thus, if 'isDisabled' is true, then 'appliesForce` is false.-->
-										<appliesForce>true</appliesForce>
-										<!--Coordinate (name) to be limited.-->
-										<coordinate>shoulder_elv</coordinate>
-										<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
-										<upper_stiffness>100</upper_stiffness>
-										<!--The upper limit of the coordinate range of motion (rotations in degrees).-->
-										<upper_limit>150</upper_limit>
-										<!--Stiffness of the passive limit force when coordinate exceeds lower limit. Note, rotational stiffness expected in N*m/degree.-->
-										<lower_stiffness>100</lower_stiffness>
-										<!--The lower limit of the coordinate range of motion (rotations in degrees).-->
-										<lower_limit>30</lower_limit>
-										<!--Damping factor on the coordinate's speed applied only when limit is exceeded. For translational has units N/(m/s) and rotational has Nm/(degree/s)-->
-										<damping>0</damping>
-										<!--Transition region width in the units of the coordinate (rotations in degrees). Dictates the transition from zero to constant stiffness as coordinate exceeds its limit.-->
-										<transition>542.84230000000002</transition>
-									</CoordinateLimitForce>
-									<CoordinateLimitForce name="shoulder_elv_damping">
-										<!--Flag indicating whether the force is applied or not. If true the forceis applied to the MultibodySystem otherwise the force is not applied.NOTE: Prior to OpenSim 4.0, this behavior was controlled by the 'isDisabled' property, where 'true' meant that force was not being applied. Thus, if 'isDisabled' is true, then 'appliesForce` is false.-->
-										<appliesForce>true</appliesForce>
-										<!--Coordinate (name) to be limited.-->
-										<coordinate>shoulder_elv</coordinate>
-										<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
-										<upper_stiffness>1e-08</upper_stiffness>
-										<!--The upper limit of the coordinate range of motion (rotations in degrees).-->
-										<upper_limit>190</upper_limit>
-										<!--Stiffness of the passive limit force when coordinate exceeds lower limit. Note, rotational stiffness expected in N*m/degree.-->
-										<lower_stiffness>1e-08</lower_stiffness>
-										<!--The lower limit of the coordinate range of motion (rotations in degrees).-->
-										<lower_limit>190</lower_limit>
-										<!--Damping factor on the coordinate's speed applied only when limit is exceeded. For translational has units N/(m/s) and rotational has Nm/(degree/s)-->
-										<damping>0.001745</damping>
-										<!--Transition region width in the units of the coordinate (rotations in degrees). Dictates the transition from zero to constant stiffness as coordinate exceeds its limit.-->
-										<transition>1</transition>
-									</CoordinateLimitForce>
-									<CoordinateLimitForce name="elv_angle_ligaments">
-										<!--Flag indicating whether the force is applied or not. If true the forceis applied to the MultibodySystem otherwise the force is not applied.NOTE: Prior to OpenSim 4.0, this behavior was controlled by the 'isDisabled' property, where 'true' meant that force was not being applied. Thus, if 'isDisabled' is true, then 'appliesForce` is false.-->
-										<appliesForce>true</appliesForce>
-										<!--Coordinate (name) to be limited.-->
-										<coordinate>elv_angle</coordinate>
-										<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
-										<upper_stiffness>100</upper_stiffness>
-										<!--The upper limit of the coordinate range of motion (rotations in degrees).-->
-										<upper_limit>100</upper_limit>
-										<!--Stiffness of the passive limit force when coordinate exceeds lower limit. Note, rotational stiffness expected in N*m/degree.-->
-										<lower_stiffness>100</lower_stiffness>
-										<!--The lower limit of the coordinate range of motion (rotations in degrees).-->
-										<lower_limit>-60</lower_limit>
-										<!--Damping factor on the coordinate's speed applied only when limit is exceeded. For translational has units N/(m/s) and rotational has Nm/(degree/s)-->
-										<damping>0</damping>
-										<!--Transition region width in the units of the coordinate (rotations in degrees). Dictates the transition from zero to constant stiffness as coordinate exceeds its limit.-->
-										<transition>545.44709999999998</transition>
-									</CoordinateLimitForce>
-									<CoordinateLimitForce name="elv_angle_damping">
-										<!--Flag indicating whether the force is applied or not. If true the forceis applied to the MultibodySystem otherwise the force is not applied.NOTE: Prior to OpenSim 4.0, this behavior was controlled by the 'isDisabled' property, where 'true' meant that force was not being applied. Thus, if 'isDisabled' is true, then 'appliesForce` is false.-->
-										<appliesForce>true</appliesForce>
-										<!--Coordinate (name) to be limited.-->
-										<coordinate>elv_angle</coordinate>
-										<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
-										<upper_stiffness>1e-08</upper_stiffness>
-										<!--The upper limit of the coordinate range of motion (rotations in degrees).-->
-										<upper_limit>190</upper_limit>
-										<!--Stiffness of the passive limit force when coordinate exceeds lower limit. Note, rotational stiffness expected in N*m/degree.-->
-										<lower_stiffness>1e-08</lower_stiffness>
-										<!--The lower limit of the coordinate range of motion (rotations in degrees).-->
-										<lower_limit>190</lower_limit>
-										<!--Damping factor on the coordinate's speed applied only when limit is exceeded. For translational has units N/(m/s) and rotational has Nm/(degree/s)-->
-										<damping>0.001745</damping>
-										<!--Transition region width in the units of the coordinate (rotations in degrees). Dictates the transition from zero to constant stiffness as coordinate exceeds its limit.-->
-										<transition>1</transition>
-									</CoordinateLimitForce>
-									<CoordinateLimitForce name="shoulder_rot_ligaments">
-										<!--Flag indicating whether the force is applied or not. If true the forceis applied to the MultibodySystem otherwise the force is not applied.NOTE: Prior to OpenSim 4.0, this behavior was controlled by the 'isDisabled' property, where 'true' meant that force was not being applied. Thus, if 'isDisabled' is true, then 'appliesForce` is false.-->
-										<appliesForce>true</appliesForce>
-										<!--Coordinate (name) to be limited.-->
-										<coordinate>shoulder_rot</coordinate>
-										<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
-										<upper_stiffness>100</upper_stiffness>
-										<!--The upper limit of the coordinate range of motion (rotations in degrees).-->
-										<upper_limit>-10</upper_limit>
-										<!--Stiffness of the passive limit force when coordinate exceeds lower limit. Note, rotational stiffness expected in N*m/degree.-->
-										<lower_stiffness>100</lower_stiffness>
-										<!--The lower limit of the coordinate range of motion (rotations in degrees).-->
-										<lower_limit>-60</lower_limit>
-										<!--Damping factor on the coordinate's speed applied only when limit is exceeded. For translational has units N/(m/s) and rotational has Nm/(degree/s)-->
-										<damping>0</damping>
-										<!--Transition region width in the units of the coordinate (rotations in degrees). Dictates the transition from zero to constant stiffness as coordinate exceeds its limit.-->
-										<transition>485.46600000000001</transition>
-									</CoordinateLimitForce>
-									<CoordinateLimitForce name="shoulder_rot_damping">
-										<!--Flag indicating whether the force is applied or not. If true the forceis applied to the MultibodySystem otherwise the force is not applied.NOTE: Prior to OpenSim 4.0, this behavior was controlled by the 'isDisabled' property, where 'true' meant that force was not being applied. Thus, if 'isDisabled' is true, then 'appliesForce` is false.-->
-										<appliesForce>true</appliesForce>
-										<!--Coordinate (name) to be limited.-->
-										<coordinate>shoulder_rot</coordinate>
-										<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
-										<upper_stiffness>1e-08</upper_stiffness>
-										<!--The upper limit of the coordinate range of motion (rotations in degrees).-->
-										<upper_limit>190</upper_limit>
-										<!--Stiffness of the passive limit force when coordinate exceeds lower limit. Note, rotational stiffness expected in N*m/degree.-->
-										<lower_stiffness>1e-08</lower_stiffness>
-										<!--The lower limit of the coordinate range of motion (rotations in degrees).-->
-										<lower_limit>190</lower_limit>
-										<!--Damping factor on the coordinate's speed applied only when limit is exceeded. For translational has units N/(m/s) and rotational has Nm/(degree/s)-->
-										<damping>0.001745</damping>
-										<!--Transition region width in the units of the coordinate (rotations in degrees). Dictates the transition from zero to constant stiffness as coordinate exceeds its limit.-->
-										<transition>1</transition>
-									</CoordinateLimitForce>
-									<CoordinateLimitForce name="elbow_flexion_ligaments">
-										<!--Flag indicating whether the force is applied or not. If true the forceis applied to the MultibodySystem otherwise the force is not applied.NOTE: Prior to OpenSim 4.0, this behavior was controlled by the 'isDisabled' property, where 'true' meant that force was not being applied. Thus, if 'isDisabled' is true, then 'appliesForce` is false.-->
-										<appliesForce>true</appliesForce>
-										<!--Coordinate (name) to be limited.-->
-										<coordinate>elbow_flexion</coordinate>
-										<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
-										<upper_stiffness>0.30370000000000003</upper_stiffness>
-										<!--The upper limit of the coordinate range of motion (rotations in degrees).-->
-										<upper_limit>85</upper_limit>
-										<!--Stiffness of the passive limit force when coordinate exceeds lower limit. Note, rotational stiffness expected in N*m/degree.-->
-										<lower_stiffness>100</lower_stiffness>
-										<!--The lower limit of the coordinate range of motion (rotations in degrees).-->
-										<lower_limit>14</lower_limit>
-										<!--Damping factor on the coordinate's speed applied only when limit is exceeded. For translational has units N/(m/s) and rotational has Nm/(degree/s)-->
-										<damping>0</damping>
-										<!--Transition region width in the units of the coordinate (rotations in degrees). Dictates the transition from zero to constant stiffness as coordinate exceeds its limit.-->
-										<transition>139.5813</transition>
-									</CoordinateLimitForce>
-									<CoordinateLimitForce name="elbow_flexion_damping">
-										<!--Flag indicating whether the force is applied or not. If true the forceis applied to the MultibodySystem otherwise the force is not applied.NOTE: Prior to OpenSim 4.0, this behavior was controlled by the 'isDisabled' property, where 'true' meant that force was not being applied. Thus, if 'isDisabled' is true, then 'appliesForce` is false.-->
-										<appliesForce>true</appliesForce>
-										<!--Coordinate (name) to be limited.-->
-										<coordinate>elbow_flexion</coordinate>
-										<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
-										<upper_stiffness>1e-08</upper_stiffness>
-										<!--The upper limit of the coordinate range of motion (rotations in degrees).-->
-										<upper_limit>190</upper_limit>
-										<!--Stiffness of the passive limit force when coordinate exceeds lower limit. Note, rotational stiffness expected in N*m/degree.-->
-										<lower_stiffness>1e-08</lower_stiffness>
-										<!--The lower limit of the coordinate range of motion (rotations in degrees).-->
-										<lower_limit>190</lower_limit>
-										<!--Damping factor on the coordinate's speed applied only when limit is exceeded. For translational has units N/(m/s) and rotational has Nm/(degree/s)-->
-										<damping>0.001745</damping>
-										<!--Transition region width in the units of the coordinate (rotations in degrees). Dictates the transition from zero to constant stiffness as coordinate exceeds its limit.-->
-										<transition>1</transition>
-									</CoordinateLimitForce>
-									<CoordinateLimitForce name="pro_sup_ligaments">
-										<!--Flag indicating whether the force is applied or not. If true the forceis applied to the MultibodySystem otherwise the force is not applied.NOTE: Prior to OpenSim 4.0, this behavior was controlled by the 'isDisabled' property, where 'true' meant that force was not being applied. Thus, if 'isDisabled' is true, then 'appliesForce` is false.-->
-										<appliesForce>true</appliesForce>
-										<!--Coordinate (name) to be limited.-->
-										<coordinate>pro_sup</coordinate>
-										<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
-										<upper_stiffness>50</upper_stiffness>
-										<!--The upper limit of the coordinate range of motion (rotations in degrees).-->
-										<upper_limit>60</upper_limit>
-										<!--Stiffness of the passive limit force when coordinate exceeds lower limit. Note, rotational stiffness expected in N*m/degree.-->
-										<lower_stiffness>50</lower_stiffness>
-										<!--The lower limit of the coordinate range of motion (rotations in degrees).-->
-										<lower_limit>-60</lower_limit>
-										<!--Damping factor on the coordinate's speed applied only when limit is exceeded. For translational has units N/(m/s) and rotational has Nm/(degree/s)-->
-										<damping>0</damping>
-										<!--Transition region width in the units of the coordinate (rotations in degrees). Dictates the transition from zero to constant stiffness as coordinate exceeds its limit.-->
-										<transition>430.11860000000001</transition>
-									</CoordinateLimitForce>
-									<CoordinateLimitForce name="pro_sup_damping">
-										<!--Flag indicating whether the force is applied or not. If true the forceis applied to the MultibodySystem otherwise the force is not applied.NOTE: Prior to OpenSim 4.0, this behavior was controlled by the 'isDisabled' property, where 'true' meant that force was not being applied. Thus, if 'isDisabled' is true, then 'appliesForce` is false.-->
-										<appliesForce>true</appliesForce>
-										<!--Coordinate (name) to be limited.-->
-										<coordinate>pro_sup</coordinate>
-										<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
-										<upper_stiffness>1e-08</upper_stiffness>
-										<!--The upper limit of the coordinate range of motion (rotations in degrees).-->
-										<upper_limit>190</upper_limit>
-										<!--Stiffness of the passive limit force when coordinate exceeds lower limit. Note, rotational stiffness expected in N*m/degree.-->
-										<lower_stiffness>1e-08</lower_stiffness>
-										<!--The lower limit of the coordinate range of motion (rotations in degrees).-->
-										<lower_limit>190</lower_limit>
-										<!--Damping factor on the coordinate's speed applied only when limit is exceeded. For translational has units N/(m/s) and rotational has Nm/(degree/s)-->
-										<damping>0.001745</damping>
-										<!--Transition region width in the units of the coordinate (rotations in degrees). Dictates the transition from zero to constant stiffness as coordinate exceeds its limit.-->
-										<transition>1</transition>
-									</CoordinateLimitForce>
 									<DeGrooteFregly2016Muscle name="LVS">
 										<!--Flag indicating whether the force is applied or not. If true the forceis applied to the MultibodySystem otherwise the force is not applied.NOTE: Prior to OpenSim 4.0, this behavior was controlled by the 'isDisabled' property, where 'true' meant that force was not being applied. Thus, if 'isDisabled' is true, then 'appliesForce` is false.-->
 										<appliesForce>true</appliesForce>
@@ -5609,56 +5500,62 @@
 										<!--Tendon strain at a tension of 1 normalized force.-->
 										<tendon_strain_at_one_norm_force>0.049000000000000002</tendon_strain_at_one_norm_force>
 									</DeGrooteFregly2016Muscle>
-									<CoordinateActuator name="elv_angle_reserve">
-										<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
-										<min_control>-Inf</min_control>
-										<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
-										<max_control>Inf</max_control>
-										<!--Name of the generalized coordinate to which the actuator applies.-->
-										<coordinate>elv_angle</coordinate>
-										<!--The maximum generalized force produced by this actuator.-->
-										<optimal_force>2</optimal_force>
-									</CoordinateActuator>
-									<CoordinateActuator name="shoulder_elv_reserve">
-										<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
-										<min_control>-Inf</min_control>
-										<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
-										<max_control>Inf</max_control>
-										<!--Name of the generalized coordinate to which the actuator applies.-->
+									<DualExpressionBasedCoordinateForce name="shoulder_elv_DualEBCF">
+										<!--Flag indicating whether the force is applied or not. If true the forceis applied to the MultibodySystem otherwise the force is not applied.NOTE: Prior to OpenSim 4.0, this behavior was controlled by the 'isDisabled' property, where 'true' meant that force was not being applied. Thus, if 'isDisabled' is true, then 'appliesForce` is false.-->
+										<appliesForce>true</appliesForce>
+										<!--Coordinate (name) to apply force to and use in function as q1.-->
 										<coordinate>shoulder_elv</coordinate>
-										<!--The maximum generalized force produced by this actuator.-->
-										<optimal_force>2</optimal_force>
-									</CoordinateActuator>
-									<CoordinateActuator name="shoulder_rot_reserve">
-										<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
-										<min_control>-Inf</min_control>
-										<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
-										<max_control>Inf</max_control>
-										<!--Name of the generalized coordinate to which the actuator applies.-->
+										<!--Coordinate (name) to use in function as q2. Does not receive a force.-->
+										<coordinateDual>elv_angle</coordinateDual>
+										<!--Expression of the force magnitude as a function of the two coordinate1 (q1)and coordinate2 (q2) and their derivatives (qdot1 and qdot2).This first expression is used when coordinate1 is positive.Note expression cannot have any whitespace separating characters-->
+										<expressionPos>(1.7036*q2+-32.3646)*exp(-((q1-(-0.12282*q2+1.9938))/(-0.018058*q2+0.34014))^2)</expressionPos>
+										<!--Expression of the force magnitude as a function of the two coordinate1 (q1)and coordinate2 (q2) and their derivatives (qdot1 and qdot2).This first expression is used when coordinate1 is negative.Note expression cannot have any whitespace separating characters-->
+										<expressionNeg>0</expressionNeg>
+									</DualExpressionBasedCoordinateForce>
+									<DualExpressionBasedCoordinateForce name="shoulder_rot_DualEBCF">
+										<!--Flag indicating whether the force is applied or not. If true the forceis applied to the MultibodySystem otherwise the force is not applied.NOTE: Prior to OpenSim 4.0, this behavior was controlled by the 'isDisabled' property, where 'true' meant that force was not being applied. Thus, if 'isDisabled' is true, then 'appliesForce` is false.-->
+										<appliesForce>true</appliesForce>
+										<!--Coordinate (name) to apply force to and use in function as q1.-->
 										<coordinate>shoulder_rot</coordinate>
-										<!--The maximum generalized force produced by this actuator.-->
-										<optimal_force>2</optimal_force>
-									</CoordinateActuator>
-									<CoordinateActuator name="elbow_flexion_torque">
-										<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
-										<min_control>-Inf</min_control>
-										<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
-										<max_control>Inf</max_control>
-										<!--Name of the generalized coordinate to which the actuator applies.-->
-										<coordinate>elbow_flexion</coordinate>
-										<!--The maximum generalized force produced by this actuator.-->
-										<optimal_force>300</optimal_force>
-									</CoordinateActuator>
-									<CoordinateActuator name="pro_sup_torque">
-										<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
-										<min_control>-Inf</min_control>
-										<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
-										<max_control>Inf</max_control>
-										<!--Name of the generalized coordinate to which the actuator applies.-->
-										<coordinate>pro_sup</coordinate>
-										<!--The maximum generalized force produced by this actuator.-->
-										<optimal_force>100</optimal_force>
-									</CoordinateActuator>
+										<!--Coordinate (name) to use in function as q2. Does not receive a force.-->
+										<coordinateDual>shoulder_elv</coordinateDual>
+										<!--Expression of the force magnitude as a function of the two coordinate1 (q1)and coordinate2 (q2) and their derivatives (qdot1 and qdot2).This first expression is used when coordinate1 is positive.Note expression cannot have any whitespace separating characters-->
+										<expressionPos>(-0.036136*q2^2+0.19634*q2+-3.6144)*exp(-((q1-(-0.040576*q2^2+-0.084763*q2+0.96702))/(-0.003381*q2^2+0.010046*q2+0.17382))^2)</expressionPos>
+										<!--Expression of the force magnitude as a function of the two coordinate1 (q1)and coordinate2 (q2) and their derivatives (qdot1 and qdot2).This first expression is used when coordinate1 is negative.Note expression cannot have any whitespace separating characters-->
+										<expressionNeg>(0.010739*q2^2+-0.13383*q2+3.5033)*exp(-((q1-(0.31913*q2^2+-1.397*q2+-1.1269))/(-0.0021309*q2^2+0.01367*q2+0.18091))^2)</expressionNeg>
+									</DualExpressionBasedCoordinateForce>
+									<CoordinateLimitForce name="shoulder_elv_damping">
+										<!--Coordinate (name) to be limited.-->
+										<coordinate>shoulder_elv</coordinate>
+										<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
+										<upper_stiffness>1e-08</upper_stiffness>
+										<!--The upper limit of the coordinate range of motion (rotations in degrees).-->
+										<upper_limit>190</upper_limit>
+										<!--Stiffness of the passive limit force when coordinate exceeds lower limit. Note, rotational stiffness expected in N*m/degree.-->
+										<lower_stiffness>1e-08</lower_stiffness>
+										<!--The lower limit of the coordinate range of motion (rotations in degrees).-->
+										<lower_limit>190</lower_limit>
+										<!--Damping factor on the coordinate's speed applied only when limit is exceeded. For translational has units N/(m/s) and rotational has Nm/(degree/s)-->
+										<damping>0.001745</damping>
+										<!--Transition region width in the units of the coordinate (rotations in degrees). Dictates the transition from zero to constant stiffness as coordinate exceeds its limit.-->
+										<transition>1</transition>
+									</CoordinateLimitForce>
+									<CoordinateLimitForce name="shoulder_rot_damping">
+										<!--Coordinate (name) to be limited.-->
+										<coordinate>shoulder_rot</coordinate>
+										<!--Stiffness of the passive limit force when coordinate exceeds upper limit. Note, rotational stiffness expected in N*m/degree.-->
+										<upper_stiffness>1e-08</upper_stiffness>
+										<!--The upper limit of the coordinate range of motion (rotations in degrees).-->
+										<upper_limit>190</upper_limit>
+										<!--Stiffness of the passive limit force when coordinate exceeds lower limit. Note, rotational stiffness expected in N*m/degree.-->
+										<lower_stiffness>1e-08</lower_stiffness>
+										<!--The lower limit of the coordinate range of motion (rotations in degrees).-->
+										<lower_limit>190</lower_limit>
+										<!--Damping factor on the coordinate's speed applied only when limit is exceeded. For translational has units N/(m/s) and rotational has Nm/(degree/s)-->
+										<damping>0.001745</damping>
+										<!--Transition region width in the units of the coordinate (rotations in degrees). Dictates the transition from zero to constant stiffness as coordinate exceeds its limit.-->
+										<transition>1</transition>
+									</CoordinateLimitForce>
 								</objects>
 								<groups>
 									<ObjectGroup name="Scapulothoracic">
@@ -5823,7 +5720,6 @@
 										<location>0.0095663781266324688 -0.16978774053388629 0.019388268178255952</location>
 									</Marker>
 								</objects>
-								<groups />
 							</MarkerSet>
 						</Model>
 					</model>
@@ -5836,33 +5732,33 @@
 				<!--Bounds on final value.-->
 				<MocoFinalBounds name="time_final_bounds">
 					<!--1 value: required value. 2 values: lower, upper bounds on value.-->
-					<bounds>0.5 2</bounds>
+					<bounds>0.10000000000000001 2</bounds>
 				</MocoFinalBounds>
 				<!--The state variables' bounds.-->
 				<state_infos>
 					<MocoVariableInfo name="/jointset/shoulder1/shoulder_elv/value">
 						<!--1 value: required value over all time. 2 values: lower, upper bounds on value over all time.-->
-						<bounds>0 1.3735741213195374</bounds>
+						<bounds>0 1.8558085936455706</bounds>
 						<!--1 value: required initial value. 2 values: lower, upper bounds on initial value.-->
 						<initial_bounds>0</initial_bounds>
 						<!--1 value: required final value. 2 values: lower, upper bounds on final value.-->
-						<final_bounds>1.162159358261218 1.3502786787696153</final_bounds>
+						<final_bounds>1.5890311100351078 1.7922186952104144</final_bounds>
 					</MocoVariableInfo>
 					<MocoVariableInfo name="/jointset/shoulder2/shoulder_rot/value">
 						<!--1 value: required value over all time. 2 values: lower, upper bounds on value over all time.-->
-						<bounds>-0.099166434775578405 0.64458182598889979</bounds>
+						<bounds>-0.13883300868930043 0.7139983303771833</bounds>
 						<!--1 value: required initial value. 2 values: lower, upper bounds on initial value.-->
 						<initial_bounds>0</initial_bounds>
 						<!--1 value: required final value. 2 values: lower, upper bounds on final value.-->
-						<final_bounds>0.23532529244883385 0.64420298796305453</final_bounds>
+						<final_bounds>0.46107951884951681 0.70334163881649714</final_bounds>
 					</MocoVariableInfo>
 					<MocoVariableInfo name="/jointset/shoulder0/elv_angle/value">
 						<!--1 value: required value over all time. 2 values: lower, upper bounds on value over all time.-->
-						<bounds>-0.13736387630790434 1.3089969389957472</bounds>
+						<bounds>-0.024240684057416053 1.3655585351122648</bounds>
 						<!--1 value: required initial value. 2 values: lower, upper bounds on initial value.-->
-						<initial_bounds>-0.13736387630790434 1.3089969389957472</initial_bounds>
+						<initial_bounds>-0.024240684057416053 1.3655585351122648</initial_bounds>
 						<!--1 value: required final value. 2 values: lower, upper bounds on final value.-->
-						<final_bounds>1.1001457420717617 1.2707565789095436</final_bounds>
+						<final_bounds>1.1707433297889587 1.3295879020653851</final_bounds>
 					</MocoVariableInfo>
 					<MocoVariableInfo name="/jointset/elbow/elbow_flexion/value">
 						<!--1 value: required value over all time. 2 values: lower, upper bounds on value over all time.-->
@@ -5908,7 +5804,7 @@
 						<!--The name (path) of a Point (Marker, Station) component in the model whose location should match the reference.-->
 						<point_name>/markerset/RS</point_name>
 						<!--The desired final location of the point, expressed in ground.-->
-						<reference_location>0.47476427839197999 -0.0069999999999999993 0.13726004169882772</reference_location>
+						<reference_location>0.47476427839197999 0.12962040113653245 0.13726004169882772</reference_location>
 					</MocoMarkerFinalGoal>
 					<MocoMarkerFinalGoal name="US_endPoint">
 						<!--In cost mode, the goal is multiplied by this weight (default: 1).-->
@@ -5916,7 +5812,7 @@
 						<!--The name (path) of a Point (Marker, Station) component in the model whose location should match the reference.-->
 						<point_name>/markerset/US</point_name>
 						<!--The desired final location of the point, expressed in ground.-->
-						<reference_location>0.47476427839197999 -0.0069999999999999993 0.20273995830117225</reference_location>
+						<reference_location>0.47476427839197999 0.12962040113653245 0.20273995830117225</reference_location>
 					</MocoMarkerFinalGoal>
 					<MocoMarkerFinalGoal name="W_endPoint">
 						<!--In cost mode, the goal is multiplied by this weight (default: 1).-->
@@ -5924,7 +5820,7 @@
 						<!--The name (path) of a Point (Marker, Station) component in the model whose location should match the reference.-->
 						<point_name>/markerset/wri_out</point_name>
 						<!--The desired final location of the point, expressed in ground.-->
-						<reference_location>0.47476427839197999 0.019952782289774838 0.16999999999999998</reference_location>
+						<reference_location>0.47476427839197999 0.15657318342630727 0.16999999999999998</reference_location>
 					</MocoMarkerFinalGoal>
 					<MocoControlGoal name="effort">
 						<!--In cost mode, the goal is multiplied by this weight (default: 1).-->
@@ -5943,16 +5839,5 @@
 				</path_constraints>
 			</MocoPhase>
 		</MocoProblem>
-		<!--The optimal control algorithm for solving the problem.-->
-		<MocoCasADiSolver name="solver">
-			<!--The number of uniformly-sized mesh intervals for the problem (default: 100). If a non-uniform mesh exists, the non-uniform mesh is used instead.-->
-			<num_mesh_intervals>25</num_mesh_intervals>
-			<!--Tolerance used to determine if the objective is minimized (-1 for solver's default)-->
-			<optim_convergence_tolerance>0.0001</optim_convergence_tolerance>
-			<!--Tolerance used to determine if the constraints are satisfied (-1 for solver's default)-->
-			<optim_constraint_tolerance>0.0001</optim_constraint_tolerance>
-			<!--A MocoTrajectory file storing an initial guess.-->
-			<guess_file>X:\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Moco_GHJRF_Constraint\test\predictSolutionUnconstrained.sto</guess_file>
-		</MocoCasADiSolver>
 	</MocoStudy>
 </OpenSimDocument>
