@@ -1,10 +1,3 @@
 Loaded library \\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Plugin_DualEBCF\build\Release\osimDualEBCF.dll
-Loaded model BasicCapsModel_None from file BasicCapsModel_None.osim
-Loaded model BasicCapsModel_Anterosuperior from file BasicCapsModel_Anterosuperior.osim
-Loaded model BasicCapsModel_Anteroinferior from file BasicCapsModel_Anteroinferior.osim
-Loaded model BasicCapsModel_TotalAnterior from file BasicCapsModel_TotalAnterior.osim
-Loaded model BasicCapsModel_Posterosuperior from file BasicCapsModel_Posterosuperior.osim
-Loaded model BasicCapsModel_Posteroinferior from file BasicCapsModel_Posteroinferior.osim
-Loaded model BasicCapsModel_TotalPosterior from file BasicCapsModel_TotalPosterior.osim
-Loaded model BasicCapsModel_TotalSuperior from file BasicCapsModel_TotalSuperior.osim
-Loaded model BasicCapsModel_TotalInferior from file BasicCapsModel_TotalInferior.osim
+Loaded library \\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Plugin_DualEBCF\build\Release\osimDualEBCF.dll
+Loaded library \\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Plugin_DualEBCF\build\Release\osimDualEBCF.dll
