@@ -1,0 +1,44 @@
+Preparing to run AnalyzeTool.
+AbstractTool Analyse loading model '\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\SimulationResults\ConcentricUpwardReach105\FullShoulderModel.osim'
+Loaded model WUShoulderModel from file \\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\SimulationResults\ConcentricUpwardReach105\FullShoulderModel.osim
+Couldn't find file 'thorax.vtp'.
+Couldn't find file 'hat_spine.vtp'.
+Couldn't find file 'clavicle.vtp'.
+Couldn't find file 'scapula.vtp'.
+Couldn't find file 'humerus.vtp'.
+Couldn't find file 'ulna.vtp'.
+Couldn't find file 'radius.vtp'.
+Couldn't find file 'pisiform.vtp'.
+Couldn't find file 'scaphoid.vtp'.
+Couldn't find file 'triquetrum.vtp'.
+Couldn't find file 'hamate.vtp'.
+Couldn't find file 'capitate.vtp'.
+Couldn't find file 'trapezoid.vtp'.
+Couldn't find file 'trapezium.vtp'.
+Couldn't find file '1mc.vtp'.
+Couldn't find file '2mc.vtp'.
+Couldn't find file '3mc.vtp'.
+Couldn't find file '4mc.vtp'.
+Couldn't find file '5mc.vtp'.
+Couldn't find file 'thumbprox.vtp'.
+Couldn't find file 'thumbdist.vtp'.
+Couldn't find file '2proxph.vtp'.
+Couldn't find file '2midph.vtp'.
+Couldn't find file '2distph.vtp'.
+Couldn't find file '3proxph.vtp'.
+Couldn't find file '3midph.vtp'.
+Couldn't find file '3distph.vtp'.
+Couldn't find file '4proxph.vtp'.
+Couldn't find file '4midph.vtp'.
+Couldn't find file '4distph.vtp'.
+Couldn't find file '5proxph.vtp'.
+Couldn't find file '5midph.vtp'.
+Couldn't find file '5distph.vtp'.
+Couldn't find file 'lunate.vtp'.
+No external loads will be applied (external loads file not specified).
+
+Loading states from file \\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\SimulationResults\ConcentricUpwardReach105\None_ConcentricUpwardReach105_201nodes_solution.sto.
+Number of columns does not match in formStateStorage. Found 135 Expected  70.
+Found 201 state vectors with time stamps ranging from 0 to 0.700751.
+Executing the analyses from 0 to 0.700751...
+Printing results of investigation Analyse to \\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\SimulationResults\ConcentricUpwardReach105.
