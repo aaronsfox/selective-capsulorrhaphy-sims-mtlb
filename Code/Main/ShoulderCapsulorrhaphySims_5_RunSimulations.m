@@ -22,11 +22,6 @@ function ShoulderCapsulorrhaphySims_5_RunSimulations(taskName,meshInterval)
     %%%%%%%%% SOME THINGS HAVE CHANGED...
 
     %Run checks
-    if nargin < 2
-        %Check for mesh interval
-        meshInterval = input('Enter desired mesh interval: ');
-    end
-    
     if nargin < 1
         %Check for task
         taskNo = input('Select desired task:\n[1] Upward Reach 105\n[2] Forward Reach\n[3] Hair Touch\nEnter number: ');
@@ -39,7 +34,19 @@ function ShoulderCapsulorrhaphySims_5_RunSimulations(taskName,meshInterval)
                 taskName = 'HairTouch';
         end        
     end
-
+    
+    
+    if nargin < 2
+        %Set default mesh intervals based on node selection process
+        if strcmp(taskName,'ConcentricUpwardReach105')
+            meshInterval = 100;            
+        elseif strcmp(taskName,'ConcentricUpwardReach105')
+            meshInterval = 100;            
+        elseif strcmp(taskName,'ConcentricUpwardReach105')
+            meshInterval = 75;            
+        end
+    end
+    
     import org.opensim.modeling.*
     warning off
 
@@ -65,9 +72,6 @@ function ShoulderCapsulorrhaphySims_5_RunSimulations(taskName,meshInterval)
     
     %Add geometry directory
     ModelVisualizer.addDirToGeometrySearchPaths([modelDir,'Geometry']);
-    
-    %%%%%%% TO DO: the 'None' model needs to be run again to be consistent
-    %%%%%%% with the other tasks...
     
     %Create list of models to test (full path) [doesn't include None model]
     modelList = [{[modelDir,'FullShoulderModel_None.osim']};
@@ -150,17 +154,17 @@ function ShoulderCapsulorrhaphySims_5_RunSimulations(taskName,meshInterval)
                 %don't add a coordinate actuator as these coordinates won't move    
             elseif strcmp(char(coordSet.get(c-1).getName()),'elbow_flexion')
                 %Add an idealised torque actuator.
-                addCoordinateActuator(osimModel,char(coordSet.get(c-1).getName()),300,[1,-1],'_torque');
+                addCoordinateActuator(osimModel,char(coordSet.get(c-1).getName()),75,[inf,-inf],'_torque');
             elseif strcmp(char(coordSet.get(c-1).getName()),'pro_sup')
                 %Add an idealised torque actuator.
-                addCoordinateActuator(osimModel,char(coordSet.get(c-1).getName()),100,[1,-1],'_torque');
+                addCoordinateActuator(osimModel,char(coordSet.get(c-1).getName()),30,[inf,-inf],'_torque');
             elseif strcmp(char(coordSet.get(c-1).getName()),'elv_angle')
                 %Add a reserve torque actuator.
-                addCoordinateActuator(osimModel,char(coordSet.get(c-1).getName()),2,[inf,-inf],'_reserve');
+                addCoordinateActuator(osimModel,char(coordSet.get(c-1).getName()),1,[inf,-inf],'_reserve');
             elseif strcmp(char(coordSet.get(c-1).getName()),'shoulder_elv') || ...
                     strcmp(char(coordSet.get(c-1).getName()),'shoulder_rot')
                 %Add a reserve torque actuator.
-                addCoordinateActuator(osimModel,char(coordSet.get(c-1).getName()),2,[1,-1],'_reserve');
+                addCoordinateActuator(osimModel,char(coordSet.get(c-1).getName()),1,[1,-1],'_reserve');
             end
         end
         clear c
@@ -172,7 +176,7 @@ function ShoulderCapsulorrhaphySims_5_RunSimulations(taskName,meshInterval)
         problem.setModel(osimModel);
 
         %Set time bounds on the problem
-        problem.setTimeBounds(0, [0.1,2.0]);
+        problem.setTimeBounds(0, [0.1,1.0]);
 
         %Add state bounds relevant to task
         addTaskBounds(taskName,taskBounds,problem,osimModel);
@@ -197,11 +201,7 @@ function ShoulderCapsulorrhaphySims_5_RunSimulations(taskName,meshInterval)
 % % %         jrfGoal.setReactionMeasures(reactionMeasure);
 % % %         problem.addGoal(jrfGoal);
 % % %         %%%% Test a joint reaction force minimisation goal on the problem
-        
-        %%%%%%%% seems to work, except for ceased unsolved iteration had a
-        %%%%%%%% spike at the end, but seemed like something that might be
-        %%%%%%%% fixed as it converged...
-        
+
         %Configure the solver.
         solver = study.initCasADiSolver();
         solver.set_num_mesh_intervals(meshInterval);
@@ -259,10 +259,7 @@ function ShoulderCapsulorrhaphySims_5_RunSimulations(taskName,meshInterval)
     end
     clear ii
 
-    
-    %%%% above loop has been run for first task...
-
-
+    %%
 
 
 

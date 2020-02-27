@@ -290,9 +290,11 @@ function ShoulderCapsulorrhaphySims_3_CreateModels
     %Convert error data to table format and write to text file
     cd('OptimisedResults');
     %Convert to table
+    expAnglesT = array2table(expAngles,'VariableNames',angles,'RowNames',plications); 
     errAnglesT = array2table(errAngles,'VariableNames',angles,'RowNames',plications);
     pErrAnglesT = array2table(pErrAngles,'VariableNames',angles,'RowNames',plications);
     %Write to file (tab  delimited)
+    writetable(expAnglesT,'ExperimentalFinalAngles.txt','Delimiter','\t','WriteRowNames',true);
     writetable(errAnglesT,'AbsoluteErrorsFinalAngles.txt','Delimiter','\t','WriteRowNames',true);
     writetable(pErrAnglesT,'PercentageErrorsFinalAngles.txt','Delimiter','\t','WriteRowNames',true);
     
@@ -316,15 +318,15 @@ function ShoulderCapsulorrhaphySims_3_CreateModels
     clear pp
     
     %Set colour scheme variables for the nine conditions
-    lineColour = [{'#a6cee3'};
-        {'#1f78b4'};
-        {'#b2df8a'};
-        {'#33a02c'};
-        {'#fb9a99'};
-        {'#e31a1c'};
-        {'#fdbf6f'};
-        {'#ff7f00'};
-        {'#cab2d6'}];
+    lineColour = [{'#000000'};
+        {'#4885ed'};
+        {'#f4c20d'};
+        {'#db3236'};
+        {'#d56dd7'};
+        {'#1e9c31'};
+        {'#3be2ff'};
+        {'#9c661c'};
+        {'#8c1b7f'}];
     
     %Create new text cases for figure legends
     plicationsLegend = [{'None'};

@@ -519,11 +519,15 @@ function ShoulderCapsulorrhaphySims_4_NodeSelection
     taskLeg = [{'Upward Reach'}; {'Forward Reach'}; {'Head Touch'}];
 
     %Create color map for shoulder angle lines
-    lineColour = [{'#a6cee3'};
-            {'#1f78b4'};
-            {'#b2df8a'};
-            {'#33a02c'};
-            {'#fb9a99'}];
+    lineColour = [{'#000000'};
+        {'#4885ed'};
+        {'#f4c20d'};
+        {'#db3236'};
+        {'#d56dd7'};
+        {'#1e9c31'}];
+% % %         {'#3be2ff'};
+% % %         {'#9c661c'};
+% % %         {'#8c1b7f'}];
 
     %Create legend for node density
     for mm = 1:length(meshIntervals)
@@ -558,7 +562,7 @@ function ShoulderCapsulorrhaphySims_4_NodeSelection
     ax = gca; box on; ax.LineWidth = 1;
     set(gca,'Layer','top');
     %Set axes limits and labels
-    ax.XLim = [0.8 5.2]; ax.YLim(1) = 0; ax.YLim(2) = ax.YLim(2)*1.1;
+    ax.XLim = [0.8 6.2]; ax.YLim(1) = 0; ax.YLim(2) = ax.YLim(2)*1.1;
     ax.XTick = 1:length(meshIntervals);
     for mm = 1:length(meshIntervals)
         ax.XTickLabel{mm} = num2str(meshIntervals(mm)*2+1);
@@ -604,14 +608,14 @@ function ShoulderCapsulorrhaphySims_4_NodeSelection
     ax = gca; box on; ax.LineWidth = 1;
     set(gca,'Layer','top');
     %Set axes limits and labels
-    ax.XLim = [0.8 5.2]; ax.YLim(1) = 0; ax.YLim(2) = ax.YLim(2)*1.1;
+    ax.XLim = [0.8 6.2]; ax.YLim(1) = 0; ax.YLim(2) = ax.YLim(2)*1.1;
     ax.XTick = 1:length(meshIntervals);
     for mm = 1:length(meshIntervals)
         ax.XTickLabel{mm} = num2str(meshIntervals(mm)*2+1);
     end
     clear mm
     %Add legend
-    legend(taskLeg,'Location','SouthWest'); legend boxoff
+    legend(taskLeg,'Location','NorthWest'); legend boxoff
     %Save figure
     print('SolverDuration_NodeSelection_fig.eps','-depsc2');        %eps format
     set(gcf, 'PaperPositionMode','auto')
@@ -656,7 +660,7 @@ function ShoulderCapsulorrhaphySims_4_NodeSelection
     ax = gca; box on; ax.LineWidth = 1;
     set(gca,'Layer','top');
     %Set axes limits and labels
-    ax.XLim = [0.8 5.2]; ax.YLim(1) = 0; ax.YLim(2) = ax.YLim(2)*1.1;
+    ax.XLim = [0.8 6.2]; ax.YLim(1) = 0; ax.YLim(2) = ax.YLim(2)*1.1;
     ax.XTick = 1:length(meshIntervals);
     for mm = 1:length(meshIntervals)
         ax.XTickLabel{mm} = num2str(meshIntervals(mm)*2+1);
@@ -711,14 +715,14 @@ function ShoulderCapsulorrhaphySims_4_NodeSelection
     ax = gca; box on; ax.LineWidth = 1;
     set(gca,'Layer','top');
     %Set axes limits and labels
-    ax.XLim = [0.8 4.2]; ax.YLim(1) = 0; ax.YLim(2) = ax.YLim(2)*1.1;
+    ax.XLim = [0.8 5.2]; ax.YLim(1) = 0; ax.YLim(2) = ax.YLim(2)*1.1;
     ax.XTick = 1:length(meshIntervals)-1;
     for mm = 2:length(meshIntervals)
         ax.XTickLabel{mm-1} = num2str(meshIntervals(mm)*2+1);
     end
     clear mm
     %Add legend
-    legend(taskLeg,'Location','SouthWest'); legend boxoff
+    legend(taskLeg,'Location','NorthWest'); legend boxoff
     %Save figure
     print('RMSerror_coordinates_NodeSelection_fig.eps','-depsc2');        %eps format
     set(gcf, 'PaperPositionMode','auto')
@@ -766,14 +770,14 @@ function ShoulderCapsulorrhaphySims_4_NodeSelection
     ax = gca; box on; ax.LineWidth = 1;
     set(gca,'Layer','top');
     %Set axes limits and labels
-    ax.XLim = [0.8 4.2]; ax.YLim(1) = 0; ax.YLim(2) = ax.YLim(2)*1.1;
+    ax.XLim = [0.8 5.2]; ax.YLim(1) = 0; ax.YLim(2) = ax.YLim(2)*1.1;
     ax.XTick = 1:length(meshIntervals)-1;
     for mm = 2:length(meshIntervals)
         ax.XTickLabel{mm-1} = num2str(meshIntervals(mm)*2+1);
     end
     clear mm
     %Add legend
-    legend(taskLeg,'Location','SouthWest'); legend boxoff
+    legend(taskLeg,'Location','NorthEast'); legend boxoff
     %Save figure
     print('RMSerror_speeds_NodeSelection_fig.eps','-depsc2');        %eps format
     set(gcf, 'PaperPositionMode','auto')
@@ -821,14 +825,14 @@ function ShoulderCapsulorrhaphySims_4_NodeSelection
     ax = gca; box on; ax.LineWidth = 1;
     set(gca,'Layer','top');
     %Set axes limits and labels
-    ax.XLim = [0.8 4.2]; ax.YLim(1) = 0; ax.YLim(2) = ax.YLim(2)*1.1;
+    ax.XLim = [0.8 5.2]; ax.YLim(1) = 0; ax.YLim(2) = ax.YLim(2)*1.1;
     ax.XTick = 1:length(meshIntervals)-1;
     for mm = 2:length(meshIntervals)
         ax.XTickLabel{mm-1} = num2str(meshIntervals(mm)*2+1);
     end
     clear mm
     %Add legend
-    legend(taskLeg,'Location','SouthWest'); legend boxoff
+    legend(taskLeg,'Location','NorthEast'); legend boxoff
     %Save figure
     print('RMSerror_activations_NodeSelection_fig.eps','-depsc2');        %eps format
     set(gcf, 'PaperPositionMode','auto')
@@ -911,7 +915,15 @@ function ShoulderCapsulorrhaphySims_4_NodeSelection
             ax.XLim = [0 100]; ax.XTick = [0 25 50 75 100];
             clear ax
             %Place legend
-            legend(nodeLeg,'Location','SouthEast'); legend boxoff
+            if tt == 2 && aa == 2
+                legend(nodeLeg,'Location','NorthWest'); legend boxoff
+            elseif tt == 3 && aa == 2
+                legend(nodeLeg,'Location','NorthEast'); legend boxoff
+            elseif tt == 3 && aa == 3
+                legend(nodeLeg,'Location','SouthWest'); legend boxoff
+            else
+                legend(nodeLeg,'Location','SouthEast'); legend boxoff
+            end
         end
         clear aa
 
@@ -999,7 +1011,15 @@ function ShoulderCapsulorrhaphySims_4_NodeSelection
             ax.XLim = [0 100]; ax.XTick = [0 25 50 75 100];
             clear ax
             %Place legend
-            if aa == 1
+            if tt == 1 && aa == 1
+                legend(nodeLeg,'Location','SouthEast'); legend boxoff
+            elseif tt == 1 && aa == 2
+                legend(nodeLeg,'Location','NorthWest'); legend boxoff
+            elseif tt == 2 && aa == 1
+                legend(nodeLeg,'Location','SouthEast'); legend boxoff
+            elseif tt == 2 && aa == 2
+                legend(nodeLeg,'Location','NorthWest'); legend boxoff
+            elseif tt == 3 && aa == 1
                 legend(nodeLeg,'Location','SouthEast'); legend boxoff
             else
                 legend(nodeLeg,'Location','NorthEast'); legend boxoff
@@ -1108,3 +1128,4 @@ function ShoulderCapsulorrhaphySims_4_NodeSelection
 
 end
 
+%----- End of ShoulderCapsulorrhaphySims_4_NodeSelection.m -----%
