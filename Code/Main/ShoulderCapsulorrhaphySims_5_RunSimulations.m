@@ -17,6 +17,8 @@ function ShoulderCapsulorrhaphySims_5_RunSimulations(taskName,meshInterval)
 % simulations. Typically chosen from the outputs of the previous function
 % (i.e. 'ShoulderCapsulorrhaphySims_4_NodeSelection').
 
+    %Set the starting directory
+    homeDir = pwd;
 
     %%%%%%%%% ENSURE PARAMETERS IN THIS MATCH THE NODE SELECTION NOW THAT
     %%%%%%%%% SOME THINGS HAVE CHANGED...
@@ -40,9 +42,9 @@ function ShoulderCapsulorrhaphySims_5_RunSimulations(taskName,meshInterval)
         %Set default mesh intervals based on node selection process
         if strcmp(taskName,'ConcentricUpwardReach105')
             meshInterval = 100;            
-        elseif strcmp(taskName,'ConcentricUpwardReach105')
+        elseif strcmp(taskName,'ConcentricForwardReach')
             meshInterval = 100;            
-        elseif strcmp(taskName,'ConcentricUpwardReach105')
+        elseif strcmp(taskName,'HairTouch')
             meshInterval = 75;            
         end
     end
@@ -259,8 +261,8 @@ function ShoulderCapsulorrhaphySims_5_RunSimulations(taskName,meshInterval)
     end
     clear ii
 
-    %%
-
+    %% Return to home directory
+    cd(homeDir);
 
 
 

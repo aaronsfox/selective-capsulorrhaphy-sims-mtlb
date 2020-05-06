@@ -1,0 +1,1081 @@
+Loaded library \\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\Plugin_CustomCLF\build\Release\osimCustomCoordinateLimitForcePlugin.dll
+Loaded model BasicShoulderComplex from file BasicShoulderComplex_withForces.osim
+Running tool .
+No external loads will be applied (external loads file not specified).
+ControlSetController::extendFinalizeFromProperties '\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\ModelFiles\shoulder_introt_controls.xml' loaded
+and will replace existing ControlSet 'BasicShoulderComplex_withForces_Default'.
+MODEL: BasicShoulderComplex
+
+numStates = 40
+numCoordinates = 20
+numSpeeds = 20
+numActuators = 2
+numBodies = 8
+numConstraints = 11
+numProbes = 0
+
+ANALYSES (total: 0)
+
+BODIES (total: 8)
+body[0] = thorax. mass: 20
+              moments of inertia:  ~[1.4745,0.7555,1.4314]
+              products of inertia: ~[0,0,0]
+body[1] = clavicle. mass: 0.2
+              moments of inertia:  ~[0,0,0]
+              products of inertia: ~[0,0,0]
+body[2] = clavphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[3] = scapula. mass: 0.5
+              moments of inertia:  ~[0,0,0]
+              products of inertia: ~[0,0,0]
+body[4] = scapphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[5] = humphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[6] = humphant1. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[7] = humerus. mass: 2.0325
+              moments of inertia:  ~[0.011946,0.004121,0.013409]
+              products of inertia: ~[0,0,0]
+
+JOINTS (total: 8)
+joint[0] = ground_thorax. parent: ground_offset, child: thorax_offset
+joint[1] = sternoclavicular. parent: thorax_offset, child: clavicle_offset
+joint[2] = unrotscap. parent: clavicle_offset, child: clavphant_offset
+joint[3] = acromioclavicular. parent: clavphant_offset, child: scapula_offset
+joint[4] = unrothum. parent: scapula_offset, child: scapphant_offset
+joint[5] = shoulder0. parent: scapphant_offset, child: humphant_offset
+joint[6] = shoulder1. parent: humphant_offset, child: humphant1_offset
+joint[7] = shoulder2. parent: humphant1_offset, child: humerus_offset
+
+ACTUATORS (total: 2)
+actuator[0] = shoulder_elv_actuator
+actuator[1] = shoulder_rot_actuator
+
+STATES (total: 40)
+y[0] = /jointset/ground_thorax/thorax_tilt/value
+y[1] = /jointset/ground_thorax/thorax_tilt/speed
+y[2] = /jointset/ground_thorax/thorax_list/value
+y[3] = /jointset/ground_thorax/thorax_list/speed
+y[4] = /jointset/ground_thorax/thorax_rotation/value
+y[5] = /jointset/ground_thorax/thorax_rotation/speed
+y[6] = /jointset/ground_thorax/thorax_tx/value
+y[7] = /jointset/ground_thorax/thorax_tx/speed
+y[8] = /jointset/ground_thorax/thorax_ty/value
+y[9] = /jointset/ground_thorax/thorax_ty/speed
+y[10] = /jointset/ground_thorax/thorax_tz/value
+y[11] = /jointset/ground_thorax/thorax_tz/speed
+y[12] = /jointset/sternoclavicular/sternoclavicular_r2/value
+y[13] = /jointset/sternoclavicular/sternoclavicular_r2/speed
+y[14] = /jointset/sternoclavicular/sternoclavicular_r3/value
+y[15] = /jointset/sternoclavicular/sternoclavicular_r3/speed
+y[16] = /jointset/unrotscap/unrotscap_r3/value
+y[17] = /jointset/unrotscap/unrotscap_r3/speed
+y[18] = /jointset/unrotscap/unrotscap_r2/value
+y[19] = /jointset/unrotscap/unrotscap_r2/speed
+y[20] = /jointset/acromioclavicular/acromioclavicular_r2/value
+y[21] = /jointset/acromioclavicular/acromioclavicular_r2/speed
+y[22] = /jointset/acromioclavicular/acromioclavicular_r3/value
+y[23] = /jointset/acromioclavicular/acromioclavicular_r3/speed
+y[24] = /jointset/acromioclavicular/acromioclavicular_r1/value
+y[25] = /jointset/acromioclavicular/acromioclavicular_r1/speed
+y[26] = /jointset/unrothum/unrothum_r1/value
+y[27] = /jointset/unrothum/unrothum_r1/speed
+y[28] = /jointset/unrothum/unrothum_r3/value
+y[29] = /jointset/unrothum/unrothum_r3/speed
+y[30] = /jointset/unrothum/unrothum_r2/value
+y[31] = /jointset/unrothum/unrothum_r2/speed
+y[32] = /jointset/shoulder0/elv_angle/value
+y[33] = /jointset/shoulder0/elv_angle/speed
+y[34] = /jointset/shoulder1/shoulder_elv/value
+y[35] = /jointset/shoulder1/shoulder_elv/speed
+y[36] = /jointset/shoulder1/shoulder1_r2/value
+y[37] = /jointset/shoulder1/shoulder1_r2/speed
+y[38] = /jointset/shoulder2/shoulder_rot/value
+y[39] = /jointset/shoulder2/shoulder_rot/speed
+
+
+Integrating from 0 to 3
+Printing results of investigation  to ./.
+Running tool .
+No external loads will be applied (external loads file not specified).
+ControlSetController::extendFinalizeFromProperties '\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\ModelFiles\shoulder_introt_controls.xml' loaded
+and will replace existing ControlSet 'BasicShoulderComplex_withForces_Default'.
+MODEL: BasicShoulderComplex
+
+numStates = 40
+numCoordinates = 20
+numSpeeds = 20
+numActuators = 2
+numBodies = 8
+numConstraints = 11
+numProbes = 0
+
+ANALYSES (total: 0)
+
+BODIES (total: 8)
+body[0] = thorax. mass: 20
+              moments of inertia:  ~[1.4745,0.7555,1.4314]
+              products of inertia: ~[0,0,0]
+body[1] = clavicle. mass: 0.2
+              moments of inertia:  ~[0,0,0]
+              products of inertia: ~[0,0,0]
+body[2] = clavphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[3] = scapula. mass: 0.5
+              moments of inertia:  ~[0,0,0]
+              products of inertia: ~[0,0,0]
+body[4] = scapphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[5] = humphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[6] = humphant1. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[7] = humerus. mass: 2.0325
+              moments of inertia:  ~[0.011946,0.004121,0.013409]
+              products of inertia: ~[0,0,0]
+
+JOINTS (total: 8)
+joint[0] = ground_thorax. parent: ground_offset, child: thorax_offset
+joint[1] = sternoclavicular. parent: thorax_offset, child: clavicle_offset
+joint[2] = unrotscap. parent: clavicle_offset, child: clavphant_offset
+joint[3] = acromioclavicular. parent: clavphant_offset, child: scapula_offset
+joint[4] = unrothum. parent: scapula_offset, child: scapphant_offset
+joint[5] = shoulder0. parent: scapphant_offset, child: humphant_offset
+joint[6] = shoulder1. parent: humphant_offset, child: humphant1_offset
+joint[7] = shoulder2. parent: humphant1_offset, child: humerus_offset
+
+ACTUATORS (total: 2)
+actuator[0] = shoulder_elv_actuator
+actuator[1] = shoulder_rot_actuator
+
+STATES (total: 40)
+y[0] = /jointset/ground_thorax/thorax_tilt/value
+y[1] = /jointset/ground_thorax/thorax_tilt/speed
+y[2] = /jointset/ground_thorax/thorax_list/value
+y[3] = /jointset/ground_thorax/thorax_list/speed
+y[4] = /jointset/ground_thorax/thorax_rotation/value
+y[5] = /jointset/ground_thorax/thorax_rotation/speed
+y[6] = /jointset/ground_thorax/thorax_tx/value
+y[7] = /jointset/ground_thorax/thorax_tx/speed
+y[8] = /jointset/ground_thorax/thorax_ty/value
+y[9] = /jointset/ground_thorax/thorax_ty/speed
+y[10] = /jointset/ground_thorax/thorax_tz/value
+y[11] = /jointset/ground_thorax/thorax_tz/speed
+y[12] = /jointset/sternoclavicular/sternoclavicular_r2/value
+y[13] = /jointset/sternoclavicular/sternoclavicular_r2/speed
+y[14] = /jointset/sternoclavicular/sternoclavicular_r3/value
+y[15] = /jointset/sternoclavicular/sternoclavicular_r3/speed
+y[16] = /jointset/unrotscap/unrotscap_r3/value
+y[17] = /jointset/unrotscap/unrotscap_r3/speed
+y[18] = /jointset/unrotscap/unrotscap_r2/value
+y[19] = /jointset/unrotscap/unrotscap_r2/speed
+y[20] = /jointset/acromioclavicular/acromioclavicular_r2/value
+y[21] = /jointset/acromioclavicular/acromioclavicular_r2/speed
+y[22] = /jointset/acromioclavicular/acromioclavicular_r3/value
+y[23] = /jointset/acromioclavicular/acromioclavicular_r3/speed
+y[24] = /jointset/acromioclavicular/acromioclavicular_r1/value
+y[25] = /jointset/acromioclavicular/acromioclavicular_r1/speed
+y[26] = /jointset/unrothum/unrothum_r1/value
+y[27] = /jointset/unrothum/unrothum_r1/speed
+y[28] = /jointset/unrothum/unrothum_r3/value
+y[29] = /jointset/unrothum/unrothum_r3/speed
+y[30] = /jointset/unrothum/unrothum_r2/value
+y[31] = /jointset/unrothum/unrothum_r2/speed
+y[32] = /jointset/shoulder0/elv_angle/value
+y[33] = /jointset/shoulder0/elv_angle/speed
+y[34] = /jointset/shoulder1/shoulder_elv/value
+y[35] = /jointset/shoulder1/shoulder_elv/speed
+y[36] = /jointset/shoulder1/shoulder1_r2/value
+y[37] = /jointset/shoulder1/shoulder1_r2/speed
+y[38] = /jointset/shoulder2/shoulder_rot/value
+y[39] = /jointset/shoulder2/shoulder_rot/speed
+
+
+Integrating from 0 to 3
+Printing results of investigation  to ./.
+Running tool .
+No external loads will be applied (external loads file not specified).
+ControlSetController::extendFinalizeFromProperties '\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\ModelFiles\shoulder_introt_controls.xml' loaded
+and will replace existing ControlSet 'BasicShoulderComplex_withForces_Default'.
+MODEL: BasicShoulderComplex
+
+numStates = 40
+numCoordinates = 20
+numSpeeds = 20
+numActuators = 2
+numBodies = 8
+numConstraints = 11
+numProbes = 0
+
+ANALYSES (total: 0)
+
+BODIES (total: 8)
+body[0] = thorax. mass: 20
+              moments of inertia:  ~[1.4745,0.7555,1.4314]
+              products of inertia: ~[0,0,0]
+body[1] = clavicle. mass: 0.2
+              moments of inertia:  ~[0,0,0]
+              products of inertia: ~[0,0,0]
+body[2] = clavphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[3] = scapula. mass: 0.5
+              moments of inertia:  ~[0,0,0]
+              products of inertia: ~[0,0,0]
+body[4] = scapphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[5] = humphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[6] = humphant1. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[7] = humerus. mass: 2.0325
+              moments of inertia:  ~[0.011946,0.004121,0.013409]
+              products of inertia: ~[0,0,0]
+
+JOINTS (total: 8)
+joint[0] = ground_thorax. parent: ground_offset, child: thorax_offset
+joint[1] = sternoclavicular. parent: thorax_offset, child: clavicle_offset
+joint[2] = unrotscap. parent: clavicle_offset, child: clavphant_offset
+joint[3] = acromioclavicular. parent: clavphant_offset, child: scapula_offset
+joint[4] = unrothum. parent: scapula_offset, child: scapphant_offset
+joint[5] = shoulder0. parent: scapphant_offset, child: humphant_offset
+joint[6] = shoulder1. parent: humphant_offset, child: humphant1_offset
+joint[7] = shoulder2. parent: humphant1_offset, child: humerus_offset
+
+ACTUATORS (total: 2)
+actuator[0] = shoulder_elv_actuator
+actuator[1] = shoulder_rot_actuator
+
+STATES (total: 40)
+y[0] = /jointset/ground_thorax/thorax_tilt/value
+y[1] = /jointset/ground_thorax/thorax_tilt/speed
+y[2] = /jointset/ground_thorax/thorax_list/value
+y[3] = /jointset/ground_thorax/thorax_list/speed
+y[4] = /jointset/ground_thorax/thorax_rotation/value
+y[5] = /jointset/ground_thorax/thorax_rotation/speed
+y[6] = /jointset/ground_thorax/thorax_tx/value
+y[7] = /jointset/ground_thorax/thorax_tx/speed
+y[8] = /jointset/ground_thorax/thorax_ty/value
+y[9] = /jointset/ground_thorax/thorax_ty/speed
+y[10] = /jointset/ground_thorax/thorax_tz/value
+y[11] = /jointset/ground_thorax/thorax_tz/speed
+y[12] = /jointset/sternoclavicular/sternoclavicular_r2/value
+y[13] = /jointset/sternoclavicular/sternoclavicular_r2/speed
+y[14] = /jointset/sternoclavicular/sternoclavicular_r3/value
+y[15] = /jointset/sternoclavicular/sternoclavicular_r3/speed
+y[16] = /jointset/unrotscap/unrotscap_r3/value
+y[17] = /jointset/unrotscap/unrotscap_r3/speed
+y[18] = /jointset/unrotscap/unrotscap_r2/value
+y[19] = /jointset/unrotscap/unrotscap_r2/speed
+y[20] = /jointset/acromioclavicular/acromioclavicular_r2/value
+y[21] = /jointset/acromioclavicular/acromioclavicular_r2/speed
+y[22] = /jointset/acromioclavicular/acromioclavicular_r3/value
+y[23] = /jointset/acromioclavicular/acromioclavicular_r3/speed
+y[24] = /jointset/acromioclavicular/acromioclavicular_r1/value
+y[25] = /jointset/acromioclavicular/acromioclavicular_r1/speed
+y[26] = /jointset/unrothum/unrothum_r1/value
+y[27] = /jointset/unrothum/unrothum_r1/speed
+y[28] = /jointset/unrothum/unrothum_r3/value
+y[29] = /jointset/unrothum/unrothum_r3/speed
+y[30] = /jointset/unrothum/unrothum_r2/value
+y[31] = /jointset/unrothum/unrothum_r2/speed
+y[32] = /jointset/shoulder0/elv_angle/value
+y[33] = /jointset/shoulder0/elv_angle/speed
+y[34] = /jointset/shoulder1/shoulder_elv/value
+y[35] = /jointset/shoulder1/shoulder_elv/speed
+y[36] = /jointset/shoulder1/shoulder1_r2/value
+y[37] = /jointset/shoulder1/shoulder1_r2/speed
+y[38] = /jointset/shoulder2/shoulder_rot/value
+y[39] = /jointset/shoulder2/shoulder_rot/speed
+
+
+Integrating from 0 to 3
+Printing results of investigation  to ./.
+No external loads will be applied (external loads file not specified).
+ControlSetController::extendFinalizeFromProperties '\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\ModelFiles\shoulder_introt_controls.xml' loaded
+and will replace existing ControlSet 'BasicShoulderComplex_withForces_Default'.
+
+Exception:
+  analyzeTool.verifyControlsStates: ERROR- a storage object containing the
+  time histories of states was not specified.
+  file= C:\projects\opensim-moco\dependencies\opensim-core\OpenSim\Tools\AnalyzeTool.cpp
+  line= 469
+
+
+No external loads will be applied (external loads file not specified).
+ControlSetController::extendFinalizeFromProperties '\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\ModelFiles\shoulder_introt_controls.xml' loaded
+and will replace existing ControlSet 'BasicShoulderComplex_withForces_Default'.
+
+Exception:
+  AnalysisTool.run: ERROR- no analyses have been set.
+  file= C:\projects\opensim-moco\dependencies\opensim-core\OpenSim\Tools\AnalyzeTool.cpp
+  line= 562
+
+
+Running tool .
+No external loads will be applied (external loads file not specified).
+ControlSetController::extendFinalizeFromProperties '\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\ModelFiles\shoulder_introt_controls.xml' loaded
+and will replace existing ControlSet 'BasicShoulderComplex_withForces_Default'.
+MODEL: BasicShoulderComplex
+
+numStates = 40
+numCoordinates = 20
+numSpeeds = 20
+numActuators = 2
+numBodies = 8
+numConstraints = 11
+numProbes = 0
+
+ANALYSES (total: 0)
+
+BODIES (total: 8)
+body[0] = thorax. mass: 20
+              moments of inertia:  ~[1.4745,0.7555,1.4314]
+              products of inertia: ~[0,0,0]
+body[1] = clavicle. mass: 0.2
+              moments of inertia:  ~[0,0,0]
+              products of inertia: ~[0,0,0]
+body[2] = clavphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[3] = scapula. mass: 0.5
+              moments of inertia:  ~[0,0,0]
+              products of inertia: ~[0,0,0]
+body[4] = scapphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[5] = humphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[6] = humphant1. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[7] = humerus. mass: 2.0325
+              moments of inertia:  ~[0.011946,0.004121,0.013409]
+              products of inertia: ~[0,0,0]
+
+JOINTS (total: 8)
+joint[0] = ground_thorax. parent: ground_offset, child: thorax_offset
+joint[1] = sternoclavicular. parent: thorax_offset, child: clavicle_offset
+joint[2] = unrotscap. parent: clavicle_offset, child: clavphant_offset
+joint[3] = acromioclavicular. parent: clavphant_offset, child: scapula_offset
+joint[4] = unrothum. parent: scapula_offset, child: scapphant_offset
+joint[5] = shoulder0. parent: scapphant_offset, child: humphant_offset
+joint[6] = shoulder1. parent: humphant_offset, child: humphant1_offset
+joint[7] = shoulder2. parent: humphant1_offset, child: humerus_offset
+
+ACTUATORS (total: 2)
+actuator[0] = shoulder_elv_actuator
+actuator[1] = shoulder_rot_actuator
+
+STATES (total: 40)
+y[0] = /jointset/ground_thorax/thorax_tilt/value
+y[1] = /jointset/ground_thorax/thorax_tilt/speed
+y[2] = /jointset/ground_thorax/thorax_list/value
+y[3] = /jointset/ground_thorax/thorax_list/speed
+y[4] = /jointset/ground_thorax/thorax_rotation/value
+y[5] = /jointset/ground_thorax/thorax_rotation/speed
+y[6] = /jointset/ground_thorax/thorax_tx/value
+y[7] = /jointset/ground_thorax/thorax_tx/speed
+y[8] = /jointset/ground_thorax/thorax_ty/value
+y[9] = /jointset/ground_thorax/thorax_ty/speed
+y[10] = /jointset/ground_thorax/thorax_tz/value
+y[11] = /jointset/ground_thorax/thorax_tz/speed
+y[12] = /jointset/sternoclavicular/sternoclavicular_r2/value
+y[13] = /jointset/sternoclavicular/sternoclavicular_r2/speed
+y[14] = /jointset/sternoclavicular/sternoclavicular_r3/value
+y[15] = /jointset/sternoclavicular/sternoclavicular_r3/speed
+y[16] = /jointset/unrotscap/unrotscap_r3/value
+y[17] = /jointset/unrotscap/unrotscap_r3/speed
+y[18] = /jointset/unrotscap/unrotscap_r2/value
+y[19] = /jointset/unrotscap/unrotscap_r2/speed
+y[20] = /jointset/acromioclavicular/acromioclavicular_r2/value
+y[21] = /jointset/acromioclavicular/acromioclavicular_r2/speed
+y[22] = /jointset/acromioclavicular/acromioclavicular_r3/value
+y[23] = /jointset/acromioclavicular/acromioclavicular_r3/speed
+y[24] = /jointset/acromioclavicular/acromioclavicular_r1/value
+y[25] = /jointset/acromioclavicular/acromioclavicular_r1/speed
+y[26] = /jointset/unrothum/unrothum_r1/value
+y[27] = /jointset/unrothum/unrothum_r1/speed
+y[28] = /jointset/unrothum/unrothum_r3/value
+y[29] = /jointset/unrothum/unrothum_r3/speed
+y[30] = /jointset/unrothum/unrothum_r2/value
+y[31] = /jointset/unrothum/unrothum_r2/speed
+y[32] = /jointset/shoulder0/elv_angle/value
+y[33] = /jointset/shoulder0/elv_angle/speed
+y[34] = /jointset/shoulder1/shoulder_elv/value
+y[35] = /jointset/shoulder1/shoulder_elv/speed
+y[36] = /jointset/shoulder1/shoulder1_r2/value
+y[37] = /jointset/shoulder1/shoulder1_r2/speed
+y[38] = /jointset/shoulder2/shoulder_rot/value
+y[39] = /jointset/shoulder2/shoulder_rot/speed
+
+
+Integrating from 0 to 3
+Printing results of investigation  to ./.
+Couldn't find file 'scapula.vtp'.
+Couldn't find file 'humerus.vtp'.
+ControlSetController::extendFinalizeFromProperties '\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\ModelFiles\shoulder_introt_controls.xml' loaded
+and will replace existing ControlSet 'BasicShoulderComplex_withForces_Default'.
+Couldn't find file 'scapula.vtp'.
+Couldn't find file 'humerus.vtp'.
+Running tool .
+No external loads will be applied (external loads file not specified).
+Couldn't find file 'scapula.vtp'.
+Couldn't find file 'humerus.vtp'.
+ControlSetController::extendFinalizeFromProperties '\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\ModelFiles\shoulder_introt_controls.xml' loaded
+and will replace existing ControlSet 'BasicShoulderComplex_withForces_Default'.
+MODEL: BasicShoulderComplex
+
+numStates = 40
+numCoordinates = 20
+numSpeeds = 20
+numActuators = 2
+numBodies = 8
+numConstraints = 11
+numProbes = 0
+
+ANALYSES (total: 0)
+
+BODIES (total: 8)
+body[0] = thorax. mass: 20
+              moments of inertia:  ~[1.4745,0.7555,1.4314]
+              products of inertia: ~[0,0,0]
+body[1] = clavicle. mass: 0.2
+              moments of inertia:  ~[0,0,0]
+              products of inertia: ~[0,0,0]
+body[2] = clavphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[3] = scapula. mass: 0.5
+              moments of inertia:  ~[0,0,0]
+              products of inertia: ~[0,0,0]
+body[4] = scapphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[5] = humphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[6] = humphant1. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[7] = humerus. mass: 2.0325
+              moments of inertia:  ~[0.011946,0.004121,0.013409]
+              products of inertia: ~[0,0,0]
+
+JOINTS (total: 8)
+joint[0] = ground_thorax. parent: ground_offset, child: thorax_offset
+joint[1] = sternoclavicular. parent: thorax_offset, child: clavicle_offset
+joint[2] = unrotscap. parent: clavicle_offset, child: clavphant_offset
+joint[3] = acromioclavicular. parent: clavphant_offset, child: scapula_offset
+joint[4] = unrothum. parent: scapula_offset, child: scapphant_offset
+joint[5] = shoulder0. parent: scapphant_offset, child: humphant_offset
+joint[6] = shoulder1. parent: humphant_offset, child: humphant1_offset
+joint[7] = shoulder2. parent: humphant1_offset, child: humerus_offset
+
+ACTUATORS (total: 2)
+actuator[0] = shoulder_elv_actuator
+actuator[1] = shoulder_rot_actuator
+
+STATES (total: 40)
+y[0] = /jointset/ground_thorax/thorax_tilt/value
+y[1] = /jointset/ground_thorax/thorax_tilt/speed
+y[2] = /jointset/ground_thorax/thorax_list/value
+y[3] = /jointset/ground_thorax/thorax_list/speed
+y[4] = /jointset/ground_thorax/thorax_rotation/value
+y[5] = /jointset/ground_thorax/thorax_rotation/speed
+y[6] = /jointset/ground_thorax/thorax_tx/value
+y[7] = /jointset/ground_thorax/thorax_tx/speed
+y[8] = /jointset/ground_thorax/thorax_ty/value
+y[9] = /jointset/ground_thorax/thorax_ty/speed
+y[10] = /jointset/ground_thorax/thorax_tz/value
+y[11] = /jointset/ground_thorax/thorax_tz/speed
+y[12] = /jointset/sternoclavicular/sternoclavicular_r2/value
+y[13] = /jointset/sternoclavicular/sternoclavicular_r2/speed
+y[14] = /jointset/sternoclavicular/sternoclavicular_r3/value
+y[15] = /jointset/sternoclavicular/sternoclavicular_r3/speed
+y[16] = /jointset/unrotscap/unrotscap_r3/value
+y[17] = /jointset/unrotscap/unrotscap_r3/speed
+y[18] = /jointset/unrotscap/unrotscap_r2/value
+y[19] = /jointset/unrotscap/unrotscap_r2/speed
+y[20] = /jointset/acromioclavicular/acromioclavicular_r2/value
+y[21] = /jointset/acromioclavicular/acromioclavicular_r2/speed
+y[22] = /jointset/acromioclavicular/acromioclavicular_r3/value
+y[23] = /jointset/acromioclavicular/acromioclavicular_r3/speed
+y[24] = /jointset/acromioclavicular/acromioclavicular_r1/value
+y[25] = /jointset/acromioclavicular/acromioclavicular_r1/speed
+y[26] = /jointset/unrothum/unrothum_r1/value
+y[27] = /jointset/unrothum/unrothum_r1/speed
+y[28] = /jointset/unrothum/unrothum_r3/value
+y[29] = /jointset/unrothum/unrothum_r3/speed
+y[30] = /jointset/unrothum/unrothum_r2/value
+y[31] = /jointset/unrothum/unrothum_r2/speed
+y[32] = /jointset/shoulder0/elv_angle/value
+y[33] = /jointset/shoulder0/elv_angle/speed
+y[34] = /jointset/shoulder1/shoulder_elv/value
+y[35] = /jointset/shoulder1/shoulder_elv/speed
+y[36] = /jointset/shoulder1/shoulder1_r2/value
+y[37] = /jointset/shoulder1/shoulder1_r2/speed
+y[38] = /jointset/shoulder2/shoulder_rot/value
+y[39] = /jointset/shoulder2/shoulder_rot/speed
+
+
+Integrating from 0 to 3
+Printing results of investigation  to ./.
+Couldn't find file 'scapula.vtp'.
+Couldn't find file 'humerus.vtp'.
+ControlSetController::extendFinalizeFromProperties '\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\ModelFiles\shoulder_introt_controls.xml' loaded
+and will replace existing ControlSet 'BasicShoulderComplex_withForces_Default'.
+Couldn't find file 'scapula.vtp'.
+Couldn't find file 'humerus.vtp'.
+Running tool .
+No external loads will be applied (external loads file not specified).
+Couldn't find file 'scapula.vtp'.
+Couldn't find file 'humerus.vtp'.
+ControlSetController::extendFinalizeFromProperties '\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\ModelFiles\shoulder_introt_controls.xml' loaded
+and will replace existing ControlSet 'BasicShoulderComplex_withForces_Default'.
+MODEL: BasicShoulderComplex
+
+numStates = 40
+numCoordinates = 20
+numSpeeds = 20
+numActuators = 2
+numBodies = 8
+numConstraints = 11
+numProbes = 0
+
+ANALYSES (total: 0)
+
+BODIES (total: 8)
+body[0] = thorax. mass: 20
+              moments of inertia:  ~[1.4745,0.7555,1.4314]
+              products of inertia: ~[0,0,0]
+body[1] = clavicle. mass: 0.2
+              moments of inertia:  ~[0,0,0]
+              products of inertia: ~[0,0,0]
+body[2] = clavphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[3] = scapula. mass: 0.5
+              moments of inertia:  ~[0,0,0]
+              products of inertia: ~[0,0,0]
+body[4] = scapphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[5] = humphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[6] = humphant1. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[7] = humerus. mass: 2.0325
+              moments of inertia:  ~[0.011946,0.004121,0.013409]
+              products of inertia: ~[0,0,0]
+
+JOINTS (total: 8)
+joint[0] = ground_thorax. parent: ground_offset, child: thorax_offset
+joint[1] = sternoclavicular. parent: thorax_offset, child: clavicle_offset
+joint[2] = unrotscap. parent: clavicle_offset, child: clavphant_offset
+joint[3] = acromioclavicular. parent: clavphant_offset, child: scapula_offset
+joint[4] = unrothum. parent: scapula_offset, child: scapphant_offset
+joint[5] = shoulder0. parent: scapphant_offset, child: humphant_offset
+joint[6] = shoulder1. parent: humphant_offset, child: humphant1_offset
+joint[7] = shoulder2. parent: humphant1_offset, child: humerus_offset
+
+ACTUATORS (total: 2)
+actuator[0] = shoulder_elv_actuator
+actuator[1] = shoulder_rot_actuator
+
+STATES (total: 40)
+y[0] = /jointset/ground_thorax/thorax_tilt/value
+y[1] = /jointset/ground_thorax/thorax_tilt/speed
+y[2] = /jointset/ground_thorax/thorax_list/value
+y[3] = /jointset/ground_thorax/thorax_list/speed
+y[4] = /jointset/ground_thorax/thorax_rotation/value
+y[5] = /jointset/ground_thorax/thorax_rotation/speed
+y[6] = /jointset/ground_thorax/thorax_tx/value
+y[7] = /jointset/ground_thorax/thorax_tx/speed
+y[8] = /jointset/ground_thorax/thorax_ty/value
+y[9] = /jointset/ground_thorax/thorax_ty/speed
+y[10] = /jointset/ground_thorax/thorax_tz/value
+y[11] = /jointset/ground_thorax/thorax_tz/speed
+y[12] = /jointset/sternoclavicular/sternoclavicular_r2/value
+y[13] = /jointset/sternoclavicular/sternoclavicular_r2/speed
+y[14] = /jointset/sternoclavicular/sternoclavicular_r3/value
+y[15] = /jointset/sternoclavicular/sternoclavicular_r3/speed
+y[16] = /jointset/unrotscap/unrotscap_r3/value
+y[17] = /jointset/unrotscap/unrotscap_r3/speed
+y[18] = /jointset/unrotscap/unrotscap_r2/value
+y[19] = /jointset/unrotscap/unrotscap_r2/speed
+y[20] = /jointset/acromioclavicular/acromioclavicular_r2/value
+y[21] = /jointset/acromioclavicular/acromioclavicular_r2/speed
+y[22] = /jointset/acromioclavicular/acromioclavicular_r3/value
+y[23] = /jointset/acromioclavicular/acromioclavicular_r3/speed
+y[24] = /jointset/acromioclavicular/acromioclavicular_r1/value
+y[25] = /jointset/acromioclavicular/acromioclavicular_r1/speed
+y[26] = /jointset/unrothum/unrothum_r1/value
+y[27] = /jointset/unrothum/unrothum_r1/speed
+y[28] = /jointset/unrothum/unrothum_r3/value
+y[29] = /jointset/unrothum/unrothum_r3/speed
+y[30] = /jointset/unrothum/unrothum_r2/value
+y[31] = /jointset/unrothum/unrothum_r2/speed
+y[32] = /jointset/shoulder0/elv_angle/value
+y[33] = /jointset/shoulder0/elv_angle/speed
+y[34] = /jointset/shoulder1/shoulder_elv/value
+y[35] = /jointset/shoulder1/shoulder_elv/speed
+y[36] = /jointset/shoulder1/shoulder1_r2/value
+y[37] = /jointset/shoulder1/shoulder1_r2/speed
+y[38] = /jointset/shoulder2/shoulder_rot/value
+y[39] = /jointset/shoulder2/shoulder_rot/speed
+
+
+Integrating from 0 to 3
+Printing results of investigation  to ./.
+Couldn't find file 'scapula.vtp'.
+Couldn't find file 'humerus.vtp'.
+ControlSetController::extendFinalizeFromProperties '\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\ModelFiles\shoulder_introt_controls.xml' loaded
+and will replace existing ControlSet 'BasicShoulderComplex_withForces_Default'.
+Couldn't find file 'scapula.vtp'.
+Couldn't find file 'humerus.vtp'.
+Running tool .
+No external loads will be applied (external loads file not specified).
+Couldn't find file 'scapula.vtp'.
+Couldn't find file 'humerus.vtp'.
+ControlSetController::extendFinalizeFromProperties '\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\ModelFiles\shoulder_introt_controls.xml' loaded
+and will replace existing ControlSet 'BasicShoulderComplex_withForces_Default'.
+MODEL: BasicShoulderComplex
+
+numStates = 40
+numCoordinates = 20
+numSpeeds = 20
+numActuators = 2
+numBodies = 8
+numConstraints = 11
+numProbes = 0
+
+ANALYSES (total: 0)
+
+BODIES (total: 8)
+body[0] = thorax. mass: 20
+              moments of inertia:  ~[1.4745,0.7555,1.4314]
+              products of inertia: ~[0,0,0]
+body[1] = clavicle. mass: 0.2
+              moments of inertia:  ~[0,0,0]
+              products of inertia: ~[0,0,0]
+body[2] = clavphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[3] = scapula. mass: 0.5
+              moments of inertia:  ~[0,0,0]
+              products of inertia: ~[0,0,0]
+body[4] = scapphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[5] = humphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[6] = humphant1. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[7] = humerus. mass: 2.0325
+              moments of inertia:  ~[0.011946,0.004121,0.013409]
+              products of inertia: ~[0,0,0]
+
+JOINTS (total: 8)
+joint[0] = ground_thorax. parent: ground_offset, child: thorax_offset
+joint[1] = sternoclavicular. parent: thorax_offset, child: clavicle_offset
+joint[2] = unrotscap. parent: clavicle_offset, child: clavphant_offset
+joint[3] = acromioclavicular. parent: clavphant_offset, child: scapula_offset
+joint[4] = unrothum. parent: scapula_offset, child: scapphant_offset
+joint[5] = shoulder0. parent: scapphant_offset, child: humphant_offset
+joint[6] = shoulder1. parent: humphant_offset, child: humphant1_offset
+joint[7] = shoulder2. parent: humphant1_offset, child: humerus_offset
+
+ACTUATORS (total: 2)
+actuator[0] = shoulder_elv_actuator
+actuator[1] = shoulder_rot_actuator
+
+STATES (total: 40)
+y[0] = /jointset/ground_thorax/thorax_tilt/value
+y[1] = /jointset/ground_thorax/thorax_tilt/speed
+y[2] = /jointset/ground_thorax/thorax_list/value
+y[3] = /jointset/ground_thorax/thorax_list/speed
+y[4] = /jointset/ground_thorax/thorax_rotation/value
+y[5] = /jointset/ground_thorax/thorax_rotation/speed
+y[6] = /jointset/ground_thorax/thorax_tx/value
+y[7] = /jointset/ground_thorax/thorax_tx/speed
+y[8] = /jointset/ground_thorax/thorax_ty/value
+y[9] = /jointset/ground_thorax/thorax_ty/speed
+y[10] = /jointset/ground_thorax/thorax_tz/value
+y[11] = /jointset/ground_thorax/thorax_tz/speed
+y[12] = /jointset/sternoclavicular/sternoclavicular_r2/value
+y[13] = /jointset/sternoclavicular/sternoclavicular_r2/speed
+y[14] = /jointset/sternoclavicular/sternoclavicular_r3/value
+y[15] = /jointset/sternoclavicular/sternoclavicular_r3/speed
+y[16] = /jointset/unrotscap/unrotscap_r3/value
+y[17] = /jointset/unrotscap/unrotscap_r3/speed
+y[18] = /jointset/unrotscap/unrotscap_r2/value
+y[19] = /jointset/unrotscap/unrotscap_r2/speed
+y[20] = /jointset/acromioclavicular/acromioclavicular_r2/value
+y[21] = /jointset/acromioclavicular/acromioclavicular_r2/speed
+y[22] = /jointset/acromioclavicular/acromioclavicular_r3/value
+y[23] = /jointset/acromioclavicular/acromioclavicular_r3/speed
+y[24] = /jointset/acromioclavicular/acromioclavicular_r1/value
+y[25] = /jointset/acromioclavicular/acromioclavicular_r1/speed
+y[26] = /jointset/unrothum/unrothum_r1/value
+y[27] = /jointset/unrothum/unrothum_r1/speed
+y[28] = /jointset/unrothum/unrothum_r3/value
+y[29] = /jointset/unrothum/unrothum_r3/speed
+y[30] = /jointset/unrothum/unrothum_r2/value
+y[31] = /jointset/unrothum/unrothum_r2/speed
+y[32] = /jointset/shoulder0/elv_angle/value
+y[33] = /jointset/shoulder0/elv_angle/speed
+y[34] = /jointset/shoulder1/shoulder_elv/value
+y[35] = /jointset/shoulder1/shoulder_elv/speed
+y[36] = /jointset/shoulder1/shoulder1_r2/value
+y[37] = /jointset/shoulder1/shoulder1_r2/speed
+y[38] = /jointset/shoulder2/shoulder_rot/value
+y[39] = /jointset/shoulder2/shoulder_rot/speed
+
+
+Integrating from 0 to 3
+Printing results of investigation  to ./.
+Couldn't find file 'scapula.vtp'.
+Couldn't find file 'humerus.vtp'.
+ControlSetController::extendFinalizeFromProperties '\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\ModelFiles\shoulder_introt_controls.xml' loaded
+and will replace existing ControlSet 'BasicShoulderComplex_withForces_Default'.
+Couldn't find file 'scapula.vtp'.
+Couldn't find file 'humerus.vtp'.
+Running tool .
+No external loads will be applied (external loads file not specified).
+Couldn't find file 'scapula.vtp'.
+Couldn't find file 'humerus.vtp'.
+ControlSetController::extendFinalizeFromProperties '\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\ModelFiles\shoulder_introt_controls.xml' loaded
+and will replace existing ControlSet 'BasicShoulderComplex_withForces_Default'.
+MODEL: BasicShoulderComplex
+
+numStates = 40
+numCoordinates = 20
+numSpeeds = 20
+numActuators = 2
+numBodies = 8
+numConstraints = 11
+numProbes = 0
+
+ANALYSES (total: 0)
+
+BODIES (total: 8)
+body[0] = thorax. mass: 20
+              moments of inertia:  ~[1.4745,0.7555,1.4314]
+              products of inertia: ~[0,0,0]
+body[1] = clavicle. mass: 0.2
+              moments of inertia:  ~[0,0,0]
+              products of inertia: ~[0,0,0]
+body[2] = clavphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[3] = scapula. mass: 0.5
+              moments of inertia:  ~[0,0,0]
+              products of inertia: ~[0,0,0]
+body[4] = scapphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[5] = humphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[6] = humphant1. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[7] = humerus. mass: 2.0325
+              moments of inertia:  ~[0.011946,0.004121,0.013409]
+              products of inertia: ~[0,0,0]
+
+JOINTS (total: 8)
+joint[0] = ground_thorax. parent: ground_offset, child: thorax_offset
+joint[1] = sternoclavicular. parent: thorax_offset, child: clavicle_offset
+joint[2] = unrotscap. parent: clavicle_offset, child: clavphant_offset
+joint[3] = acromioclavicular. parent: clavphant_offset, child: scapula_offset
+joint[4] = unrothum. parent: scapula_offset, child: scapphant_offset
+joint[5] = shoulder0. parent: scapphant_offset, child: humphant_offset
+joint[6] = shoulder1. parent: humphant_offset, child: humphant1_offset
+joint[7] = shoulder2. parent: humphant1_offset, child: humerus_offset
+
+ACTUATORS (total: 2)
+actuator[0] = shoulder_elv_actuator
+actuator[1] = shoulder_rot_actuator
+
+STATES (total: 40)
+y[0] = /jointset/ground_thorax/thorax_tilt/value
+y[1] = /jointset/ground_thorax/thorax_tilt/speed
+y[2] = /jointset/ground_thorax/thorax_list/value
+y[3] = /jointset/ground_thorax/thorax_list/speed
+y[4] = /jointset/ground_thorax/thorax_rotation/value
+y[5] = /jointset/ground_thorax/thorax_rotation/speed
+y[6] = /jointset/ground_thorax/thorax_tx/value
+y[7] = /jointset/ground_thorax/thorax_tx/speed
+y[8] = /jointset/ground_thorax/thorax_ty/value
+y[9] = /jointset/ground_thorax/thorax_ty/speed
+y[10] = /jointset/ground_thorax/thorax_tz/value
+y[11] = /jointset/ground_thorax/thorax_tz/speed
+y[12] = /jointset/sternoclavicular/sternoclavicular_r2/value
+y[13] = /jointset/sternoclavicular/sternoclavicular_r2/speed
+y[14] = /jointset/sternoclavicular/sternoclavicular_r3/value
+y[15] = /jointset/sternoclavicular/sternoclavicular_r3/speed
+y[16] = /jointset/unrotscap/unrotscap_r3/value
+y[17] = /jointset/unrotscap/unrotscap_r3/speed
+y[18] = /jointset/unrotscap/unrotscap_r2/value
+y[19] = /jointset/unrotscap/unrotscap_r2/speed
+y[20] = /jointset/acromioclavicular/acromioclavicular_r2/value
+y[21] = /jointset/acromioclavicular/acromioclavicular_r2/speed
+y[22] = /jointset/acromioclavicular/acromioclavicular_r3/value
+y[23] = /jointset/acromioclavicular/acromioclavicular_r3/speed
+y[24] = /jointset/acromioclavicular/acromioclavicular_r1/value
+y[25] = /jointset/acromioclavicular/acromioclavicular_r1/speed
+y[26] = /jointset/unrothum/unrothum_r1/value
+y[27] = /jointset/unrothum/unrothum_r1/speed
+y[28] = /jointset/unrothum/unrothum_r3/value
+y[29] = /jointset/unrothum/unrothum_r3/speed
+y[30] = /jointset/unrothum/unrothum_r2/value
+y[31] = /jointset/unrothum/unrothum_r2/speed
+y[32] = /jointset/shoulder0/elv_angle/value
+y[33] = /jointset/shoulder0/elv_angle/speed
+y[34] = /jointset/shoulder1/shoulder_elv/value
+y[35] = /jointset/shoulder1/shoulder_elv/speed
+y[36] = /jointset/shoulder1/shoulder1_r2/value
+y[37] = /jointset/shoulder1/shoulder1_r2/speed
+y[38] = /jointset/shoulder2/shoulder_rot/value
+y[39] = /jointset/shoulder2/shoulder_rot/speed
+
+
+Integrating from 0 to 3
+Printing results of investigation  to ./.
+Couldn't find file 'scapula.vtp'.
+Couldn't find file 'humerus.vtp'.
+ControlSetController::extendFinalizeFromProperties '\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\ModelFiles\shoulder_introt_controls.xml' loaded
+and will replace existing ControlSet 'BasicShoulderComplex_withForces_Default'.
+Couldn't find file 'scapula.vtp'.
+Couldn't find file 'humerus.vtp'.
+Running tool .
+No external loads will be applied (external loads file not specified).
+Couldn't find file 'scapula.vtp'.
+Couldn't find file 'humerus.vtp'.
+ControlSetController::extendFinalizeFromProperties '\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\ModelFiles\shoulder_introt_controls.xml' loaded
+and will replace existing ControlSet 'BasicShoulderComplex_withForces_Default'.
+MODEL: BasicShoulderComplex
+
+numStates = 40
+numCoordinates = 20
+numSpeeds = 20
+numActuators = 2
+numBodies = 8
+numConstraints = 11
+numProbes = 0
+
+ANALYSES (total: 0)
+
+BODIES (total: 8)
+body[0] = thorax. mass: 20
+              moments of inertia:  ~[1.4745,0.7555,1.4314]
+              products of inertia: ~[0,0,0]
+body[1] = clavicle. mass: 0.2
+              moments of inertia:  ~[0,0,0]
+              products of inertia: ~[0,0,0]
+body[2] = clavphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[3] = scapula. mass: 0.5
+              moments of inertia:  ~[0,0,0]
+              products of inertia: ~[0,0,0]
+body[4] = scapphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[5] = humphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[6] = humphant1. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[7] = humerus. mass: 2.0325
+              moments of inertia:  ~[0.011946,0.004121,0.013409]
+              products of inertia: ~[0,0,0]
+
+JOINTS (total: 8)
+joint[0] = ground_thorax. parent: ground_offset, child: thorax_offset
+joint[1] = sternoclavicular. parent: thorax_offset, child: clavicle_offset
+joint[2] = unrotscap. parent: clavicle_offset, child: clavphant_offset
+joint[3] = acromioclavicular. parent: clavphant_offset, child: scapula_offset
+joint[4] = unrothum. parent: scapula_offset, child: scapphant_offset
+joint[5] = shoulder0. parent: scapphant_offset, child: humphant_offset
+joint[6] = shoulder1. parent: humphant_offset, child: humphant1_offset
+joint[7] = shoulder2. parent: humphant1_offset, child: humerus_offset
+
+ACTUATORS (total: 2)
+actuator[0] = shoulder_elv_actuator
+actuator[1] = shoulder_rot_actuator
+
+STATES (total: 40)
+y[0] = /jointset/ground_thorax/thorax_tilt/value
+y[1] = /jointset/ground_thorax/thorax_tilt/speed
+y[2] = /jointset/ground_thorax/thorax_list/value
+y[3] = /jointset/ground_thorax/thorax_list/speed
+y[4] = /jointset/ground_thorax/thorax_rotation/value
+y[5] = /jointset/ground_thorax/thorax_rotation/speed
+y[6] = /jointset/ground_thorax/thorax_tx/value
+y[7] = /jointset/ground_thorax/thorax_tx/speed
+y[8] = /jointset/ground_thorax/thorax_ty/value
+y[9] = /jointset/ground_thorax/thorax_ty/speed
+y[10] = /jointset/ground_thorax/thorax_tz/value
+y[11] = /jointset/ground_thorax/thorax_tz/speed
+y[12] = /jointset/sternoclavicular/sternoclavicular_r2/value
+y[13] = /jointset/sternoclavicular/sternoclavicular_r2/speed
+y[14] = /jointset/sternoclavicular/sternoclavicular_r3/value
+y[15] = /jointset/sternoclavicular/sternoclavicular_r3/speed
+y[16] = /jointset/unrotscap/unrotscap_r3/value
+y[17] = /jointset/unrotscap/unrotscap_r3/speed
+y[18] = /jointset/unrotscap/unrotscap_r2/value
+y[19] = /jointset/unrotscap/unrotscap_r2/speed
+y[20] = /jointset/acromioclavicular/acromioclavicular_r2/value
+y[21] = /jointset/acromioclavicular/acromioclavicular_r2/speed
+y[22] = /jointset/acromioclavicular/acromioclavicular_r3/value
+y[23] = /jointset/acromioclavicular/acromioclavicular_r3/speed
+y[24] = /jointset/acromioclavicular/acromioclavicular_r1/value
+y[25] = /jointset/acromioclavicular/acromioclavicular_r1/speed
+y[26] = /jointset/unrothum/unrothum_r1/value
+y[27] = /jointset/unrothum/unrothum_r1/speed
+y[28] = /jointset/unrothum/unrothum_r3/value
+y[29] = /jointset/unrothum/unrothum_r3/speed
+y[30] = /jointset/unrothum/unrothum_r2/value
+y[31] = /jointset/unrothum/unrothum_r2/speed
+y[32] = /jointset/shoulder0/elv_angle/value
+y[33] = /jointset/shoulder0/elv_angle/speed
+y[34] = /jointset/shoulder1/shoulder_elv/value
+y[35] = /jointset/shoulder1/shoulder_elv/speed
+y[36] = /jointset/shoulder1/shoulder1_r2/value
+y[37] = /jointset/shoulder1/shoulder1_r2/speed
+y[38] = /jointset/shoulder2/shoulder_rot/value
+y[39] = /jointset/shoulder2/shoulder_rot/speed
+
+
+Integrating from 0 to 3
+Printing results of investigation  to ./.
+Couldn't find file 'scapula.vtp'.
+Couldn't find file 'humerus.vtp'.
+ControlSetController::extendFinalizeFromProperties '\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\ModelFiles\shoulder_introt_controls.xml' loaded
+and will replace existing ControlSet 'BasicShoulderComplex_withForces_Default'.
+Couldn't find file 'scapula.vtp'.
+Couldn't find file 'humerus.vtp'.
+Running tool .
+No external loads will be applied (external loads file not specified).
+Couldn't find file 'scapula.vtp'.
+Couldn't find file 'humerus.vtp'.
+ControlSetController::extendFinalizeFromProperties '\\rds.shares.deakin.edu.au\rds\RDS29531-OrthopaedicsResearch\ShoulderInstability\CapsulorrhaphySimulation\selective-capsulorrhaphy-sims-mtlb\ModelFiles\shoulder_introt_controls.xml' loaded
+and will replace existing ControlSet 'BasicShoulderComplex_withForces_Default'.
+MODEL: BasicShoulderComplex
+
+numStates = 40
+numCoordinates = 20
+numSpeeds = 20
+numActuators = 2
+numBodies = 8
+numConstraints = 11
+numProbes = 0
+
+ANALYSES (total: 0)
+
+BODIES (total: 8)
+body[0] = thorax. mass: 20
+              moments of inertia:  ~[1.4745,0.7555,1.4314]
+              products of inertia: ~[0,0,0]
+body[1] = clavicle. mass: 0.2
+              moments of inertia:  ~[0,0,0]
+              products of inertia: ~[0,0,0]
+body[2] = clavphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[3] = scapula. mass: 0.5
+              moments of inertia:  ~[0,0,0]
+              products of inertia: ~[0,0,0]
+body[4] = scapphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[5] = humphant. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[6] = humphant1. mass: 0.0001
+              moments of inertia:  ~[1,1,1]
+              products of inertia: ~[0,0,0]
+body[7] = humerus. mass: 2.0325
+              moments of inertia:  ~[0.011946,0.004121,0.013409]
+              products of inertia: ~[0,0,0]
+
+JOINTS (total: 8)
+joint[0] = ground_thorax. parent: ground_offset, child: thorax_offset
+joint[1] = sternoclavicular. parent: thorax_offset, child: clavicle_offset
+joint[2] = unrotscap. parent: clavicle_offset, child: clavphant_offset
+joint[3] = acromioclavicular. parent: clavphant_offset, child: scapula_offset
+joint[4] = unrothum. parent: scapula_offset, child: scapphant_offset
+joint[5] = shoulder0. parent: scapphant_offset, child: humphant_offset
+joint[6] = shoulder1. parent: humphant_offset, child: humphant1_offset
+joint[7] = shoulder2. parent: humphant1_offset, child: humerus_offset
+
+ACTUATORS (total: 2)
+actuator[0] = shoulder_elv_actuator
+actuator[1] = shoulder_rot_actuator
+
+STATES (total: 40)
+y[0] = /jointset/ground_thorax/thorax_tilt/value
+y[1] = /jointset/ground_thorax/thorax_tilt/speed
+y[2] = /jointset/ground_thorax/thorax_list/value
+y[3] = /jointset/ground_thorax/thorax_list/speed
+y[4] = /jointset/ground_thorax/thorax_rotation/value
+y[5] = /jointset/ground_thorax/thorax_rotation/speed
+y[6] = /jointset/ground_thorax/thorax_tx/value
+y[7] = /jointset/ground_thorax/thorax_tx/speed
+y[8] = /jointset/ground_thorax/thorax_ty/value
+y[9] = /jointset/ground_thorax/thorax_ty/speed
+y[10] = /jointset/ground_thorax/thorax_tz/value
+y[11] = /jointset/ground_thorax/thorax_tz/speed
+y[12] = /jointset/sternoclavicular/sternoclavicular_r2/value
+y[13] = /jointset/sternoclavicular/sternoclavicular_r2/speed
+y[14] = /jointset/sternoclavicular/sternoclavicular_r3/value
+y[15] = /jointset/sternoclavicular/sternoclavicular_r3/speed
+y[16] = /jointset/unrotscap/unrotscap_r3/value
+y[17] = /jointset/unrotscap/unrotscap_r3/speed
+y[18] = /jointset/unrotscap/unrotscap_r2/value
+y[19] = /jointset/unrotscap/unrotscap_r2/speed
+y[20] = /jointset/acromioclavicular/acromioclavicular_r2/value
+y[21] = /jointset/acromioclavicular/acromioclavicular_r2/speed
+y[22] = /jointset/acromioclavicular/acromioclavicular_r3/value
+y[23] = /jointset/acromioclavicular/acromioclavicular_r3/speed
+y[24] = /jointset/acromioclavicular/acromioclavicular_r1/value
+y[25] = /jointset/acromioclavicular/acromioclavicular_r1/speed
+y[26] = /jointset/unrothum/unrothum_r1/value
+y[27] = /jointset/unrothum/unrothum_r1/speed
+y[28] = /jointset/unrothum/unrothum_r3/value
+y[29] = /jointset/unrothum/unrothum_r3/speed
+y[30] = /jointset/unrothum/unrothum_r2/value
+y[31] = /jointset/unrothum/unrothum_r2/speed
+y[32] = /jointset/shoulder0/elv_angle/value
+y[33] = /jointset/shoulder0/elv_angle/speed
+y[34] = /jointset/shoulder1/shoulder_elv/value
+y[35] = /jointset/shoulder1/shoulder_elv/speed
+y[36] = /jointset/shoulder1/shoulder1_r2/value
+y[37] = /jointset/shoulder1/shoulder1_r2/speed
+y[38] = /jointset/shoulder2/shoulder_rot/value
+y[39] = /jointset/shoulder2/shoulder_rot/speed
+
+
+Integrating from 0 to 3
+Printing results of investigation  to ./.
