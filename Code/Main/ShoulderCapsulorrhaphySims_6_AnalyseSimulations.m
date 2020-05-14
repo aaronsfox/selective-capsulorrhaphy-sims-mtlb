@@ -576,17 +576,19 @@ function ShoulderCapsulorrhaphySims_6_AnalyseSimulations
 
         %%%%%% TO DO: worthwhile plotting absolute values with respect to time,
         %%%%%% but may be better to present time normalised data???
-
-        %Create figures directory
-        mkdir('Figures'); cd('Figures');
-
-        %% Performance time
-
-        %%%% TO DO: could also time normalise performance to the None model...
         
-        %%%%% Plotting of results commented out below to avoid generating
-        %%%%% figures on each test iteration of the script...
+% % %         Figures below commented out to avid plotting each time...
 
+% % %         %Create figures directory
+% % %         mkdir('Figures'); cd('Figures');
+% % % 
+% % %         %% Performance time
+% % % 
+% % %         %%%% TO DO: could also time normalise performance to the None model...
+% % %         
+% % %         %%%%% Plotting of results commented out below to avoid generating
+% % %         %%%%% figures on each test iteration of the script...
+% % % 
 % % %         figure; hold on
 % % % 
 % % %         %Extract performance time into relevant structure
@@ -597,6 +599,9 @@ function ShoulderCapsulorrhaphySims_6_AnalyseSimulations
 % % %             perfTime(mm,1) = simResults.(char(taskName)).(modelName{mm}).coordinateValue.time(end);
 % % %         end
 % % %         clear mm
+% % %         
+% % %         %Write performance time data to table for easy lookup
+% % %         writetable(table(modelName,perfTime),['PerformanceTime_',(char(taskName)),'_figData.csv'])
 % % % 
 % % %         %Create bar chart for performance time
 % % %         for pp = 1:length(perfTime)
@@ -1238,9 +1243,14 @@ function ShoulderCapsulorrhaphySims_6_AnalyseSimulations
 % % %         %Plot normalised muscle cost values for all models (except for None)
 % % %         for mm = 2:length(modelName)
 % % %             b = bar(mm-1,simResults.(char(taskName)).(modelName{mm}).muscleCostTotalNorm.all);
+% % %             costAll(mm-1,1) = simResults.(char(taskName)).(modelName{mm}).muscleCostTotalNorm.all;
 % % %             b.FaceColor = lineColour{mm}; b.EdgeColor = [0,0,0]; b.BarWidth = 1; b.LineWidth = 1;
 % % %         end
 % % %         clear mm
+% % %         
+% % %         %Write data to table
+% % %         writetable(table(modelName(2:end),costAll),['MuscleCostAll_',(char(taskName)),'_figData.csv'])
+% % %         clear costAll
 % % % 
 % % %         %Set formatting on axes numbers
 % % %         set(gca,'FontSize',10,'FontWeight','bold','FontName','Helvetica');
@@ -1279,11 +1289,19 @@ function ShoulderCapsulorrhaphySims_6_AnalyseSimulations
 % % %             for aa = 1:length(actNames)
 % % %                 subplot(5,6,subplotPos(aa)); hold on
 % % %                 b = bar(mm-1,simResults.(char(taskName)).(modelName{mm}).muscleCostIntNorm.(actNames{aa}));
+% % %                 indCost(mm-1,aa) = simResults.(char(taskName)).(modelName{mm}).muscleCostIntNorm.(actNames{aa});
 % % %                 b.FaceColor = lineColour{mm}; b.EdgeColor = [0,0,0]; b.BarWidth = 1; b.LineWidth = 1;
 % % %             end
 % % %             clear aa
 % % %         end
 % % %         clear mm
+% % %         
+% % %         %Write data to table
+% % %         T = table(modelName(2:end),indCost); T = splitvars(T);
+% % %         T.Properties.VariableNames{1} = 'modelName';
+% % %         T.Properties.VariableNames(2:end) = actNames;
+% % %         writetable(T,['MuscleCostIndividual_',(char(taskName)),'_figData.csv'])
+% % %         clear indCost T
 % % %         
 % % %         %Set axes parameters
 % % %         for aa = 1:length(subplotPos)
@@ -1329,24 +1347,50 @@ function ShoulderCapsulorrhaphySims_6_AnalyseSimulations
 % % %         f.Position = [figPos(1)-figPos(4)*1.25 figPos(2)-figPos(3) figPos(3)*3 figPos(4)*2.5];
 % % %         clear f figPos
 % % %         
+% % %         %Loop through models and calculate each muscles change in cost
 % % %         %Loop through models and plot
 % % %         for mm = 2:length(modelName)   
 % % %             %Loop through muscles while placing on appropriate subplot
 % % %             for aa = 1:length(actNames)
-% % %                 %Calculate this muscles relative contribution to the change
-% % %                 %in overall muscle cost
-% % %                 %Get the change in total muscle cost
-% % %                 changeCost = simResults.(char(taskName)).(modelName{mm}).muscleCostTotal.all - ...
-% % %                     simResults.(char(taskName)).None.muscleCostTotal.all;
 % % %                 %Calculate the change in this muscles cost
-% % %                 changeMusc = simResults.(char(taskName)).(modelName{mm}).muscleCostInt.(actNames{aa}) - ...
+% % %                 changeMusc(mm-1,aa) = simResults.(char(taskName)).(modelName{mm}).muscleCostInt.(actNames{aa}) - ...
 % % %                     simResults.(char(taskName)).None.muscleCostInt.(actNames{aa});
-% % %                 %Calculate the relative change
-% % %                 relCost = abs(changeMusc) / changeCost * 100;
+% % %             end
+% % %             clear aa
+% % %         end
+% % %         clear mm
+% % %         
+% % %         %Calculate the absolute change in muscle cost for each model,
+% % %         %inclusive of the postive and negative values
+% % %         for mm = 2:length(modelName)
+% % %             totalChange(mm-1,1) = sum(abs(changeMusc(mm-1,:)));
+% % %         end
+% % %         clear mm
+% % %         
+% % %         %Normalise each muscle to the total change
+% % %         for mm = 2:length(modelName)   
+% % %             %Loop through muscles while placing on appropriate subplot
+% % %             for aa = 1:length(actNames)
+% % %                 %Calculate the change in this muscles cost
+% % %                 relCost(mm-1,aa) = changeMusc(mm-1,aa) / totalChange(mm-1,1) * 100;
+% % %             end
+% % %             clear aa
+% % %         end
+% % %         clear mm
+% % %         
+% % %         %Write data to table
+% % %         T = table(modelName(2:end),relCost); T = splitvars(T);
+% % %         T.Properties.VariableNames{1} = 'modelName';
+% % %         T.Properties.VariableNames(2:end) = actNames;
+% % %         writetable(T,['MuscleCostIndividualRelative_',(char(taskName)),'_figData.csv'])
+% % %         clear T
+% % %         
+% % %         %Loop through models and plot
+% % %         for mm = 2:length(modelName)   
+% % %             %Loop through muscles and place on appropriate subplot
+% % %             for aa = 1:length(actNames)
 % % %                 subplot(5,6,subplotPos(aa)); hold on
-% % %                 b = bar(mm-1,relCost); b.FaceColor = lineColour{mm}; b.EdgeColor = [0,0,0]; b.BarWidth = 1; b.LineWidth = 1;
-% % %                 %Cleanup
-% % %                 clear changeCost changeMusc relCost
+% % %                 b = bar(mm-1,relCost(mm-1,aa)); b.FaceColor = lineColour{mm}; b.EdgeColor = [0,0,0]; b.BarWidth = 1; b.LineWidth = 1;
 % % %             end
 % % %             clear aa
 % % %         end
@@ -1411,112 +1455,10 @@ function ShoulderCapsulorrhaphySims_6_AnalyseSimulations
 % % %         print(gcf,['MuscleCostIndividualRelative_',(char(taskName)),'_fig'],'-dtiff','-r600'); %600 dpi tif
 % % %         %Close
 % % %         close all
-
-% % %         %Individual muscles scaled to total involvement in all muscle cost
-% % %         %scaled to muscle cost
-% % %         %i.e. relative contribution to the change in muscle cost MULTIPLIED BY
-% % %         %the total percentage change in muscle cost
-% % %         
-% % %         figure; hold on
-% % %         %Get current figure position and set size for the subplot
-% % %         f = gcf; figPos = f.Position;
-% % %         f.Position = [figPos(1)-figPos(4)*1.25 figPos(2)-figPos(3) figPos(3)*3 figPos(4)*2.5];
-% % %         clear f figPos
-% % %         
-% % %         %Loop through models and plot
-% % %         for mm = 2:length(modelName)   
-% % %             %Loop through muscles while placing on appropriate subplot
-% % %             for aa = 1:length(actNames)
-% % %                 %Calculate this muscles relative contribution to the change
-% % %                 %in overall muscle cost
-% % %                 %Get the change in total muscle cost
-% % %                 changeCost = simResults.(char(taskName)).(modelName{mm}).muscleCostTotal.all - ...
-% % %                     simResults.(char(taskName)).None.muscleCostTotal.all;
-% % %                 %Calculate the change in this muscles cost
-% % %                 changeMusc = simResults.(char(taskName)).(modelName{mm}).muscleCostInt.(actNames{aa}) - ...
-% % %                     simResults.(char(taskName)).None.muscleCostInt.(actNames{aa});
-% % %                 %Calculate the relative change including total muscle cost
-% % %                 relCost = changeMusc / changeCost * (simResults.(char(taskName)).(modelName{mm}).muscleCostTotalNorm.all/100) * 100;
-% % %                 subplot(5,6,subplotPos(aa)); hold on
-% % %                 b = bar(mm-1,relCost); b.FaceColor = lineColour{mm}; b.EdgeColor = [0,0,0]; b.BarWidth = 1; b.LineWidth = 1;
-% % %                 %Cleanup
-% % %                 clear changeCost changeMusc relCost
-% % %             end
-% % %             clear aa
-% % %         end
-% % %         clear mm
-% % %         
-% % %         %Loop through subplots and find the absolute max/min value to scale
-% % %         %axes by
-% % %         currScale = 0;
-% % %         for aa = 1:length(subplotPos)
-% % %             %Get axes
-% % %             subplot(5,6,subplotPos(aa)); ax = gca;
-% % %             %Get max and min y limits
-% % %             yLims = [abs(ax.YLim(1));abs(ax.YLim(2))];
-% % %             %Get max of limits
-% % %             yLims = max(yLims);
-% % %             %If larger than curretn scale, reset the value
-% % %             if yLims > currScale
-% % %                 currScale = yLims;
-% % %             end
-% % %             %Cleanup
-% % %             clear ax yLims
-% % %         end
-% % %         clear aa
-% % %         
-% % %         %Round up scale
-% % %         currScale = ceil(currScale);
-% % %         
-% % %         %Set axes parameters
-% % %         for aa = 1:length(subplotPos)
-% % %             subplot(5,6,subplotPos(aa));
-% % %             %Set axes style
-% % %             ax = gca; box on; ax.LineWidth = 1;
-% % %             set(gca,'Layer','top');
-% % %             %Set axes limits and labels
-% % %             ax.XLim = [0.2 8.8];
-% % %             if ax.YLim(1) < 0
-% % %                 ax.YLim(1) = currScale*-1;
-% % %             end
-% % %             if ax.YLim(2) > 0
-% % %                 ax.YLim(2) = currScale;                
-% % %             end
-% % %             %Set font characteristics
-% % %             set(gca,'FontSize',9,'FontWeight','bold','FontName','Helvetica');
-% % %             %Set title for figure
-% % %             title(actNames{aa});
-% % %             %Set x tick parameters (unlabeled)
-% % %             ax.XTick = 1:1:8; ax.XTickLabel = {};
-% % %             %Set y axis label
-% % %             
-% % %             %%%%%%TODO: fix y axes label/units for this figure
-% % %             
-% % %             ylabel('% Contrib. to \Delta Muscle Cost',...
-% % %                 'FontWeight','bold','FontName','Helvetica','FontSize',8);    
-% % %             clear ax
-% % %         end
-% % %         clear aa
-% % % 
-% % %         %Add legend using custom legendflex function
-% % %         ax = subplot(5,6,subplotPos(end-3));
-% % %         legendflex(ax, modelLeg(2:end), 'anchor', {'s','n'}, 'buffer', [0 -50], 'nrow', length(modelLeg(2:end)));
-% % %         clear ax
-% % % 
-% % %         %Save figure
-% % %         print(['MuscleCostIndividualRelativeTotal_',(char(taskName)),'_fig.eps'],'-depsc2');        %eps format
-% % %         set(gcf, 'PaperPositionMode','auto')
-% % %         saveas(gcf,['MuscleCostIndividualRelativeTotal_',(char(taskName)),'_fig.png']);             %low res png
-% % %         saveas(gcf,['MuscleCostIndividualRelativeTotal_',(char(taskName)),'_fig.fig']);             %matlab figure
-% % %         print(gcf,['MuscleCostIndividualRelativeTotal_',(char(taskName)),'_fig'],'-dtiff','-r600'); %600 dpi tif
-% % %         %Close
-% % %         close all
-
-
-% % %         
-% % %         
-% % %         %%%%% TO DO: output data for tables...
-% % %         
+% % %         clear changeMusc totalChange relCost
+        
+        %%%%% TO DO: output data for tables...
+        
         %Navigate back to results directory
         cd(resultsDir);
         
