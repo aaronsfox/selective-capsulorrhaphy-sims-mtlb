@@ -1225,6 +1225,142 @@ function ShoulderCapsulorrhaphySims_6_AnalyseSimulations
 % % %         %Close
 % % %         close all
 % % % 
+% % %         %% Muscle forces
+% % % 
+% % %         %Non time normalised
+% % % 
+% % %         figure; hold on
+% % %         %Get current figure position and set size for the subplot
+% % %         f = gcf; figPos = f.Position;
+% % %         f.Position = [figPos(1)-figPos(4)*1.25 figPos(2)-figPos(3) figPos(3)*3 figPos(4)*2.5];
+% % %         clear f figPos
+% % % 
+% % %         %Loop through models and plot
+% % %         for mm = 1:length(modelName)          
+% % %             %Loop through activations while placing on appropriate subplot
+% % %             for aa = 1:length(actNames)
+% % %                 subplot(5,6,subplotPos(aa)); hold on
+% % %                 plot(simResults.(char(taskName)).(modelName{mm}).muscleForce.time,...
+% % %                 simResults.(char(taskName)).(modelName{mm}).muscleForce.(actNames{aa}),...
+% % %                 'Color',lineColour{mm},'LineWidth',1.5)
+% % %             end
+% % %             clear aa            
+% % %         end
+% % %         clear mm
+% % % 
+% % %         %Find max time. Start with first model
+% % %         maxTime = simResults.(char(taskName)).(modelName{1}).muscleForce.time(end);
+% % %         for mm = 2:length(modelName)
+% % %             if simResults.(char(taskName)).(modelName{mm}).muscleForce.time(end) > maxTime
+% % %                 maxTime = simResults.(char(taskName)).(modelName{mm}).muscleForce.time(end);
+% % %             end            
+% % %         end
+% % % 
+% % %         %Set axes parameters
+% % %         for aa = 1:length(subplotPos)
+% % %             subplot(5,6,subplotPos(aa));
+% % %             %Set font characteristics
+% % %             set(gca,'FontSize',9,'FontWeight','bold','FontName','Helvetica');
+% % %             %Set x axis label
+% % %             xlabel('Time (s)',...
+% % %                 'FontWeight','bold','FontName','Helvetica',...
+% % %                 'FontSize',9);
+% % %             %Set y axis label
+% % %             label = [actNames{aa},' Force (N)'];
+% % %             ylabel(label,...
+% % %                 'FontWeight','bold','FontName','Helvetica',...
+% % %                 'FontSize',9);    
+% % %             clear label
+% % %             %Set axes style
+% % %             ax = gca; box on; ax.LineWidth = 1;
+% % %             set(gca,'Layer','top');
+% % %             %Set axes limits
+% % %             ax.XLim = [0 maxTime];
+% % %             clear ax
+% % %         end
+% % %         clear aa
+% % % 
+% % %         %Add legend using custom legendflex function
+% % %         ax = subplot(5,6,subplotPos(end-3));
+% % %         legendflex(ax, modelLeg, 'anchor', {'s','n'}, 'buffer', [0 -45], 'nrow', length(modelLeg));
+% % %         clear ax
+% % % 
+% % %         %Save figure
+% % %         print(['MuscleForces_',(char(taskName)),'_fig.eps'],'-depsc2');        %eps format
+% % %         set(gcf, 'PaperPositionMode','auto')
+% % %         saveas(gcf,['MuscleForces_',(char(taskName)),'_fig.png']);             %low res png
+% % %         saveas(gcf,['MuscleForces_',(char(taskName)),'_fig.fig']);             %matlab figure
+% % %         print(gcf,['MuscleForces_',(char(taskName)),'_fig'],'-dtiff','-r600'); %600 dpi tif
+% % %         %Close
+% % %         close all
+% % %         %Cleanup
+% % %         clear maxTime
+% % % 
+% % %         %Time normalised
+% % % 
+% % %         figure; hold on
+% % %         %Get current figure position and set size for the subplot
+% % %         f = gcf; figPos = f.Position;
+% % %         f.Position = [figPos(1)-figPos(4)*1.25 figPos(2)-figPos(3) figPos(3)*3 figPos(4)*2.5];
+% % %         clear f figPos
+% % % 
+% % %         %Loop through models and plot
+% % %         for mm = 1:length(modelName)   
+% % %             %Create a 101 length version of the time samples
+% % %             tNorm = linspace(simResults.(char(taskName)).(modelName{mm}).muscleForce.time(1),...
+% % %                 simResults.(char(taskName)).(modelName{mm}).muscleForce.time(end),101)';        
+% % %             %Loop through activations while placing on appropriate subplot
+% % %             for aa = 1:length(actNames)
+% % %                 %Create normalised version of the data
+% % %                 muscDatNorm = interp1(simResults.(char(taskName)).(modelName{mm}).muscleForce.time,...
+% % %                     simResults.(char(taskName)).(modelName{mm}).muscleForce.(actNames{aa}),tNorm);
+% % %                 subplot(5,6,subplotPos(aa)); hold on
+% % %                 plot(0:100,muscDatNorm,'Color',lineColour{mm},'LineWidth',1.5)
+% % %                 %Cleanup
+% % %                 clear muscDatNorm
+% % %             end
+% % %             clear aa tNorm
+% % %         end
+% % %         clear mm
+% % % 
+% % %         %Set axes parameters
+% % %         for aa = 1:length(subplotPos)
+% % %             subplot(5,6,subplotPos(aa));
+% % %             %Set font characteristics
+% % %             set(gca,'FontSize',9,'FontWeight','bold','FontName','Helvetica');
+% % %             %Set x axis label
+% % %             xlabel('0-100% Task Completion',...
+% % %                 'FontWeight','bold','FontName','Helvetica',...
+% % %                 'FontSize',9);
+% % %             %Set y axis label
+% % %             label = [actNames{aa},' Force (N)'];
+% % %             ylabel(label,...
+% % %                 'FontWeight','bold','FontName','Helvetica',...
+% % %                 'FontSize',9);    
+% % %             clear label
+% % %             %Set axes style
+% % %             ax = gca; box on; ax.LineWidth = 1;
+% % %             set(gca,'Layer','top');
+% % %             %Set axes limits
+% % %             ax.XLim = [0 100];
+% % %             clear ax
+% % %         end
+% % %         clear aa
+% % % 
+% % %         %Add legend using custom legendflex function
+% % %         ax = subplot(5,6,subplotPos(end-3));
+% % %         legendflex(ax, modelLeg, 'anchor', {'s','n'}, 'buffer', [0 -45], 'nrow', length(modelLeg));
+% % %         clear ax
+% % % 
+% % %         %Save figure
+% % %         print(['MuscleForcesNorm_',(char(taskName)),'_fig.eps'],'-depsc2');        %eps format
+% % %         set(gcf, 'PaperPositionMode','auto')
+% % %         saveas(gcf,['MuscleForcesNorm_',(char(taskName)),'_fig.png']);             %low res png
+% % %         saveas(gcf,['MuscleForcesNorm_',(char(taskName)),'_fig.fig']);             %matlab figure
+% % %         print(gcf,['MuscleForcesNorm_',(char(taskName)),'_fig'],'-dtiff','-r600'); %600 dpi tif
+% % %         %Close
+% % %         close all
+% % % 
 % % %         %% Muscle cost
 % % % 
 % % % % % %         %Set a labelling variable for plot
@@ -1456,8 +1592,159 @@ function ShoulderCapsulorrhaphySims_6_AnalyseSimulations
 % % %         %Close
 % % %         close all
 % % %         clear changeMusc totalChange relCost
-        
-        %%%%% TO DO: output data for tables...
+% % % 
+% % %         %% Resistive forces
+% % %         
+% % %         %Set variable for ligament names
+% % %         ligNames = [{'shoulder_elv_DualEBCF'};
+% % %             {'shoulder_rot_DualEBCF'}];
+% % %         
+% % %         %Non-time normalised
+% % % 
+% % %         %Initialise figure
+% % %         figure; hold on
+% % % 
+% % %         %Get current figure position and double length for the subplot
+% % %         f = gcf; figPos = f.Position;
+% % %         f.Position = [figPos(1) figPos(2)-figPos(4) figPos(3) figPos(4)*2];
+% % %         clear f figPos
+% % % 
+% % %         %Loop through two ligaments
+% % %         for ll = 1:length(ligNames)
+% % % 
+% % %             %Initialise subplot 
+% % %             subplot(2,1,ll);
+% % %             hold on
+% % % 
+% % %             %Loop through models and plot
+% % %             %Negate values to make it consistent with earlier plots
+% % %             for mm = 1:length(modelName)          
+% % %                 plot(simResults.(char(taskName)).(modelName{mm}).ligamentForce.time,...
+% % %                     simResults.(char(taskName)).(modelName{mm}).ligamentForce.(ligNames{ll})*-1,...
+% % %                     'Color',lineColour{mm},'LineWidth',1.5)         
+% % %             end
+% % %             clear mm
+% % % 
+% % %             %Find max time. Start with first model
+% % %             maxTime = simResults.(char(taskName)).(modelName{1}).ligamentForce.time(end);
+% % %             for mm = 2:length(modelName)
+% % %                 if simResults.(char(taskName)).(modelName{mm}).ligamentForce.time(end) > maxTime
+% % %                     maxTime = simResults.(char(taskName)).(modelName{mm}).ligamentForce.time(end);
+% % %                 end            
+% % %             end
+% % % 
+% % %             %Set x-axis limits to max time
+% % %             set(gca,'xlim',([0,maxTime]));
+% % % 
+% % %             %Set formatting on axes numbers
+% % %             set(gca,'FontSize',10,'FontWeight','bold','FontName','Helvetica');
+% % % 
+% % %             %Set axes labels
+% % %             xlabel('Time (s)',...
+% % %                 'FontWeight','bold','FontName','Helvetica',...
+% % %                 'FontSize',10);
+% % %             if ll == 1
+% % %                 ylabel('Passive Resistance to Shoulder Elevation (Nm)',...
+% % %                     'FontWeight','bold','FontName','Helvetica',...
+% % %                     'FontSize',10);
+% % %             else
+% % %                 ylabel('Passive Resistance to Shoulder Axial Rotation (Nm)',...
+% % %                     'FontWeight','bold','FontName','Helvetica',...
+% % %                     'FontSize',10);
+% % %             end
+% % % 
+% % %             %Set legend
+% % %             if ll == 1
+% % %                 legend(modelLeg,'Location','NorthWest'); legend boxoff
+% % %             else
+% % %             end
+% % % 
+% % %             %Set framing of figure
+% % %             ax = gca; box on; ax.LineWidth = 1; clear ax
+% % %             set(gca,'Layer','top');
+% % % 
+% % %         end
+% % %         clear ll
+% % % 
+% % %         %Save figure
+% % %         print(['LigamentForces_',(char(taskName)),'_fig.eps'],'-depsc2');        %eps format
+% % %         set(gcf, 'PaperPositionMode','auto')
+% % %         saveas(gcf,['LigamentForces_',(char(taskName)),'_fig.png']);             %low res png
+% % %         saveas(gcf,['LigamentForces_',(char(taskName)),'_fig.fig']);             %matlab figure
+% % %         print(gcf,['LigamentForces_',(char(taskName)),'_fig'],'-dtiff','-r600'); %600 dpi tif
+% % %         %Close
+% % %         close all
+% % %         %Cleanup
+% % %         clear maxTime
+% % % 
+% % %         %Time normalised
+% % % 
+% % %         %Initialise figure
+% % %         figure; hold on
+% % % 
+% % %         %Get current figure position and double length for the subplot
+% % %         f = gcf; figPos = f.Position;
+% % %         f.Position = [figPos(1) figPos(2)-figPos(4) figPos(3) figPos(4)*2];
+% % %         clear f figPos
+% % % 
+% % %         for ll = 1:length(ligNames)
+% % % 
+% % %             %Initialise subplot 
+% % %             subplot(2,1,ll);
+% % %             hold on
+% % % 
+% % %             %Loop through models and plot
+% % %             %Negate values to make it consistent with earlier plots
+% % %             for mm = 1:length(modelName)
+% % %                 %Create a 101 length version of the time samples
+% % %                 tNorm = linspace(simResults.(char(taskName)).(modelName{mm}).ligamentForce.time(1),...
+% % %                         simResults.(char(taskName)).(modelName{mm}).ligamentForce.time(end),101)';
+% % %                 %Create time normalised version of data
+% % %                 ligDatNorm = interp1(simResults.(char(taskName)).(modelName{mm}).ligamentForce.time,...
+% % %                     simResults.(char(taskName)).(modelName{mm}).ligamentForce.(ligNames{ll})*-1,tNorm);
+% % %                 %Plot data
+% % %                 plot(0:100,ligDatNorm,'Color',lineColour{mm},'LineWidth',1.5)     
+% % %             end
+% % %             clear mm
+% % % 
+% % %             %Set formatting on axes numbers
+% % %             set(gca,'FontSize',10,'FontWeight','bold','FontName','Helvetica');
+% % % 
+% % %             %Set axes labels
+% % %             xlabel('0-100% Task Completion',...
+% % %                 'FontWeight','bold','FontName','Helvetica',...
+% % %                 'FontSize',10);
+% % %             if ll == 1
+% % %                 ylabel('Passive Resistance to Shoulder Elevation (Nm)',...
+% % %                     'FontWeight','bold','FontName','Helvetica',...
+% % %                     'FontSize',10);
+% % %             else
+% % %                 ylabel('Passive Resistance to Shoulder Axial Rotation (Nm)',...
+% % %                     'FontWeight','bold','FontName','Helvetica',...
+% % %                     'FontSize',10);
+% % %             end
+% % % 
+% % %             %Set legend
+% % %             if ll == 1
+% % %                 legend(modelLeg,'Location','NorthWest'); legend boxoff
+% % %             else
+% % %             end
+% % % 
+% % %             %Set framing of figure
+% % %             ax = gca; box on; ax.LineWidth = 1; clear ax
+% % %             set(gca,'Layer','top');
+% % % 
+% % %         end
+% % %         clear ll
+% % % 
+% % %         %Save figure
+% % %         print(['LigamentForcesNorm_',(char(taskName)),'_fig.eps'],'-depsc2');        %eps format
+% % %         set(gcf, 'PaperPositionMode','auto')
+% % %         saveas(gcf,['LigamentForcesNorm_',(char(taskName)),'_fig.png']);             %low res png
+% % %         saveas(gcf,['LigamentForcesNorm_',(char(taskName)),'_fig.fig']);             %matlab figure
+% % %         print(gcf,['LigamentForcesNorm_',(char(taskName)),'_fig'],'-dtiff','-r600'); %600 dpi tif
+% % %         %Close
+% % %         close all
         
         %Navigate back to results directory
         cd(resultsDir);
