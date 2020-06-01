@@ -1,8 +1,8 @@
-# Simulating the impact of glenohumeral capsulorrhapjhy on movement kinematics and muscle function in activities of daily living.
+# Simulating Selective Glenohumeral Capsulorrhaphy
 
 The dataset and code provided with this read me allow replication of the model building and analysis associated with our paper:
 
-*** TODO: add paper citation details ***
+***TODO: add paper citation details***
 
 Please cite the above-mentioned paper if using any data or code (adapted or otherwise) from this dataset/repository.
 
