@@ -6,12 +6,7 @@ function ShoulderCapsulorrhaphySims_1_AddModelLigaments
 % 
 % This code adds the necessary 'ligaments' and actuators to the basic shoulder 
 % complex model for further processing.
-% 
-% TO DO: add further detailed notes...ligament properties based on MoBL model data...
-%           Note that we left the adduction/hyperextension components are
-%           left out as we don't have information on them for the later
-%           optimisations
-% 
+%  
 % The findings of Gerber et al. highlighted the neccesity to provide restrictions
 % to shoulder rotation based on the magnitude of shoulder elevation, and the 
 % amoint of shoulder elevation based on the elevation plane angle. For this, a
@@ -22,13 +17,9 @@ function ShoulderCapsulorrhaphySims_1_AddModelLigaments
 % and the initial optimisations are performed using the coordinate limit
 % forces to fit these equations to, so they are added later.
 % 
-% TO DO: Details on plugin build...
-% 
 % This function should be run from it's own location (i.e. Code > Main
 % directory). Without this, the manoeuvering between directories will not
 % be appropriate.
-% 
-% TO DO: add Saul et al. and Gerber et al. references
 
 %% Set-up
 

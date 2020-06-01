@@ -15,8 +15,6 @@ function ShoulderCapsulorrhaphySims_4_NodeSelection
 % outputs. Theoretically, the best node density is where the objective
 % function value stops dramatically decreasing while also seeing minimal
 % differences in the model outputs of interest.
-%
-% %%%%% TO DO: add Lee & Umberger reference...
 
     import org.opensim.modeling.*
     warning off

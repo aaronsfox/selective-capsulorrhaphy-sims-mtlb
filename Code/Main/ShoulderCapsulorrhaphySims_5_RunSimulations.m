@@ -20,9 +20,6 @@ function ShoulderCapsulorrhaphySims_5_RunSimulations(taskName,meshInterval)
     %Set the starting directory
     homeDir = pwd;
 
-    %%%%%%%%% ENSURE PARAMETERS IN THIS MATCH THE NODE SELECTION NOW THAT
-    %%%%%%%%% SOME THINGS HAVE CHANGED...
-
     %Run checks
     if nargin < 1
         %Check for task

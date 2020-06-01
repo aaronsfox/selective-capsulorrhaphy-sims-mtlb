@@ -4,18 +4,13 @@ function ShoulderCapsulorrhaphySims_2_OptimiseLigamentParameters
 % Centre for Sport Research, Deakin University
 % aaron.f@deakin.edu.au
 % 
-% This code serves to optimise the parameters of the coordinate limit force
+% This code serves to optimise the parameters of the coordinate force
 % 'ligaments' so that the joint angles reached by the shoulder during
 % passively generate movement align with those presented in Gereber et al.
 % (2003). The joint angle vs. force outputs from the optimised CLF
 % parameters are subsequently used to fit representative equations that are
 % used in the dual expression based coordinate force plugin class - to
 % provide the final 'ligament' forces to the model.
-% 
-% TO DO: Notes on simulation time (see innerLevel_BushingOptimisation.m doc
-% for notes on this plus other info...)
-% 
-% TO DO: add Gerber et al. references
 
     %% Set-up
 
