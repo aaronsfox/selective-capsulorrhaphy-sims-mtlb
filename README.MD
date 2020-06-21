@@ -47,7 +47,7 @@ This folder contains a couple of .mat databases that are used in the main code. 
 
 ## Videos
 
-This folder contains videos of the three simulated movements assessed. These were created from the baseline model (i.e. no capsulorrhaphy) data. These videos are in .webm format as output by OpenSim, and can be vieweed using VLC Media Player.
+This folder contains videos of the three simulated movements assessed. These were created from the baseline model (i.e. no capsulorrhaphy) data. These videos are in both .webm format as output by OpenSim, and can be vieweed using VLC Media Player; or .mp4 format which can be viewed by most media players.
 
 ## References
 
